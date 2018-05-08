@@ -48,11 +48,20 @@
   :hook clojure-mode)
 
 (use-package magit :ensure t)
+(use-package evil-magit
+  :ensure t
+  :requires magit)
+
 ;; TODO: can't get cider to install
 ;; (use-package cider :ensure t)
 
+(use-package solarized-theme
+  :config
+  (load-theme 'solarized-dark t))
+
 (use-package general :ensure t
   :config
+  (set-frame-font "IBMPlexMono 14" nil t)
   (general-define-key
    :states 'visual
    "s" 'evil-surround-region)
@@ -118,6 +127,10 @@
    "ar" 'ranger
    "ad" 'dired
 
+   ;; Git
+   "g" '(:ignore t :which-key "Magit")
+   "gs" 'magit-status
+
    ;; ivy
    "s"  '(:ignore t :which-key "ivy")
    "ss" 'swiper
@@ -132,9 +145,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(package-selected-packages
    (quote
-    (counsel-projectile cider spinner whick-key which-key use-package ranger general evil counsel))))
+    (solarized-theme counsel-projectile cider spinner whick-key which-key use-package ranger general evil counsel))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
