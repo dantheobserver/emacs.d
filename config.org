@@ -1,0 +1,14 @@
+* Config Checklist
+** Setup
+*** Configure org styles and bindings
+*** get evil working in other modes
+**** magit-mode
+**** ivy/counsel
+** Packages used
+*** clojure
+*** cider
+*** evil-mode
+*** ivy/helm
+*** restclient
+* Nice to Haves
+** namespace
