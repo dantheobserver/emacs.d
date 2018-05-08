@@ -4,8 +4,8 @@
 ;; the following lines tell emacs where on the internet to look up
 ;; for new packages.
 (setq package-archives '(("org"       . "http://orgmode.org/elpa/")
-                         ("gnu"       . "http://elpa.gnu.org/packages/")
                          ("melpa"     . "https://melpa.org/packages/")
+                         ("gnu"       . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")))
 
 (package-initialize) ; guess what this one does ?

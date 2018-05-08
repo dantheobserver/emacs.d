@@ -13,4 +13,27 @@
 (defmacro utils--which-key-binding (name cmd)
   `'(,cmd :which-key ,name))
 
+;;;;;;;;;;;;;;;;;;;;;;
+;; Which key macros ;;
+;;;;;;;;;;;;;;;;;;;;;;
+(defun -flatmap (fn coll)
+  (reduce (lambda (a b) (append a (funcall fn b)))
+          coll
+          :initial-value nil))
+
+(defun -wk--entry (entry-char fn-call &optional description)
+  `(,entry-char (,fn-call :which-key ,description)))
+
+(defmacro wk--single-entries (&rest entries)
+  (-flatmap (lambda (item) (apply '-wk--entry item))
+            entries))
+
+(defmacro wk--leader-key-bindings (body)
+  `(general-define-key
+    :states '(normal visual insert emacs)
+    :prefix "SPC"
+    :non-normal-prefix "C-SPC"
+    ,@body))
+
 (provide 'init-utils)
+
