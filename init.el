@@ -21,12 +21,19 @@
 (utils--use-enable-package which-key
   (setq-default which-key-idle-delay 0.2))
 
+;; TODO Prevent esc from exiting ivy
 (utils--use-enable-package ivy
   (setq-default ivy-use-virtual-buffers 1)
-  (setq-default enable-recursive-minibuffers 1)
-  (add-to-list 'ivy-re-builders-alist '(t . ivy--regex-ignore-order)))
+  ;;(setq-default enable-recursive-minibuffers 1)
+  (add-to-list 'ivy-re-builders-alist '(t . ivy--regex-fuzzy))
+  (general-define-key
+   :states 'normal
+   "ESC" 'keyboard-escape-quit))
+  
 
+;; Evil
 (utils--use-enable-package evil)
+
 (utils--use-enable-package evil-escape
   (setq-default evil-escape-delay 0.2)
   (setq-default evil-escape-key-sequence "fd"))
@@ -36,24 +43,50 @@
   :config
   (global-evil-surround-mode 1))
 
-(use-package counsel :ensure t)
+ ;; TODO: Get working with movement keys
+(use-package golden-ratio
+  :ensure t
+  :config
+  (golden-ratio-mode 1)
+  (setq golden-ratio-auto-scale t)
+  (setq golden-ratio-exclude-modes '(ranger-mode))
+  (setq golden-ratio-extra-commands '(evil-window-left
+				      evil-window-right
+				      evil-window-up
+				      evil-window-down
+				      'winum-select-window-1
+				      'winum-select-window-2
+				      'winum-select-window-3
+				      'winum-select-window-4
+				      'winum-select-window-5
+				      'winum-select-window-6)))
+
+(use-package winum
+  :ensure t
+  :config
+  (winum-mode)) 
+
 (use-package counsel-projectile :ensure t)
 (use-package ranger :ensure t)
 
+;; Clojure/lisp packages
 (use-package clojure-mode :ensure t)
-
-;; TODO: won't load 
+(use-package cider
+  :requires clojure-mode)
 (use-package lispy
   :ensure t
-  :hook clojure-mode)
+  :hook ((emacs-lisp-mode
+	  clojure-mode
+	  clojurescript-mode
+	  clojurec-mode) . lispy-mode))
 
+;;;;;;;;;;;;;;;;;
+;; Source Control
+;;;;;;;;;;;;;;;;;
 (use-package magit :ensure t)
 (use-package evil-magit
   :ensure t
   :requires magit)
-
-;; TODO: can't get cider to install
-;; (use-package cider :ensure t)
 
 (use-package solarized-theme
   :config
@@ -84,6 +117,12 @@
    "/"   'counsel-ag
    "TAB" '(switch-to-other-buffer :which-key "prev buffer")
    "SPC" '(counsel-M-x :which-key "M-x")
+   "1" 'winum-select-window-1
+   "2" 'winum-select-window-2
+   "3" 'winum-select-window-3
+   "4" 'winum-select-window-4
+   "5" 'winum-select-window-5
+   "6" 'winum-select-window-6
 
    ;; window
    "w" '(:ignore t :which-key "window")
@@ -98,15 +137,21 @@
    "wl" 'evil-window-right
 
    ;; variables
-   "V" '(:ignore t :which-key "variables")
-   "Vc" 'customize-variable
-   "Vg" 'customize-group
 
    ;; files
    "f" '(:ignore t :which-key "find")
    "fs" 'save-buffer
    "ff" 'counsel-find-file
    "fl" 'counsel-find-library
+
+   ;; projects
+   "p" '(:ignore t :which-key "projects")
+   "ph" 'counsel-projectile  
+   "pp" 'counsel-projectile-switch-project
+   "p/" 'counsel-projectile-ag  
+   "pb" 'counsel-projectile-switch-to-buffer
+   "pf" 'counsel-projectile-find-file
+   "pd" 'counsel-projectile-find-dir
 
    ;; buffers
    "b" '(:ignore t :which-key "buffers")
@@ -121,6 +166,9 @@
    "hdv" '(counsel-describe-variable :which-key "describe variable")
    "hdk" '(describe-key :which-key "describe key")
    "hm" '(view-echo-area-messages :which-key "messages buffer")
+   "hc" '(:ignore t :which-key "customize")
+   "cv" 'customize-variable
+   "cg" 'customize-group
 
    ;; Applications
    "a" '(:ignore t :which-key "Applications")
@@ -150,7 +198,8 @@
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(package-selected-packages
    (quote
-    (solarized-theme counsel-projectile cider spinner whick-key which-key use-package ranger general evil counsel))))
+    (winum golden-ratio solarized-theme counsel-projectile cider spinner whick-key which-key use-package ranger general evil counsel)))
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -10,5 +10,7 @@
 (setq coding-system-for-write 'utf-8)
 (setq sentence-end-double-space nil)  ; sentence SHOULD end with only a point.
 (setq default-fill-column 80)    ; toggle wrapping text at the 80th character
+'(tool-bar-mode nil)
+'(menu-bar-mode nil)
 
 (provide 'init-common)
