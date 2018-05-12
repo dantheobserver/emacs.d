@@ -1,0 +1,3 @@
+[submodule "site-lisp/spinner"]
+	path = site-lisp/spinner
+	url = git@github.com:Malabarba/spinner.el.git

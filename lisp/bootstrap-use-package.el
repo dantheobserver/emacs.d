@@ -3,9 +3,10 @@
 (setq package-enable-at-startup nil) ; tells emacs not to load any packages before starting up
 ;; the following lines tell emacs where on the internet to look up
 ;; for new packages.
-(setq package-archives '(("org"       . "http://orgmode.org/elpa/")
-                         ("melpa"     . "https://melpa.org/packages/")
-                         ("gnu"       . "http://elpa.gnu.org/packages/")
+(setq package-archives '(("org" . "http://orgmode.org/elpa/")
+                         ;; ("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")))
 
 (package-initialize) ; guess what this one does ?

@@ -1,3 +1,5 @@
+(setq custom-file "~/.emacs.d/custom.el") ;move customs out of init.el
+(load custom-file)
 (setq delete-old-versions -1)    ; delete excess backup versions silently
 (setq version-control t)    ; use version control
 (setq vc-make-backup-files t)    ; make backups file even when in version controlled dir
@@ -10,7 +12,7 @@
 (setq coding-system-for-write 'utf-8)
 (setq sentence-end-double-space nil)  ; sentence SHOULD end with only a point.
 (setq default-fill-column 80)    ; toggle wrapping text at the 80th character
-'(tool-bar-mode nil)
-'(menu-bar-mode nil)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
 
 (provide 'init-common)
