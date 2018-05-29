@@ -1,18 +1,22 @@
 (use-package general :ensure t
   :config
-  (set-frame-font "IBMPlexMono 14" nil t)
+
   (general-define-key
-   :states 'visual
+   :keymaps 'visual
    "s" 'evil-surround-region)
 
   (general-define-key
-   :states 'motion
+   :keymaps 'normal
+   "ESC" 'keyboard-escape-quit)
+
+  (general-define-key
+   :keymaps 'motion
    ";" 'evil-ex
    ":" 'evil-repeat-find-char
    "C-u" 'evil-scroll-up)
 
   (general-define-key
-   :states '(normal visual insert emacs)
+   :keymaps '(normal visual insert emacs)
    :prefix "SPC"
    :non-normal-prefix "C-SPC"
 
@@ -20,9 +24,9 @@
    "u"   'universal-argument
    "'"   '(iterm-focus :which-key "iterm")
    "?"   '(iterm-goto-filedir-or-home :which-key "iterm - goto dir")
-   "/"   'counsel-ag
+   "/"   'helm-ag
    "TAB" '(switch-to-other-buffer :which-key "prev buffer")
-   "SPC" '(counsel-M-x :which-key "M-x")
+   "SPC" '(helm-M-x :which-key "M-x")
    "1" 'winum-select-window-1
    "2" 'winum-select-window-2
    "3" 'winum-select-window-3
@@ -47,17 +51,17 @@
    ;; files
    "f" '(:ignore t :which-key "find")
    "fs" 'save-buffer
-   "ff" 'counsel-find-file
-   "fl" 'counsel-find-library
+   "ff" 'helm-find-file
+   "fl" 'helm-locate-library
 
    ;; projects
    "p" '(:ignore t :which-key "projects")
-   "ph" 'counsel-projectile
-   "pp" 'counsel-projectile-switch-project
-   "p/" 'counsel-projectile-ag
-   "pb" 'counsel-projectile-switch-to-buffer
-   "pf" 'counsel-projectile-find-file
-   "pd" 'counsel-projectile-find-dir
+   "ph" 'helm-projectile
+   "pp" 'helm-projectile-switch-project
+   "p/" 'helm-projectile-ag
+   "pb" 'helm-projectile-switch-to-buffer
+   "pf" 'helm-projectile-find-file
+   "pd" 'helm-projectile-find-dir
 
    ;; buffers
    "b" '(:ignore t :which-key "buffers")
@@ -73,8 +77,8 @@
    "h" '(:ignore t :which-key "help")
    "hd" '(:ignore t :which-key  "describe")
    "hdm" '(describe-mode :which-key "describe mode")
-   "hdf" '(counsel-describe-function :which-key "describe function")
-   "hdv" '(counsel-describe-variable :which-key "describe variable")
+   "hdf" '(describe-function :which-key "describe function")
+   "hdv" '(describe-variable :which-key "describe variable")
    "hdk" '(describe-key :which-key "describe key")
    "hm" '(view-echo-area-messages :which-key "messages buffer")
    "hc" '(:ignore t :which-key "customize")
@@ -93,10 +97,11 @@
    ;; ivy
    "s"  '(:ignore t :which-key "ivy")
    "ss" 'swiper
-   "sr" 'ivy-resume
+   "sr" 'helm-resume
 
    ;; quit and close
    "q" '(:ignore t :which-key "quit")
-   "qq" '(save-buffers-kill-terminal :which-key "save & quit")))
+   "qq" '(save-buffers-kill-terminal :which-key "save & quit"))
+  )
 
-(provide 'keymap-init)
+(provide 'init-keymaps)

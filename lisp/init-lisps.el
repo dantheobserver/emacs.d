@@ -2,17 +2,18 @@
 (use-package clojure-mode :ensure t)
 
 (use-package cider :ensure t
-  :hook (clojure-mode . cider-mode))
-
-(use-package evil-cleverparens :ensure t
-  :hook ((clojure-mode . evil-cleverparens-mode)
-         (clojurescript-mode . evil-cleverparens-mode)
-         (clojurec-mode . evil-cleverparens-mode))
-  )
+  :hook (clojure-mode . cider-mode)
+  :pin "melpa")
 
 (use-package clj-refactor
   :ensure t
-  :pin "melpa-stable")
+  :pin "melpa-unstable")
+
+(use-package evil-cleverparens
+  :ensure t
+  :hook ((clojure-mode . evil-cleverparens-mode)
+         (clojurescript-mode . evil-cleverparens-mode)
+         (clojurec-mode . evil-cleverparens-mode)))
 
 ;; (use-package lispy
 ;;   :ensure t
@@ -31,6 +32,5 @@
 ;;   :hook
 ;;   ((lispy-mode . lispyville-mode))
 ;;   :config)
-  
 
 (provide 'init-lisps)

@@ -1,18 +1,21 @@
 ;;Initialize Package
 (require 'package)
-(setq package-enable-at-startup nil) ; tells emacs not to load any packages before starting up
+(setq
+ package-enable-at-startup nil) ; tells emacs not to load any packages before starting up
 ;; the following lines tell emacs where on the internet to look up
 ;; for new packages.
-(setq package-archives '(("org" . "http://orgmode.org/elpa/")
+(setq package-archives '(;;("org" . "http://orgmode.org/elpa/")
                          ("melpa" . "https://stable.melpa.org/packages/")
                          ("melpa-unstable" . "https://melpa.org/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+                         ;;("marmalade" . "http://marmalade-repo.org/packages/")
+                         ))
 
 (setq package-archive-priorities
       '(("melpa" . 50)
         ("gnu" . 10)
         ("melpa-unstable" . 0)))
+(add-to-list 'package-pinned-packages '(use-package . "melpa-unstable") t)
 
 (package-initialize) ; guess what this one does ?
 

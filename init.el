@@ -25,22 +25,18 @@
 (require 'init-common)
 (require 'init-utils)
 (require 'init-lisps)
-(require 'keymap-init)
 
 (utils|use-package-enable which-key
   (setq-default which-key-idle-delay 0.2))
 
-;; TODO Prevent esc from exiting ivy
-(utils|use-package-enable ivy
-  (setq-default ivy-use-virtual-buffers 1)
-  (add-to-list 'ivy-re-builders-alist '(t . ivy--regex-fuzzy))
-  (general-define-key
-   :states 'normal
-   "ESC" 'keyboard-escape-quit))
+;;;;;;;;;;
+;; Evil ;;
+;;;;;;;;;;
+(use-package evil
+  :ensure t
+  :config
+  (evil-mode 1))
 
-
-;; Evil
-(utils|use-package-enable evil)
 (utils|use-package-enable evil-escape
   (setq-default evil-escape-delay 0.2)
   (setq-default evil-escape-key-sequence "fd"))
@@ -49,6 +45,45 @@
   :ensure t
   :config
   (global-evil-surround-mode 1))
+
+;;;;;;;;;;;;;;;;
+;; Navigation ;;
+;;;;;;;;;;;;;;;;
+
+;; (defun functions|display-helm-window (buffer &optional resume)
+;;   "Display the Helm window respecting `helm-position'."
+;;   (let ((display-buffer-alist
+;;          (list spacemacs-helm-display-help-buffer-regexp
+;;                ;; this or any specialized case of Helm buffer must be
+;;                ;; added AFTER `spacemacs-helm-display-buffer-regexp'.
+;;                ;; Otherwise, `spacemacs-helm-display-buffer-regexp' will
+;;                ;; be used before
+;;                ;; `spacemacs-helm-display-help-buffer-regexp' and display
+;;                ;; configuration for normal Helm buffer is applied for helm
+;;                ;; help buffer, making the help buffer unable to be
+;;                ;; displayed.
+;;                spacemacs-helm-display-buffer-regexp)))
+;;     (helm-default-display-buffer buffer)))
+
+(use-package helm
+  :ensure t
+  :config
+  (setq helm-always-two-windows t)
+  (setq helm-display-header-line nil)
+  (setq helm-echo-input-in-header-line t)
+  (setq helm-split-window-inside-p t)
+  ;; (setq helm-display-function functions|display-helm-window)
+  )
+
+(use-package helm-flx :ensure t
+  :config
+  (helm-flx-mode 1)
+  (setq helm-fuzzy-matching-highlight-fn #'helm-flx-fuzzy-highlight-match)
+  (setq helm-fuzzy-sort-fn #'helm-flx-fuzzy-matching-sort)
+  )
+
+(use-package helm-ag :ensure t)
+(use-package helm-projectile :ensure t)
 
 ;; TODO: Get working with movement keys
 (use-package golden-ratio
@@ -68,15 +103,11 @@
                                       'winum-select-window-5
                                       'winum-select-window-6)))
 
-
+;; TODO Prevent esc from exiting ivy
 (use-package winum
   :ensure t
   :config
   (winum-mode)) 
-
-(use-package counsel-projectile :ensure t)
-(use-package ranger :defer t)
-
 
 ;;;;;;;;;;;;;;;;;
 ;; Source Control
@@ -87,6 +118,8 @@
   :requires magit)
 
 (use-package solarized-theme
+  :ensure t
   :config
   (load-theme 'solarized-dark t))
 
+(require 'init-keymaps)
