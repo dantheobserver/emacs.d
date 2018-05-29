@@ -52,9 +52,9 @@
 
    ;; projects
    "p" '(:ignore t :which-key "projects")
-   "ph" 'counsel-projectile  
+   "ph" 'counsel-projectile
    "pp" 'counsel-projectile-switch-project
-   "p/" 'counsel-projectile-ag  
+   "p/" 'counsel-projectile-ag
    "pb" 'counsel-projectile-switch-to-buffer
    "pf" 'counsel-projectile-find-file
    "pd" 'counsel-projectile-find-dir
@@ -63,12 +63,12 @@
    "b" '(:ignore t :which-key "buffers")
    "bp" 'previous-buffer
    "bn" 'next-buffer
-   "bd" 
+   "bd" 'kill-this-buffer
 
    ;;comment
    "c" '(:ignore t :which-key "comment")
    "cl" 'comment-line
-   
+
    ;; help
    "h" '(:ignore t :which-key "help")
    "hd" '(:ignore t :which-key  "describe")

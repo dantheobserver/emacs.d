@@ -4,10 +4,15 @@
 ;; the following lines tell emacs where on the internet to look up
 ;; for new packages.
 (setq package-archives '(("org" . "http://orgmode.org/elpa/")
-                         ;; ("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ("melpa" . "https://stable.melpa.org/packages/")
+                         ("melpa-unstable" . "https://melpa.org/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")))
+
+(setq package-archive-priorities
+      '(("melpa" . 50)
+        ("gnu" . 10)
+        ("melpa-unstable" . 0)))
 
 (package-initialize) ; guess what this one does ?
 

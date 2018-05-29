@@ -17,13 +17,15 @@
 
 (defun setup|load-path ()
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-  (setup/add-packages (expand-file-name "site-lisp" user-emacs-directory)))
+  (setup|add-packages (expand-file-name "site-lisp" user-emacs-directory)))
 
 (setup|load-path)
 
 (require 'bootstrap-use-package)
 (require 'init-common)
 (require 'init-utils)
+(require 'init-lisps)
+(require 'keymap-init)
 
 (utils|use-package-enable which-key
   (setq-default which-key-idle-delay 0.2))
@@ -66,14 +68,16 @@
                                       'winum-select-window-5
                                       'winum-select-window-6)))
 
+
 (use-package winum
   :ensure t
   :config
   (winum-mode)) 
+
 (use-package counsel-projectile :ensure t)
 (use-package ranger :defer t)
 
-(require 'init-lisps)
+
 ;;;;;;;;;;;;;;;;;
 ;; Source Control
 ;;;;;;;;;;;;;;;;;
@@ -86,4 +90,3 @@
   :config
   (load-theme 'solarized-dark t))
 
-(require 'keymap-init)
