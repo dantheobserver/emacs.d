@@ -9,28 +9,8 @@
   :ensure t
   :pin "melpa-unstable")
 
-(use-package evil-cleverparens
+(use-package evil-lispy
   :ensure t
-  :hook ((clojure-mode . evil-cleverparens-mode)
-         (clojurescript-mode . evil-cleverparens-mode)
-         (clojurec-mode . evil-cleverparens-mode)))
-
-;; (use-package lispy
-;;   :ensure t
-;;   :hook
-;;   ((emacs-lisp-mode
-;;     clojure-mode
-;;     clojurescript-mode
-;;     clojurec-mode)
-;;    . lispy-mode)
-;;   :config
-;;   (setq lispy-close-quotes-at-end-p t))
-
-;; (use-package lispyville
-;;   :ensure t
-;;   :requires lispy
-;;   :hook
-;;   ((lispy-mode . lispyville-mode))
-;;   :config)
+  :hook clojure-mode)
 
 (provide 'init-lisps)

@@ -109,6 +109,12 @@
   :config
   (winum-mode)) 
 
+(use-package company
+  :ensure t
+  :config
+  (company-mode 1)
+  (add-hook 'after-init-hook 'global-company-mode))
+
 ;;;;;;;;;;;;;;;;;
 ;; Source Control
 ;;;;;;;;;;;;;;;;;
@@ -117,9 +123,12 @@
   :ensure t
   :requires magit)
 
-(use-package solarized-theme
+(use-package spacemacs-theme
+  :pin "melpa-unstable"
+  :defer t ;; Does not require
   :ensure t
+  :init (load-theme 'spacemacs-dark t)
   :config
-  (load-theme 'solarized-dark t))
+  (spacemacs-theme-org-highlight t))
 
 (require 'init-keymaps)
