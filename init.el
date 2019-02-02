@@ -25,6 +25,7 @@
 (require 'init-common)
 (require 'init-utils)
 (require 'init-lisps)
+(require 'init-keymaps)
 
 (utils|use-package-enable which-key
   (setq-default which-key-idle-delay 0.2))
@@ -35,11 +36,25 @@
 (use-package evil
   :ensure t
   :config
-  (evil-mode 1))
+  (evil-mode 1)
+  (setq evil-want-minibuffer t)
+  (global-set-key (kbd "C-u") 'evil-scroll-up))
 
-(utils|use-package-enable evil-escape
-  (setq-default evil-escape-delay 0.2)
+(use-package evil-escape
+  :ensure t
+  :requires evil
+  :config
+  (evil-escape-mode 1)
+  (setq-default evil-escape-delay 0.4)
   (setq-default evil-escape-key-sequence "fd"))
+
+(use-package evil-cleverparens
+  :ensure t
+  :config
+  (add-hook 'clojure-mode #'evil-cleverparens-mode)
+  (add-hook 'clojurescript-mode #'evil-cleverparens-mode)
+  (add-hook 'elisp-mode #'evil-cleverparens-mode)
+  (setq evil-move-beyond t))
 
 (use-package evil-surround
   :ensure t
@@ -50,58 +65,55 @@
 ;; Navigation ;;
 ;;;;;;;;;;;;;;;;
 
-;; (defun functions|display-helm-window (buffer &optional resume)
-;;   "Display the Helm window respecting `helm-position'."
-;;   (let ((display-buffer-alist
-;;          (list spacemacs-helm-display-help-buffer-regexp
-;;                ;; this or any specialized case of Helm buffer must be
-;;                ;; added AFTER `spacemacs-helm-display-buffer-regexp'.
-;;                ;; Otherwise, `spacemacs-helm-display-buffer-regexp' will
-;;                ;; be used before
-;;                ;; `spacemacs-helm-display-help-buffer-regexp' and display
-;;                ;; configuration for normal Helm buffer is applied for helm
-;;                ;; help buffer, making the help buffer unable to be
-;;                ;; displayed.
-;;                spacemacs-helm-display-buffer-regexp)))
-;;     (helm-default-display-buffer buffer)))
-
-(use-package helm
+(use-package counsel
   :ensure t
   :config
-  (setq helm-always-two-windows t)
-  (setq helm-display-header-line nil)
-  (setq helm-echo-input-in-header-line t)
-  (setq helm-split-window-inside-p t)
-  ;; (setq helm-display-function functions|display-helm-window)
-  )
-
-(use-package helm-flx :ensure t
-  :config
-  (helm-flx-mode 1)
-  (setq helm-fuzzy-matching-highlight-fn #'helm-flx-fuzzy-highlight-match)
-  (setq helm-fuzzy-sort-fn #'helm-flx-fuzzy-matching-sort)
-  )
-
-(use-package helm-ag :ensure t)
-(use-package helm-projectile :ensure t)
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (define-key counsel-find-file-map (kbd "C-h") 'counsel-up-directory)
+  (define-key counsel-find-file-map (kbd "C-l") 'counsel-down-directory)
+  (define-key counsel-mode-map (kbd "C-j") 'ivy-next-line)
+  (define-key counsel-mode-map (kbd "C-k") 'ivy-previous-line)
+  (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
+  (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
+  (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . ""))
+  (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (global-set-key (kbd "<f6>") 'ivy-resume)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+  (global-set-key (kbd "<f1> l") 'counsel-find-library)
+  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+  (global-set-key (kbd "C-c g") 'counsel-git)
+  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-x l") 'counsel-locate)
+  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
 
 ;; TODO: Get working with movement keys
 (use-package golden-ratio
   :ensure t
   :config
   (golden-ratio-mode 1)
-  (setq golden-ratio-auto-scale t)
+  (setq golden-ratio-auto-scale nil)
   (setq golden-ratio-exclude-modes '(ranger-mode))
   (setq golden-ratio-extra-commands '(evil-window-left
                                       evil-window-right
                                       evil-window-up
                                       evil-window-down
-                                      'winum-select-window-1
-                                      'winum-select-window-2
-                                      'winum-select-window-3
-                                      'winum-select-window-4
-                                      'winum-select-window-5
-                                      'winum-select-window-6)))
+                                      winum-select-window-1
+                                      winum-select-window-2
+                                      winum-select-window-3
+                                      winum-select-window-4
+                                      winum-select-window-5
+                                      winum-select-window-6
+				      keyboard-quit
+				      quit-window)))
 
 ;; TODO Prevent esc from exiting ivy
 (use-package winum
@@ -119,6 +131,7 @@
 ;; Source Control
 ;;;;;;;;;;;;;;;;;
 (use-package magit :ensure t)
+
 (use-package evil-magit
   :ensure t
   :requires magit)
@@ -131,4 +144,7 @@
   :config
   (spacemacs-theme-org-highlight t))
 
-(require 'init-keymaps)
+;;TODO Better organization required
+;;Maybe have the keymaps be function blocks
+;;to be called in init.el
+;;(require 'init-keymaps)
