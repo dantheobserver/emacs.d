@@ -2,3 +2,7 @@ auto-save-list
 elpa
 emacs.d
 backups
+.emacs.desktop*
+*.swp
+recentf
+session*
