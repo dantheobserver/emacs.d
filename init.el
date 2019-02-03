@@ -2,11 +2,6 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
 (package-initialize)
 
 (defun setup|add-packages (lisp-dir)
@@ -35,6 +30,9 @@
 ;;;;;;;;;;
 (use-package evil
   :ensure t
+  :init 
+  (setq evil-want-integration nil)
+  (setq evil-want-keybinding nil)
   :config
   (evil-mode 1)
   (setq evil-want-minibuffer t)
@@ -42,7 +40,7 @@
 
 (use-package evil-escape
   :ensure t
-  :requires evil
+  :after evil
   :config
   (evil-escape-mode 1)
   (setq-default evil-escape-delay 0.4)
@@ -50,16 +48,27 @@
 
 (use-package evil-cleverparens
   :ensure t
+  :init
+  (setq evil-move-beyond t)
   :config
-  (add-hook 'clojure-mode #'evil-cleverparens-mode)
-  (add-hook 'clojurescript-mode #'evil-cleverparens-mode)
-  (add-hook 'elisp-mode #'evil-cleverparens-mode)
-  (setq evil-move-beyond t))
+  (add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
+  (add-hook 'clojurescript-mode-hook #'evil-cleverparens-mode)
+  (add-hook 'elisp-mode-hook #'evil-cleverparens-mode))
 
 (use-package evil-surround
   :ensure t
   :config
   (global-evil-surround-mode 1))
+
+(use-package evil-collection
+  :ensure t
+  :after evil
+  :init
+  (setq evil-collection-mode-list nil)
+  :config
+  (require 'evil-collection-minibuffer)
+  (require 'evil-collection-magit)
+  (require 'evil-collection-ivy))
 
 ;;;;;;;;;;;;;;;;
 ;; Navigation ;;
@@ -73,8 +82,8 @@
   (setq enable-recursive-minibuffers t)
   (define-key counsel-find-file-map (kbd "C-h") 'counsel-up-directory)
   (define-key counsel-find-file-map (kbd "C-l") 'counsel-down-directory)
-  (define-key counsel-mode-map (kbd "C-j") 'ivy-next-line)
-  (define-key counsel-mode-map (kbd "C-k") 'ivy-previous-line)
+  (define-key counsel-find-file-map (kbd "C-j") 'ivy-next-line)
+  (define-key counsel-find-file-map (kbd "C-k") 'ivy-previous-line)
   (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
   (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
   (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . ""))
@@ -95,6 +104,7 @@
   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
 
+
 ;; TODO: Get working with movement keys
 (use-package golden-ratio
   :ensure t
@@ -106,6 +116,7 @@
                                       evil-window-right
                                       evil-window-up
                                       evil-window-down
+				      magit-status
                                       winum-select-window-1
                                       winum-select-window-2
                                       winum-select-window-3

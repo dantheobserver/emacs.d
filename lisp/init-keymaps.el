@@ -6,14 +6,14 @@
    "s" 'evil-surround-region)
 
   (general-define-key
-   :keymaps 'normal
-   "ESC" 'keyboard-escape-quit)
-
-  (general-define-key
    :keymaps 'motion
    ";" 'evil-ex
    ":" 'evil-repeat-find-char
    "C-u" 'evil-scroll-up)
+
+;  (general-define-key
+;   :keymaps 'normal
+;   "ESC" 'keyboard-escape-quit)
 
   (general-define-key
     :keymaps '(normal visual insert emacs)
@@ -95,20 +95,8 @@
     ;; magit
     "g" '(:ignore t :which-key "magit")
     "gs" 'magit-status
-    ;   ;; Applications
-    ;   "a" '(:ignore t :which-key "Applications")
-    ;   "ar" 'ranger
-    ;
-    ;   ;; Git
-    ;   "g" '(:ignore t :which-key "Magit")
-    ;   "gs" 'magit-status
-    ;
-    ;   ;; ivy
-    ;   "s"  '(:ignore t :which-key "ivy")
-    ;   "ss" 'swiper
-    ;   "sr" 'helm-resume
-    ;
-    ;   ;; quit and close
+
+    ;; quit and close
     "q" '(:ignore t :which-key "quit")
     "qq" '(save-buffers-kill-terminal :which-key "save & quit")
   ))
