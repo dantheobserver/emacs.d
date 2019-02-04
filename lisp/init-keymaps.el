@@ -11,6 +11,7 @@
   (add-to-list 'general-keymap-aliases '(elisp . emacs-lisp-mode-map)) 
   (add-to-list 'general-keymap-aliases '(clj . clojure-mode-map)) 
   (add-to-list 'general-keymap-aliases '(cljs . clojurescript-mode-map)) 
+  (add-to-list 'general-keymap-aliases '(clj-stacktrace . cider-stacktrace-mode-map)) 
 
   :config
   (general-define-key
@@ -22,6 +23,14 @@
    ";" 'evil-ex
    ":" 'evil-repeat-find-char
    "C-u" 'evil-scroll-up)
+
+  (general-evil-define-key 'normal 'clj-stacktrace
+   "q" 'quit-window)
+
+  (general-evil-define-key 'normal 'text-mode-map
+    :prefix ","
+    "," 'with-editor-finish
+    "a" 'with-editor-cancel)
 
   (general-define-key
    :states 'normal
@@ -36,16 +45,19 @@
 
   (general-evil-define-key '(normal visual emacs) '(clj cljs)
    :prefix ","
+   "'" 'cider-jack-in
+   "\"" 'cider-jack-in-clojurescript
+
    "e" '(:ignore t :which-key "eval")
    "eb" 'cider-eval-buffer
    "ee" 'cider-eval-last-sexp
    "ef" 'cider-eval-defun-at-point
 
-   "'" 'cider-jack-in
-   "\"" 'cider-jack-in-clojurescript
-
    "s" '(:ignore t :which-key "repl")
-   "ss" 'cider-switch-to-repl-buffer)
+   "ss" 'cider-switch-to-repl-buffer
+
+   "d" '(:ignore t :which-key "debug")
+   "df" 'cider-debug-defun-at-point)
 
   (general-define-key
     :states '(normal visual insert emacs)
