@@ -1,22 +1,54 @@
+(defun utils|open-init ()
+  (interactive)
+  (view-file "~/.emacs.d/init.el"))
+
+(defun utils|open-emacs-directory ()
+  (counsel-dired-jump "" "~/.emacs.d/"))
+
 (use-package general
   :ensure t
+  :init
+  (add-to-list 'general-keymap-aliases '(elisp . emacs-lisp-mode-map)) 
+  (add-to-list 'general-keymap-aliases '(clj . clojure-mode-map)) 
+  (add-to-list 'general-keymap-aliases '(cljs . clojurescript-mode-map)) 
+
   :config
   (general-define-key
-   :keymaps 'visual
+   :states 'visual
    "s" 'evil-surround-region)
 
   (general-define-key
-   :keymaps 'motion
+   :states 'motion
    ";" 'evil-ex
    ":" 'evil-repeat-find-char
    "C-u" 'evil-scroll-up)
 
-;  (general-define-key
-;   :keymaps 'normal
-;   "ESC" 'keyboard-escape-quit)
+  (general-define-key
+   :states 'normal
+   "ESC" 'keyboard-escape-quit)
+
+  (general-evil-define-key '(normal visual emacs) elisp
+   :prefix ","
+   "e" '(:ignore t :which-key "eval")
+   "eb" 'eval-buffer
+   "ee" 'eval-last-sexp
+   "ef" 'eval-defun)
+
+  (general-evil-define-key '(normal visual emacs) '(clj cljs)
+   :prefix ","
+   "e" '(:ignore t :which-key "eval")
+   "eb" 'cider-eval-buffer
+   "ee" 'cider-eval-last-sexp
+   "ef" 'cider-eval-defun-at-point
+
+   "'" 'cider-jack-in
+   "\"" 'cider-jack-in-clojurescript
+
+   "s" '(:ignore t :which-key "repl")
+   "ss" 'cider-switch-to-repl-buffer)
 
   (general-define-key
-    :keymaps '(normal visual insert emacs)
+    :states '(normal visual insert emacs)
     :prefix "SPC"
     :non-normal-prefix "M-SPC"
     
@@ -54,9 +86,10 @@
     "ff" 'counsel-find-file
     "fX" 'delete-file
     
-    ;;emacs
+    ;;emaks
     "fe" '(:ignore t :which-key "emacs")
-    "er" (lambda () (load-file "~/.emacs.d/init.el"))
+    "fei" 'utils|open-init
+    "fed" 'utils|open-emacs-directory
     
     ;; buffers
     "b" '(:ignore t :which-key "buffers")
@@ -64,9 +97,9 @@
     "bn" 'next-buffer
     "bd" 'kill-this-buffer
     
-    ;   ;; projects
-    ;   "p" '(:ignore t :which-key "projects")
-    ;   "ph" 'helm-projectile
+      ;; projects
+    "p" '(:ignore t :which-key "projects")
+    "pf" 'counsel-git
     ;   "pp" 'helm-projectile-switch-project
     ;   "p/" 'helm-projectile-ag
     ;   "pb" 'helm-projectile-switch-to-buffer
