@@ -33,6 +33,7 @@
   :init 
   (setq evil-want-integration nil)
   (setq evil-want-keybinding nil)
+  (setq evil-want-minibuffer t)
   :config
   (evil-mode 1)
   (setq evil-want-minibuffer t)
@@ -48,6 +49,7 @@
 
 (use-package evil-cleverparens
   :ensure t
+  :after evil
   :init
   (setq evil-move-beyond t)
   :config
@@ -65,6 +67,7 @@
   :after evil
   :init
   (setq evil-collection-mode-list nil)
+  (setq evil-collections-setup-minibuffer t)
   :config
   (require 'evil-collection-minibuffer)
   (require 'evil-collection-magit)
@@ -78,32 +81,22 @@
   :ensure t
   :config
   (ivy-mode 1)
+  (setq counsel-grep-base-command
+	"rg -i -M 120 --no-heading --line-number --color never '%s' %s")
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
-  (define-key counsel-find-file-map (kbd "C-h") 'counsel-up-directory)
-  (define-key counsel-find-file-map (kbd "C-l") 'counsel-down-directory)
-  (define-key counsel-find-file-map (kbd "C-j") 'ivy-next-line)
-  (define-key counsel-find-file-map (kbd "C-k") 'ivy-previous-line)
   (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
   (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
-  (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . ""))
-  (global-set-key "\C-s" 'swiper)
-  (global-set-key (kbd "C-c C-r") 'ivy-resume)
-  (global-set-key (kbd "<f6>") 'ivy-resume)
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-  (global-set-key (kbd "<f1> l") 'counsel-find-library)
-  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-  (global-set-key (kbd "C-c g") 'counsel-git)
-  (global-set-key (kbd "C-c j") 'counsel-git-grep)
-  (global-set-key (kbd "C-c k") 'counsel-ag)
-  (global-set-key (kbd "C-x l") 'counsel-locate)
-  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+  (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . "")))
 
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode +1))
+
+(use-package counsel-projectile
+  :ensure t
+  :after (counsel projectile))
 
 ;; TODO: Get working with movement keys
 (use-package golden-ratio
@@ -111,11 +104,14 @@
   :config
   (golden-ratio-mode 1)
   (setq golden-ratio-auto-scale nil)
-  (setq golden-ratio-exclude-modes '(ranger-mode))
   (setq golden-ratio-extra-commands '(evil-window-left
                                       evil-window-right
                                       evil-window-up
                                       evil-window-down
+				      split-window-below
+				      split-window-right
+				      windmove-down
+				      windmove-right
 				      magit-status
                                       winum-select-window-1
                                       winum-select-window-2
@@ -134,9 +130,15 @@
 
 (use-package company
   :ensure t
+  :after counsel
   :config
   (company-mode 1)
   (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package smart-mode-line
+  :ensure t
+  :config
+  (sml/setup))
 
 ;;;;;;;;;;;;;;;;;
 ;; Source Control

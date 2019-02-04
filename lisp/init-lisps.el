@@ -13,4 +13,8 @@
   :ensure t
   :hook clojure-mode)
 
+(use-package aggressive-indent
+  :ensure t
+  :hook ((clojure-mode clojurescript-mode emacs-lisp-mode) . aggressive-indent-mode))
+
 (provide 'init-lisps)
