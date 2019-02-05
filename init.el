@@ -138,7 +138,9 @@
 (use-package smart-mode-line
   :ensure t
   :config
-  (sml/setup))
+  (sml/setup)
+  (setq sml/shorten-directory t)
+  (setq sml/shorten-modes t))
 
 ;;;;;;;;;;;;;;;;;
 ;; Source Control
