@@ -16,13 +16,23 @@
   (split-window-below)
   (windmove-down))
 
+(defmacro utils|wkbinding (name &rest body)
+  (declare (indent 1))
+  `(list
+    (lambda ()
+      (interactive)
+      ,@body)
+    :which-key ,name))
+
 (use-package general
   :ensure t
   :init
-  (add-to-list 'general-keymap-aliases '(elisp . emacs-lisp-mode-map)) 
-  (add-to-list 'general-keymap-aliases '(clj . clojure-mode-map)) 
-  (add-to-list 'general-keymap-aliases '(cljs . clojurescript-mode-map)) 
-  (add-to-list 'general-keymap-aliases '(clj-stacktrace . cider-stacktrace-mode-map)) 
+  (add-to-list 'general-keymap-aliases '(elisp . emacs-lisp-mode-map))
+  (add-to-list 'general-keymap-aliases '(clj . clojure-mode-map))
+  (add-to-list 'general-keymap-aliases '(cljs . clojurescript-mode-map))
+  (add-to-list 'general-keymap-aliases '(clj-stacktrace . cider-stacktrace-mode-map))
+  (add-to-list 'general-keymap-aliases '(help . help-mode-map))
+  (add-to-list 'general-keymap-aliases '(global . global-map))
 
   :config
   (general-define-key
@@ -40,7 +50,7 @@
    ":" 'evil-repeat-find-char
    "C-u" 'evil-scroll-up)
 
-  (general-evil-define-key 'insert '(global-map minibuffer-inactive-mode-map)
+  (general-evil-define-key 'insert '(global minibuffer-inactive-mode-map)
     "C-h" 'counsel-up-directory
     "C-l" 'counsel-down-directory
     "C-j" 'ivy-next-line
@@ -94,14 +104,15 @@
 
   (general-define-key
    :states '(normal visual insert emacs)
+   :keymaps '(global help)
    :prefix "SPC"
    :non-normal-prefix "M-SPC"
-   
+
    ;; simple command
-   "u"  'universal-argument
+   "u" 'universal-argument
    "/" 'counsel-rg
    "." 'ivy-resume
-   "TAB" '(switch-to-other-buffer :which-key "prev buffer")
+   "TAB" '(evil-switch-to-windows-last-buffer :which-key "prev buffer")
    "SPC" 'counsel-M-x
    "1" 'winum-select-window-1
    "2" 'winum-select-window-2
@@ -109,12 +120,18 @@
    "4" 'winum-select-window-4
    "5" 'winum-select-window-5
    "6" 'winum-select-window-6
-   
+
    ;;search
    "s" '(:ignore t :which-key "search")
    "ss" 'counsel-grep-or-swiper
    "sr" 'ivy-resume
-   
+
+   ;;layouts
+   "l" '(:ignore t :which-key "layouts")
+   "la" 'ivy-push-view
+   "ld" 'ivy-pop-view
+   "ll" 'ivy-switch-view
+
    ;; window
    "w" '(:ignore t :which-key "window")
    "wd" 'delete-window
@@ -137,38 +154,42 @@
    "Fd" 'delete-frame
    "Fo" 'other-frame
    "Fn" 'set-frame-name
-   
+
    ;; files
    "f" '(:ignore t :which-key "find")
    "fD" 'dired
    "fs" 'save-buffer
    "ff" 'counsel-find-file
+   "fg" 'counsel-git
    "fX" 'delete-file
-   
+
    ;;emaks
    "fe" '(:ignore t :which-key "emacs")
    "fei" 'utils|open-init
    "fed" 'utils|open-emacs-directory
-   
+
    ;; buffers
    "b" '(:ignore t :which-key "buffers")
+   "bb" 'ivy-switch-buffer
    "bp" 'previous-buffer
    "bn" 'next-buffer
    "bd" 'kill-this-buffer
-   
+   "bs" (utils|wkbinding "scratch-buffer"
+	  (switch-to-buffer "*scratch*"))
+
    ;; projects
    "p" '(:ignore t :which-key "projects")
    "pf" 'counsel-projectile-find-file
    "pp" 'counsel-projectile-switch-project
-   
+
    ;;comment
    "c" '(:ignore t :which-key "comment")
    "cl" 'comment-line
-   
+
    ;;customise
    "cv" 'customize-variable
    "cg" 'customize-group
-   
+
    ;; help
    "h" '(:ignore t :which-key "help")
    "hd" '(:ignore t :which-key  "describe")
@@ -178,7 +199,7 @@
    "hdk" '(describe-key :which-key "describe key")
    "hm" '(view-echo-area-messages :which-key "messages buffer")
    "hc" '(:ignore t :which-key "customize")
-   
+
    ;; magit
    "g" '(:ignore t :which-key "magit")
    "gs" 'magit-status
@@ -187,7 +208,9 @@
    "z" '(:ignore t :which-key "text-zooming")
    "zk" 'text-scale-increase
    "zj" 'text-scale-decrease
-   "z0" '((lambda () (interactive) (text-scale-set 0)) :which-key "reset")   
+   "z0" (utils|wkbinding "reset"
+	  (text-scale-set 0))
+
    "za" 'text-scale-adjust
 
    ;; quit and close

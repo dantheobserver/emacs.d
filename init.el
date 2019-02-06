@@ -47,16 +47,6 @@
   (setq-default evil-escape-delay 0.4)
   (setq-default evil-escape-key-sequence "fd"))
 
-(use-package evil-cleverparens
-  :ensure t
-  :after evil
-  :init
-  (setq evil-move-beyond t)
-  :config
-  (add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
-  (add-hook 'clojurescript-mode-hook #'evil-cleverparens-mode)
-  (add-hook 'elisp-mode-hook #'evil-cleverparens-mode))
-
 (use-package evil-surround
   :ensure t
   :config
@@ -113,6 +103,10 @@
 				      windmove-down
 				      windmove-right
 				      magit-status
+				      help-mode
+				      counsel-describe-functon
+				      counsel-describe-map
+				      counsel-describe-variable
                                       winum-select-window-1
                                       winum-select-window-2
                                       winum-select-window-3

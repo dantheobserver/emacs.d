@@ -18,5 +18,9 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
+
+;; Desktop Save Mode
 (desktop-save-mode 1)
+(add-to-list 'desktop-globals-to-save 'ivy-views)
+
 (provide 'init-common)
