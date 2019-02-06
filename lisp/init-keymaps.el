@@ -130,6 +130,13 @@
    "wH" 'evil-window-move-far-left
    "wJ" 'evil-window-move-very-bottom
    "wK" 'evil-window-move-very-top
+
+   ;;frame
+   "F" '(:ignore t :which-key "Frames")
+   "Fm" 'make-frame
+   "Fd" 'delete-frame
+   "Fo" 'other-frame
+   "Fn" 'set-frame-name
    
    ;; files
    "f" '(:ignore t :which-key "find")
