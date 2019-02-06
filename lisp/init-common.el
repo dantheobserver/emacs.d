@@ -14,11 +14,9 @@
 (setq default-fill-column 80)    ; toggle wrapping text at the 80th character
 (setq scroll-bar-mode 0)
 (setq help-window-select t)
-(global-display-line-numbers-mode 1)
 (set-frame-font "IBMPlexMono 14" nil t)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (desktop-save-mode 1)
-(linum-mode 1)
 (provide 'init-common)

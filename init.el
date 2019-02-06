@@ -142,6 +142,12 @@
   (setq sml/shorten-directory t)
   (setq sml/shorten-modes t))
 
+(use-package linum-relative
+  :ensure t
+  :load-path "site-lisp/linum-relative"
+  :config
+  (linum-relative-global-mode 1))
+
 ;;;;;;;;;;;;;;;;;
 ;; Source Control
 ;;;;;;;;;;;;;;;;;

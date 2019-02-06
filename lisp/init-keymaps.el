@@ -48,7 +48,7 @@
     "C-SPC" 'company-complete)
 
   (general-define-key
-   :keymaps 'company-mode-map
+   :keymaps 'company-active-map
    "C-j" 'company-select-next
    "C-k" 'company-select-previous)
 
@@ -72,6 +72,9 @@
     "eb" 'eval-buffer
     "ee" 'eval-last-sexp
     "ef" 'eval-defun)
+
+  (general-evil-define-key 'normal '(clj cljs elisp)
+    "C-k" 'kill-sexp)
 
   (general-evil-define-key '(normal visual emacs) '(clj cljs)
     :prefix ","
@@ -123,6 +126,10 @@
    "wj" 'evil-window-down
    "wh" 'evil-window-left
    "wl" 'evil-window-right
+   "wL" 'evil-window-move-far-right
+   "wH" 'evil-window-move-far-left
+   "wJ" 'evil-window-move-very-bottom
+   "wK" 'evil-window-move-very-top
    
    ;; files
    "f" '(:ignore t :which-key "find")
