@@ -176,6 +176,13 @@
    "g" '(:ignore t :which-key "magit")
    "gs" 'magit-status
 
+   ;; zoom
+   "z" '(:ignore t :which-key "text-zooming")
+   "zk" 'text-scale-increase
+   "zj" 'text-scale-decrease
+   "z0" '((lambda () (interactive) (text-scale-set 0)) :which-key "reset")   
+   "za" 'text-scale-adjust
+
    ;; quit and close
    "q" '(:ignore t :which-key "quit")
    "qq" '(save-buffers-kill-terminal :which-key "save & quit")
