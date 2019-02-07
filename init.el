@@ -4,17 +4,17 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(defun setup|add-packages (lisp-dir)
+(defun setup//add-packages (lisp-dir)
   (dolist (package-dir (directory-files lisp-dir t "\\w+"))
     (when (file-directory-p package-dir)
       (add-to-list 'load-path package-dir)
       (add-to-list 'load-path (concat package-dir "/lisp")))))
 
-(defun setup|load-path ()
+(defun setup//load-path ()
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-  (setup|add-packages (expand-file-name "site-lisp" user-emacs-directory)))
+  (setup//add-packages (expand-file-name "site-lisp" user-emacs-directory)))
 
-(setup|load-path)
+(setup//load-path)
 
 (require 'bootstrap-use-package)
 (require 'init-common)
@@ -22,7 +22,7 @@
 (require 'init-lisps)
 (require 'init-keymaps)
 
-(utils|use-package-enable which-key
+(utils//use-package-enable which-key
   (setq-default which-key-idle-delay 0.2))
 
 ;;;;;;;;;;
@@ -87,6 +87,9 @@
 (use-package counsel-projectile
   :ensure t
   :after (counsel projectile))
+
+(use-package hydra
+  :load-path "./site-lisp/hydra")
 
 ;; TODO: Get working with movement keys
 (use-package golden-ratio

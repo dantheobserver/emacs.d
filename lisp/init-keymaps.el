@@ -1,28 +1,4 @@
-(defun utils|open-init ()
-  (interactive)
-  (find-file "~/.emacs.d/init.el"))
-
-(defun utils|open-emacs-directory ()
-  (interactive)
-  (counsel-file-jump "" "~/.emacs.d/"))
-
-(defun utils|split-window-right-and-focus ()
-  (interactive)
-  (split-window-right)
-  (windmove-right))
-
-(defun utils|split-window-below-and-focus ()
-  (interactive)
-  (split-window-below)
-  (windmove-down))
-
-(defmacro utils|wkbinding (name &rest body)
-  (declare (indent 1))
-  `(list
-    (lambda ()
-      (interactive)
-      ,@body)
-    :which-key ,name))
+(require 'init-utils)
 
 (use-package general
   :ensure t
@@ -30,13 +6,15 @@
   (add-to-list 'general-keymap-aliases '(elisp . emacs-lisp-mode-map))
   (add-to-list 'general-keymap-aliases '(clj . clojure-mode-map))
   (add-to-list 'general-keymap-aliases '(cljs . clojurescript-mode-map))
+  (add-to-list 'general-keymap-aliases '(cider . cider-mode-map))
   (add-to-list 'general-keymap-aliases '(clj-stacktrace . cider-stacktrace-mode-map))
   (add-to-list 'general-keymap-aliases '(help . help-mode-map))
   (add-to-list 'general-keymap-aliases '(global . global-map))
 
   :config
   (general-define-key
-   "M-x" 'counsel-M-x)
+   "M-x" 'counsel-M-x
+   "C-;" 'iedit-mode)
 
   ;;visual state
   (general-define-key
@@ -102,6 +80,12 @@
     "d" '(:ignore t :which-key "debug")
     "df" 'cider-debug-defun-at-point)
 
+  (general-evil-define-key '(normal visual emacs) 'cider
+    :prefix ","
+    "s" '(:ignore t :which-key "repl")
+    "ss" 'cider-switch-to-repl-buffer
+    )
+
   (general-define-key
    :states '(normal visual insert emacs)
    :keymaps '(global help)
@@ -136,9 +120,9 @@
    "w" '(:ignore t :which-key "window")
    "wd" 'delete-window
    "wv" 'split-window-below
-   "wV" 'utils|split-window-below-and-focus
+   "wV" 'utils//split-window-below-and-focus
    "ws" 'split-window-right
-   "wS" 'utils|split-window-right-and-focus
+   "wS" 'utils//split-window-right-and-focus
    "wk" 'evil-window-up
    "wj" 'evil-window-down
    "wh" 'evil-window-left
@@ -165,8 +149,8 @@
 
    ;;emaks
    "fe" '(:ignore t :which-key "emacs")
-   "fei" 'utils|open-init
-   "fed" 'utils|open-emacs-directory
+   "fei" 'utils//open-init
+   "fed" 'utils//open-emacs-directory
 
    ;; buffers
    "b" '(:ignore t :which-key "buffers")
@@ -174,7 +158,7 @@
    "bp" 'previous-buffer
    "bn" 'next-buffer
    "bd" 'kill-this-buffer
-   "bs" (utils|wkbinding "scratch-buffer"
+   "bs" (utils//wkbinding "scratch-buffer"
 	  (switch-to-buffer "*scratch*"))
 
    ;; projects
@@ -208,7 +192,7 @@
    "z" '(:ignore t :which-key "text-zooming")
    "zk" 'text-scale-increase
    "zj" 'text-scale-decrease
-   "z0" (utils|wkbinding "reset"
+   "z0" (utils//wkbinding "reset"
 	  (text-scale-set 0))
 
    "za" 'text-scale-adjust
