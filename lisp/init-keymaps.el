@@ -33,7 +33,7 @@
     "C-l" 'counsel-down-directory
     "C-j" 'ivy-next-line
     "C-k" 'ivy-previous-line
-    "C-SPC" 'company-complete)
+    "C-c C-o" 'ivy-occur)
 
   (general-define-key
    :keymaps 'company-active-map
@@ -134,10 +134,9 @@
 
    ;;frame
    "F" '(:ignore t :which-key "Frames")
-   "Fm" 'make-frame
-   "Fd" 'delete-frame
+   "Fn" 'make-frame
+   "FD" 'delete-frame
    "Fo" 'other-frame
-   "Fn" 'set-frame-name
 
    ;; files
    "f" '(:ignore t :which-key "find")

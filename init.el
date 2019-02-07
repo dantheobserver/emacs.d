@@ -18,6 +18,7 @@
 
 (require 'bootstrap-use-package)
 (require 'init-common)
+(require 'init-hydras)
 (require 'init-utils)
 (require 'init-lisps)
 (require 'init-keymaps)
@@ -87,9 +88,6 @@
 (use-package counsel-projectile
   :ensure t
   :after (counsel projectile))
-
-(use-package hydra
-  :load-path "./site-lisp/hydra")
 
 ;; TODO: Get working with movement keys
 (use-package golden-ratio
