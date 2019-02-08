@@ -19,11 +19,12 @@
 (require 'bootstrap-use-package)
 (require 'init-common)
 (require 'init-hydras)
-(require 'init-utils)
 (require 'init-lisps)
 (require 'init-keymaps)
 
-(utils//use-package-enable which-key
+(use-package which-key
+  :ensure t
+  :config
   (setq-default which-key-idle-delay 0.2))
 
 ;;;;;;;;;;

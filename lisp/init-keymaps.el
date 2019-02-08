@@ -1,4 +1,4 @@
-(require 'init-utils)
+(require 'utils)
 
 (use-package general
   :ensure t
@@ -16,18 +16,19 @@
    "M-x" 'counsel-M-x
    "C-;" 'iedit-mode)
 
-  ;;visual state
+  ;;*visual state
   (general-define-key
    :states 'visual
    "s" 'evil-surround-region)
 
-  ;; motion state
+  ;;*motion state
   (general-define-key
    :states 'motion
    ";" 'evil-ex
    ":" 'evil-repeat-find-char
    "C-u" 'evil-scroll-up)
 
+  ;;*global
   (general-evil-define-key 'insert '(global minibuffer-inactive-mode-map)
     "C-h" 'counsel-up-directory
     "C-l" 'counsel-down-directory
@@ -35,16 +36,17 @@
     "C-k" 'ivy-previous-line
     "C-c C-o" 'ivy-occur)
 
+  ;;*company
   (general-define-key
    :keymaps 'company-active-map
    "C-j" 'company-select-next
    "C-k" 'company-select-previous)
 
-  ;; stacktrace
+  ;;*stacktrace
   (general-evil-define-key 'normal 'clj-stacktrace
     "q" 'quit-window)
 
-  ;; text-mode
+  ;;*text-mode
   (general-evil-define-key 'normal 'text-mode-map
     :prefix ","
     "," 'with-editor-finish
@@ -64,6 +66,7 @@
   (general-evil-define-key 'normal '(clj cljs elisp)
     "C-k" 'kill-sexp)
 
+  ;;*clojure-mode
   (general-evil-define-key '(normal visual emacs) '(clj cljs)
     :prefix ","
     "'" 'cider-jack-in
@@ -73,6 +76,9 @@
     "eb" 'cider-eval-buffer
     "ee" 'cider-eval-last-sexp
     "ef" 'cider-eval-defun-at-point
+
+    "h" '(:ignore t :which-key "help")
+    "hh" 'cider-doc
 
     "s" '(:ignore t :which-key "repl")
     "ss" 'cider-switch-to-repl-buffer
@@ -108,6 +114,7 @@
    ;;search
    "s" '(:ignore t :which-key "search")
    "ss" 'counsel-grep-or-swiper
+   "sa" 'swiper-avy
    "sr" 'ivy-resume
 
    ;;layouts
@@ -142,6 +149,7 @@
    "f" '(:ignore t :which-key "find")
    "fD" 'dired
    "fs" 'save-buffer
+   "fR" 'rename-file
    "ff" 'counsel-find-file
    "fg" 'counsel-git
    "fX" 'delete-file
@@ -159,6 +167,7 @@
    "bd" 'kill-this-buffer
    "bs" (utils//wkbinding "scratch-buffer"
 	  (switch-to-buffer "*scratch*"))
+   "bm" '(view-echo-area-messages :which-key "messages buffer")
 
    ;; projects
    "p" '(:ignore t :which-key "projects")
@@ -180,7 +189,6 @@
    "hdf" '(describe-function :which-key "describe function")
    "hdv" '(describe-variable :which-key "describe variable")
    "hdk" '(describe-key :which-key "describe key")
-   "hm" '(view-echo-area-messages :which-key "messages buffer")
    "hc" '(:ignore t :which-key "customize")
 
    ;; magit

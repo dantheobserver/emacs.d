@@ -1,12 +1,4 @@
 ;; Helper Macros, externalize
-(defmacro utils//use-package-enable (name &rest body)
-  (declare (indent 1))
-  (let ((mode-name (intern
-                    (concat (symbol-name name) "-mode"))))
-    `(use-package ,name :ensure t
-       :config (,mode-name 1)
-       ,@body)))
-
 (defun utils//open-init ()
   (interactive)
   (find-file "~/.emacs.d/init.el"))
@@ -33,6 +25,10 @@
       ,@body)
     :which-key ,name))
 
+(defun utils//nav-comment-sections ()
+  (interactive)
+  (swiper-avy ";;\\*"))
 
-(provide 'init-utils)
+(provide 'utils)
+
 
