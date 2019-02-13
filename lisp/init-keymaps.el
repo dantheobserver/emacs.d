@@ -1,4 +1,5 @@
 (require 'utils)
+(require 'init-hydras)
 
 (use-package general
   :ensure t
@@ -7,6 +8,7 @@
   (add-to-list 'general-keymap-aliases '(clj . clojure-mode-map))
   (add-to-list 'general-keymap-aliases '(cljs . clojurescript-mode-map))
   (add-to-list 'general-keymap-aliases '(cider . cider-mode-map))
+  (add-to-list 'general-keymap-aliases '(cider-doc . cider-doc-mode-map))
   (add-to-list 'general-keymap-aliases '(clj-stacktrace . cider-stacktrace-mode-map))
   (add-to-list 'general-keymap-aliases '(help . help-mode-map))
   (add-to-list 'general-keymap-aliases '(global . global-map))
@@ -30,6 +32,7 @@
 
   ;;*global
   (general-evil-define-key 'insert '(global minibuffer-inactive-mode-map)
+    "C-SPC" 'company-complete
     "C-h" 'counsel-up-directory
     "C-l" 'counsel-down-directory
     "C-j" 'ivy-next-line
@@ -111,11 +114,15 @@
    "5" 'winum-select-window-5
    "6" 'winum-select-window-6
 
+   ;; ring/resume
+   "r" '(:ignroe t :which-key "ring/resumed")
+   "rl" 'ivy-resume
+   "ry" 'counsel-yank-pop
+   
    ;;search
    "s" '(:ignore t :which-key "search")
    "ss" 'counsel-grep-or-swiper
    "sa" 'swiper-avy
-   "sr" 'ivy-resume
 
    ;;layouts
    "l" '(:ignore t :which-key "layouts")
@@ -151,6 +158,7 @@
    "fs" 'save-buffer
    "fR" 'rename-file
    "ff" 'counsel-find-file
+   "fF" 'counsel-git
    "fg" 'counsel-git
    "fX" 'delete-file
 
@@ -161,6 +169,7 @@
 
    ;; buffers
    "b" '(:ignore t :which-key "buffers")
+   "b." 'hydra-buffer-menu/body
    "bb" 'ivy-switch-buffer
    "bp" 'previous-buffer
    "bn" 'next-buffer
@@ -208,5 +217,12 @@
    "q" '(:ignore t :which-key "quit")
    "qq" '(save-buffers-kill-terminal :which-key "save & quit")
    ))
+
+(use-package key-chord
+  :ensure t
+  :config
+  (key-chord-mode 1)
+  (setq key-chord-two-keys-delay 0.2)
+  (key-chord-define evil-insert-state-map "qw" #'evil-write))   
 
 (provide 'init-keymaps)

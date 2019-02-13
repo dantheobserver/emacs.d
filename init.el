@@ -96,6 +96,7 @@
   :config
   (golden-ratio-mode 1)
   (setq golden-ratio-auto-scale nil)
+  (setq golden-ratio-exclude-modes '(minibuffer-inactive-mode))
   (setq golden-ratio-extra-commands '(evil-window-left
                                       evil-window-right
                                       evil-window-up
@@ -126,9 +127,10 @@
 
 (use-package company
   :ensure t
-  :after counsel
+  :commands company-complete
   :config
   (company-mode 1)
+  (setq company-idle-delay nil)
   (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package smart-mode-line
@@ -141,6 +143,9 @@
 (use-package linum-relative
   :ensure t
   :load-path "site-lisp/linum-relative"
+  :init
+  (setq linum-relative-current-symbol "")
+  (setq linum-relative-backend 'display-line-numbers)
   :config
   (linum-relative-global-mode 1))
 

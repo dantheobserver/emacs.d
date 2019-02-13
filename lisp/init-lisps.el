@@ -21,10 +21,6 @@
   :init
   (setq evil-move-beyond t))
 
-;; (use-package evil-lispy
-;;   :load-path "site-lisp/evil-lispy"
-;;   :hook ((clojure-mode cider-mode clojurescript-mode elisp-mode) . evil-lispy-mode))
-
 (use-package elec-pair
   :ensure t
   :hook ((clojure-mode cider-mode clojurescript-mode elisp-mode) . electric-pair-mode))
