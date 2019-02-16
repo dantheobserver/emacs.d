@@ -30,6 +30,9 @@
    ":" 'evil-repeat-find-char
    "C-u" 'evil-scroll-up)
 
+  (general-define-key
+   :keymaps 'special-mode-map)
+
   ;;*global
   (general-evil-define-key 'insert '(global minibuffer-inactive-mode-map)
     "C-SPC" 'company-complete
@@ -64,7 +67,11 @@
     "e" '(:ignore t :which-key "eval")
     "eb" 'eval-buffer
     "ee" 'eval-last-sexp
-    "ef" 'eval-defun)
+    "ef" 'eval-defun
+
+    "p" '(:ignore t :which-key "pretty-print")
+    "pe" 'pp-macroexpand-expression
+    "pl" 'pp-macroexpand-last-sexp)
 
   (general-evil-define-key 'normal '(clj cljs elisp)
     "C-k" 'kill-sexp)
@@ -113,7 +120,7 @@
    "4" 'winum-select-window-4
    "5" 'winum-select-window-5
    "6" 'winum-select-window-6
-
+   
    ;; ring/resume
    "r" '(:ignroe t :which-key "ring/resumed")
    "rl" 'ivy-resume
@@ -187,10 +194,6 @@
    "c" '(:ignore t :which-key "comment")
    "cl" 'comment-line
 
-   ;;customise
-   "cv" 'customize-variable
-   "cg" 'customize-group
-
    ;; help
    "h" '(:ignore t :which-key "help")
    "hd" '(:ignore t :which-key  "describe")
@@ -199,6 +202,11 @@
    "hdv" '(describe-variable :which-key "describe variable")
    "hdk" '(describe-key :which-key "describe key")
    "hc" '(:ignore t :which-key "customize")
+
+   ;;customize
+   "hcv" 'customize-variable
+   "hcg" 'customize-group
+
 
    ;; magit
    "g" '(:ignore t :which-key "magit")
@@ -217,12 +225,5 @@
    "q" '(:ignore t :which-key "quit")
    "qq" '(save-buffers-kill-terminal :which-key "save & quit")
    ))
-
-(use-package key-chord
-  :ensure t
-  :config
-  (key-chord-mode 1)
-  (setq key-chord-two-keys-delay 0.2)
-  (key-chord-define evil-insert-state-map "qw" #'evil-write))   
 
 (provide 'init-keymaps)

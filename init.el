@@ -33,37 +33,42 @@
 (use-package evil
   :ensure t
   :init 
+  (evil-mode 1)
   (setq evil-want-integration nil)
   (setq evil-want-keybinding nil)
   (setq evil-want-minibuffer t)
-  :config
-  (evil-mode 1)
-  (setq evil-want-minibuffer t)
-  (global-set-key (kbd "C-u") 'evil-scroll-up))
+  (global-set-key (kbd "C-u") 'evil-scroll-up)
+  
+  ;;configure key-chords
+  (use-package key-chord
+    :config
+    (setq key-chord-two-keys-delay 0.3)
+    (key-chord-define evil-insert-state-map "fj" 'evil-write)
+    (key-chord-define evil-normal-state-map "fj" 'evil-write)
+    (key-chord-mode 1))
 
-(use-package evil-escape
-  :ensure t
-  :after evil
-  :config
-  (evil-escape-mode 1)
-  (setq-default evil-escape-delay 0.4)
-  (setq-default evil-escape-key-sequence "fd"))
+  (use-package evil-escape
+    :config
+    (evil-escape-mode 1)
+    (setq-default evil-escape-delay 0.4)
+    (setq-default evil-escape-key-sequence "fd"))
+  
+  (use-package evil-surround
+    :ensure t
+    :config
+    (global-evil-surround-mode 1))
 
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
+  (use-package evil-collection
+    :init
+    (setq evil-collection-mode-list nil)
+    (setq evil-collections-setup-minibuffer t)
+    :config
+    (require 'evil-collection-minibuffer)
+    (require 'evil-collection-magit)
+    (require 'evil-collection-ivy))
+  )   
 
-(use-package evil-collection
-  :ensure t
-  :after evil
-  :init
-  (setq evil-collection-mode-list nil)
-  (setq evil-collections-setup-minibuffer t)
-  :config
-  (require 'evil-collection-minibuffer)
-  (require 'evil-collection-magit)
-  (require 'evil-collection-ivy))
+
 
 ;;;;;;;;;;;;;;;;
 ;; Navigation ;;
@@ -79,45 +84,28 @@
   (setq enable-recursive-minibuffers t)
   (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
   (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
-  (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . "")))
+  (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . ""))
 
-(use-package projectile
+  (use-package projectile
+    :config
+    (projectile-mode +1))
+
+  (use-package counsel-projectile
+    :ensure t))
+
+;; https://github.com/cyrus-and/zoom
+(use-package zoom
   :ensure t
   :config
-  (projectile-mode +1))
+  (zoom-mode t)
+  (setq zoom-size '(0.618 . 0.618))
+  (setq zoom-ignored-buffer-names '("*Help*")))
 
-(use-package counsel-projectile
-  :ensure t
-  :after (counsel projectile))
-
-;; TODO: Get working with movement keys
-(use-package golden-ratio
+;;https://github.com/m2ym/popwin-el
+(use-package popwin
   :ensure t
   :config
-  (golden-ratio-mode 1)
-  (setq golden-ratio-auto-scale nil)
-  (setq golden-ratio-exclude-modes '(minibuffer-inactive-mode))
-  (setq golden-ratio-extra-commands '(evil-window-left
-                                      evil-window-right
-                                      evil-window-up
-                                      evil-window-down
-				      split-window-below
-				      split-window-right
-				      windmove-down
-				      windmove-right
-				      magit-status
-				      help-mode
-				      counsel-describe-functon
-				      counsel-describe-map
-				      counsel-describe-variable
-                                      winum-select-window-1
-                                      winum-select-window-2
-                                      winum-select-window-3
-                                      winum-select-window-4
-                                      winum-select-window-5
-                                      winum-select-window-6
-				      keyboard-quit
-				      quit-window)))
+  (popwin-mode 1))
 
 ;; TODO Prevent esc from exiting ivy
 (use-package winum
@@ -149,14 +137,21 @@
   :config
   (linum-relative-global-mode 1))
 
+;; https://github.com/Fanael/rainbow-delimiters
+(use-package rainbow-delimiters
+  :ensure t
+  :hook ((clojure-mode clojurescript-mode emacs-lisp-mode) . rainbow-delimiters-mode))
+
+;; TODO - https://github.com/istib/rainbow-blocks
+
 ;;;;;;;;;;;;;;;;;
 ;; Source Control
 ;;;;;;;;;;;;;;;;;
-(use-package magit :ensure t)
-
-(use-package evil-magit
+(use-package magit
   :ensure t
-  :requires magit)
+  :config
+  (use-package evil-magit
+    :ensure t))
 
 (use-package spacemacs-theme
   :pin "melpa-unstable"

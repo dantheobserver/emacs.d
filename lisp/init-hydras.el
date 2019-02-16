@@ -9,6 +9,6 @@
   ("_" text-scale-decrease "zoom dec")
   ("0" (text-scale-set 0) "zoom reset"))
 
-(defhydra hydra-cider-menu (:color ))
+;; (defhydra hydra-cider-menu (:color ))
 
 (provide 'init-hydras)
