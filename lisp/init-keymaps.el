@@ -9,6 +9,8 @@
   (add-to-list 'general-keymap-aliases '(cljs . clojurescript-mode-map))
   (add-to-list 'general-keymap-aliases '(cider . cider-mode-map))
   (add-to-list 'general-keymap-aliases '(cider-doc . cider-doc-mode-map))
+  (add-to-list 'general-keymap-aliases '(racket . racket-mode-map))
+  (add-to-list 'general-keymap-aliases '(racket-repl . racket-repl-mode-map))
   (add-to-list 'general-keymap-aliases '(clj-stacktrace . cider-stacktrace-mode-map))
   (add-to-list 'general-keymap-aliases '(help . help-mode-map))
   (add-to-list 'general-keymap-aliases '(global . global-map))
@@ -16,7 +18,8 @@
   :config
   (general-define-key
    "M-x" 'counsel-M-x
-   "C-;" 'iedit-mode)
+   "C-;" 'iedit-mode
+   "C-'" 'hydra-eyebrowse-nav/body)
 
   ;;*visual state
   (general-define-key
@@ -49,6 +52,7 @@
    "C-k" 'company-select-previous)
 
   ;;*stacktrace
+
   (general-evil-define-key 'normal 'clj-stacktrace
     "q" 'quit-window)
 
@@ -95,6 +99,23 @@
 
     "d" '(:ignore t :which-key "debug")
     "df" 'cider-debug-defun-at-point)
+
+  ;;*Racket
+  (general-evil-define-key '(normal visual emacs) 'racket
+    :prefix ","
+    "r" 'racket-run
+    "e" 'racket-eval-last-sexp)
+
+  (general-evil-define-key '(normal insert emacs) 'racket-repl
+    "C-k" 'comint-previous-input
+    "C-j" 'comint-next-input
+    "C-l" 'racket-repl-submit
+    )
+
+  (general-evil-define-key '(normal visual emacs) 'racket-repl-mode
+    "C-k" 'previous-history-element
+    "C-j" 'next-history-element
+    )
 
   (general-evil-define-key '(normal visual emacs) 'cider
     :prefix ","

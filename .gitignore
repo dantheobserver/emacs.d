@@ -7,3 +7,4 @@ backups
 recentf
 session*
 *.eld
+.cask

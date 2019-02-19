@@ -5,10 +5,11 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+    ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(package-selected-packages
    (quote
-    (popwin rainbow-delimiters key-chord electric-pair linum-relative smart-mode-line counsel-projectile aggressive-indent evil-collection company spacemacs-theme company-mode evil-magit magit evil-surround evil-escape evil-cleverparens clj-refactor winum solarized-theme cider spinner whick-key which-key use-package ranger general evil)))
+    (eyebrowse indent-guide racket-mode diminish popwin rainbow-delimiters key-chord electric-pair linum-relative smart-mode-line counsel-projectile aggressive-indent evil-collection company spacemacs-theme company-mode evil-magit magit evil-surround evil-escape evil-cleverparens clj-refactor winum solarized-theme cider spinner whick-key use-package ranger general evil)))
+ '(temp-buffer-resize-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

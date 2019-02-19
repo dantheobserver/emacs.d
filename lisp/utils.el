@@ -29,6 +29,25 @@
   (interactive)
   (swiper-avy ";;\\*"))
 
+
+(defun utils//symbol-concat (&rest values)
+  (let ((stringified-values (mapcar (lambda (val)
+				      (if (symbolp val)
+					  (symbol-name val)
+					val))
+				    values)))
+    (intern (apply #'concat stringified-values))))
+
+(defmacro utils//diminish-after-load (&rest modes)
+  (let ((statements (mapcar
+		     (lambda (mode)
+		       `(with-eval-after-load (symbol-name 'mode)
+			  (diminish (utils//symbol-concat ',mode "-mode"))))
+		     modes)))
+    `(progn
+       ,@statements)))
+
+
 (provide 'utils)
 
 

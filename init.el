@@ -25,7 +25,17 @@
 (use-package which-key
   :ensure t
   :config
+  (which-key-mode)
   (setq-default which-key-idle-delay 0.2))
+
+(use-package smart-mode-line
+  :ensure t
+  :config
+  (setq sml/theme 'respectful)
+  (setq sml/shorten-directory t)
+  (setq sml/shorten-modes t)
+  (sml/setup))
+
 
 ;;;;;;;;;;
 ;; Evil ;;
@@ -33,10 +43,10 @@
 (use-package evil
   :ensure t
   :init 
-  (evil-mode 1)
   (setq evil-want-integration nil)
   (setq evil-want-keybinding nil)
   (setq evil-want-minibuffer t)
+  (evil-mode 1)
   (global-set-key (kbd "C-u") 'evil-scroll-up)
   
   ;;configure key-chords
@@ -88,10 +98,16 @@
 
   (use-package projectile
     :config
-    (projectile-mode +1))
+    (projectile-mode +1)
 
-  (use-package counsel-projectile
-    :ensure t))
+    (use-package counsel-projectile
+      :ensure t)))
+
+(use-package eyebrowse
+  :ensure t
+  :config
+  (eyebrowse-mode t)
+  (setq eyebrowse-mode-line-style t))
 
 ;; https://github.com/cyrus-and/zoom
 (use-package zoom
@@ -99,13 +115,24 @@
   :config
   (zoom-mode t)
   (setq zoom-size '(0.618 . 0.618))
-  (setq zoom-ignored-buffer-names '("*Help*")))
+  (setq zoom-ignored-major-modes '(which-key-mode hydra-mode))
+  (setq zoom-ignored-buffer-name-regexps '(" *Help" " *which-key*"))
+  (setq zoom-minibuffer-preserve-layout t))
+
+(use-package indent-guide
+  :ensure t
+  :config
+  (indent-guide-global-mode))
 
 ;;https://github.com/m2ym/popwin-el
 (use-package popwin
   :ensure t
   :config
-  (popwin-mode 1))
+  (popwin-mode 1)
+  (add-to-list 'popwin:special-display-config '("*Warnings*" :noselect t))
+  (add-to-list 'popwin:special-display-config '("*Messages*"))
+  (add-to-list 'popwin:special-display-config '("*Backtrace*" :noselect t))
+  (add-to-list 'popwin:special-display-config "^*cider-repl"))
 
 ;; TODO Prevent esc from exiting ivy
 (use-package winum
@@ -121,13 +148,6 @@
   (setq company-idle-delay nil)
   (add-hook 'after-init-hook 'global-company-mode))
 
-(use-package smart-mode-line
-  :ensure t
-  :config
-  (sml/setup)
-  (setq sml/shorten-directory t)
-  (setq sml/shorten-modes t))
-
 (use-package linum-relative
   :ensure t
   :load-path "site-lisp/linum-relative"
@@ -140,7 +160,7 @@
 ;; https://github.com/Fanael/rainbow-delimiters
 (use-package rainbow-delimiters
   :ensure t
-  :hook ((clojure-mode clojurescript-mode emacs-lisp-mode) . rainbow-delimiters-mode))
+  :hook ((clojure-mode clojurescript-mode emacs-lisp-mode racket-mode) . rainbow-delimiters-mode))
 
 ;; TODO - https://github.com/istib/rainbow-blocks
 
