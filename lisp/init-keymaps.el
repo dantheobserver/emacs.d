@@ -19,7 +19,8 @@
   (general-define-key
    "M-x" 'counsel-M-x
    "C-;" 'iedit-mode
-   "C-'" 'hydra-eyebrowse-nav/body)
+   "C-'" 'hydra-eyebrowse-nav/body
+   )
 
   ;;*visual state
   (general-define-key
@@ -214,6 +215,8 @@
    ;;comment
    "c" '(:ignore t :which-key "comment")
    "cl" 'comment-line
+   "cy" (utils//wkbinding "copy-and-comment"
+	  (utils//comment-line-and-copy))
 
    ;; help
    "h" '(:ignore t :which-key "help")

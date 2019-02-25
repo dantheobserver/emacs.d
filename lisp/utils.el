@@ -29,6 +29,13 @@
   (interactive)
   (swiper-avy ";;\\*"))
 
+(defun utils//comment-line-and-copy ()
+  (interactive)
+  (kill-ring-save (line-beginning-position) (line-end-position))
+  (comment-line 1)
+  (yank)
+  (newline))
+
 
 (defun utils//symbol-concat (&rest values)
   (let ((stringified-values (mapcar (lambda (val)

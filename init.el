@@ -26,7 +26,9 @@
   :ensure t
   :config
   (which-key-mode)
-  (setq-default which-key-idle-delay 0.2))
+  (setq which-key-idle-delay 0.2)
+  (setq max-mini-window-height 20)
+  (setq which-key-popup-type 'side-window))
 
 (use-package smart-mode-line
   :ensure t
@@ -103,11 +105,15 @@
     (use-package counsel-projectile
       :ensure t)))
 
-(use-package eyebrowse
+;; (use-package eyebrowse
+;;   :ensure t
+;;   :config
+;;   (eyebrowse-mode t)
+;;   (setq eyebrowse-mode-line-style t))
+(use-package perspective
   :ensure t
   :config
-  (eyebrowse-mode t)
-  (setq eyebrowse-mode-line-style t))
+  (persp-mode))
 
 ;; https://github.com/cyrus-and/zoom
 (use-package zoom
