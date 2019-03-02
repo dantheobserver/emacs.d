@@ -36,7 +36,6 @@
   (yank)
   (newline))
 
-
 (defun utils//symbol-concat (&rest values)
   (let ((stringified-values (mapcar (lambda (val)
 				      (if (symbolp val)

@@ -9,7 +9,7 @@
     ("_" text-scale-decrease "zoom dec")
     ("0" (text-scale-set 0) "zoom reset"))
 
-  (defhydra hydra-eyebrowse-nav (:hint nil)
+  (defhydra hydra-eyebrowse-nav (:color pink :hint nil)
     "
 _n_: next            _0_: window config 0   _6_: window config 6   _q_:quit
 _p_: prev            _1_: window config 1   _7_: window config 7
@@ -38,38 +38,29 @@ _r_: rename config   _5_: window config 5
     ("9" eyebrowse-switch-to-window-config-9)
 
     ("q" nil :color blue))
+  
+  ;; Current Perspective [%(cl-struct-slot-value 'perspective 'name (persp-curr))]
+  ;;   (defhydra hydra-perspective (:hint nil)
+  ;;     "
 
-  (defhydra hydra-perspective (:hint nil)
-    "
-^Perspectives^                            ^Buffers^
-------------------------------------------------------------------
-_s_ switch                                _k_ persp-remove-buffer
-_c_ persp-kill                            _a_ persp-add-buffer
-_r_ persp-rename                          _A_ persp-set-buffer
-_n_ switch to next perspective		  _i_ persp-import
-_p_ switch to previous perspective
-"
-    ("s" persp-switch)
-    ("k" persp-remove-buffer)
-    ("c" persp-kill )
-    ("r" persp-rename)
-    ("a" persp-add-buffer)
-    ("A" persp-set-buffer)
-    ("i" persp-import)
-    ("n" persp-next)
-    ("p" persp-prev)
-    ("q" nil :color blue))
-
-  ;; s -- persp-switch: query a perspective to switch or create
-  ;; k -- persp-remove-buffer: query a buffer to remove from current perspective
-  ;; c -- persp-kill : query a perspective to kill
-  ;; r -- persp-rename: rename current perspective
-  ;; a -- persp-add-buffer: query an open buffer to add to current perspective
-  ;; a -- persp-set-buffer: add buffer to current perspective and remove it from all others
-  ;; i -- persp-import: import a given perspective from another frame.
-  ;; n, <right> -- persp-next : switch to next perspective
-  ;; p, <left> -- persp-prev: switch to previous perspective
-
+  ;; ^Perspectives^                            ^Buffers^
+  ;; ^^^^^^^------------------------------------------------------------------
+  ;; _s_ switch                                ^_k_ persp-remove-buffer
+  ;; _c_ persp-kill                            ^_a_ persp-add-buffer
+  ;; _r_ persp-rename                          ^_A_ persp-set-buffer
+  ;; _n_ switch to next perspective            ^_i_ persp-import
+  ;; _p_ switch to previous perspective        ^_q_ quit
+  ;; "
+  ;;     ("s" persp-switch)
+  ;;     ("k" persp-remove-buffer)
+  ;;     ("c" persp-kill )
+  ;;     ("r" persp-rename)
+  ;;     ("a" persp-add-buffer)
+  ;;     ("A" persp-set-buffer)
+  ;;     ("i" persp-import)
+  ;;     ("n" persp-next)
+  ;;     ("p" persp-prev)
+  ;;     ("q" nil :color blue))
   )
 
 (provide 'init-hydras)

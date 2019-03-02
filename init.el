@@ -105,15 +105,14 @@
     (use-package counsel-projectile
       :ensure t)))
 
-;; (use-package eyebrowse
-;;   :ensure t
-;;   :config
-;;   (eyebrowse-mode t)
-;;   (setq eyebrowse-mode-line-style t))
-(use-package perspective
+(use-package eyebrowse
   :ensure t
   :config
-  (persp-mode))
+  (eyebrowse-mode t)
+  (eyebrowse-setup-evil-keys)
+  (setq eyebrowse-mode-line-separator " | ")
+  (setq eyebrowse-new-workspace t)
+  (setq eyebrowse-mode-line-style t))
 
 ;; https://github.com/cyrus-and/zoom
 (use-package zoom
@@ -176,8 +175,8 @@
 (use-package magit
   :ensure t
   :config
-  (use-package evil-magit
-    :ensure t))
+  (use-package evil-magit :ensure t)
+  )
 
 (use-package spacemacs-theme
   :pin "melpa-unstable"

@@ -19,7 +19,7 @@
   (general-define-key
    "M-x" 'counsel-M-x
    "C-;" 'iedit-mode
-   "C-'" 'hydra-eyebrowse-nav/body
+   ;; "C-'" 'hydra-eyebrowse-nav/body
    )
 
   ;;*visual state
