@@ -38,91 +38,102 @@
   (setq sml/shorten-modes t)
   (sml/setup))
 
-
+;;;_;;_;;;
+;;/(  )\;;  
 ;;;;;;;;;;
 ;; Evil ;;
 ;;;;;;;;;;
 (use-package evil
-  :ensure t
-  :init 
-  (setq evil-want-integration nil)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-minibuffer t)
-  (evil-mode 1)
-  (global-set-key (kbd "C-u") 'evil-scroll-up)
-  
-  ;;configure key-chords
-  (use-package key-chord
-    :config
-    (setq key-chord-two-keys-delay 0.3)
-    (key-chord-define evil-insert-state-map "fj" 'evil-write)
-    (key-chord-define evil-normal-state-map "fj" 'evil-write)
-    (key-chord-mode 1))
-
-  (use-package evil-escape
-    :config
-    (evil-escape-mode 1)
-    (setq-default evil-escape-delay 0.4)
-    (setq-default evil-escape-key-sequence "fd"))
-  
-  (use-package evil-surround
     :ensure t
-    :config
-    (global-evil-surround-mode 1))
+    :init 
+    (setq evil-want-integration nil)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-minibuffer t)
+    (evil-mode 1)
+    (global-set-key (kbd "C-u") 'evil-scroll-up)
+    
+    ;;configure key-chords
+    (use-package key-chord
+	:config
+      (setq key-chord-two-keys-delay 0.3)
+      (key-chord-define evil-insert-state-map "fj" 'evil-write)
+      (key-chord-define evil-normal-state-map "fj" 'evil-write)
+      (key-chord-mode 1))
 
-  (use-package evil-collection
-    :init
-    (setq evil-collection-mode-list nil)
-    (setq evil-collections-setup-minibuffer t)
-    :config
-    (require 'evil-collection-minibuffer)
-    (require 'evil-collection-magit)
-    (require 'evil-collection-ivy))
-  )   
+    (use-package evil-escape
+	:config
+      (evil-escape-mode 1)
+      (setq-default evil-escape-delay 0.4)
+      (setq-default evil-escape-key-sequence "fd"))
+    
+    (use-package evil-surround
+	:ensure t
+	:config
+	(global-evil-surround-mode 1))
 
+    (use-package evil-collection
+	:ensure t
+	:init
+	(setq evil-collection-mode-list nil)
+	(setq evil-collections-setup-minibuffer t)
+	:config
+	(evil-collection-init '(minibuffer ivy dired)))
 
+    (use-package evil-leader
+	:after org
+	:ensure t
+	:config 
+	(use-package evil-org
+	    :ensure t
+	    :config
+	    (evil-define-key 'normal 'evil-org-mode-map (kbd "H") 'org-shiftleft)
+	    (evil-define-key 'normal 'evil-org-mode-map (kbd "J") 'org-shiftdown)
+	    (evil-define-key 'normal 'evil-org-mode-map (kbd "K") 'org-shiftup)
+	    (evil-define-key 'normal 'evil-org-mode-map (kbd "L") 'org-shiftright)
+	    )))
 
 ;;;;;;;;;;;;;;;;
 ;; Navigation ;;
 ;;;;;;;;;;;;;;;;
 
 (use-package counsel
-  :ensure t
-  :config
-  (ivy-mode 1)
-  (setq counsel-grep-base-command
-	"rg -i -M 120 --no-heading --line-number --color never '%s' %s")
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t)
-  (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
-  (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
-  (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . ""))
-
-  (use-package projectile
+    :ensure t
     :config
-    (projectile-mode +1)
+    (ivy-mode 1)
+    (setq counsel-grep-base-command
+	  "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
+    (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
+    (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . ""))
 
-    (use-package counsel-projectile
-      :ensure t)))
+    (use-package projectile
+	:config
+      (projectile-mode +1)
+
+      (use-package counsel-projectile
+	  :ensure t)))
 
 (use-package eyebrowse
   :ensure t
   :config
   (eyebrowse-mode t)
   (eyebrowse-setup-evil-keys)
-  (setq eyebrowse-mode-line-separator " | ")
-  (setq eyebrowse-new-workspace t)
-  (setq eyebrowse-mode-line-style t))
+  (setq eyebrowse-mode-line-separator " "
+	eyebrowse-new-workspace t
+	eyebrowse-wrap-around t
+	eyebrowse-mode-line-style t))
 
 ;; https://github.com/cyrus-and/zoom
 (use-package zoom
   :ensure t
   :config
   (zoom-mode t)
-  (setq zoom-size '(0.618 . 0.618))
-  (setq zoom-ignored-major-modes '(which-key-mode hydra-mode))
-  (setq zoom-ignored-buffer-name-regexps '(" *Help" " *which-key*"))
-  (setq zoom-minibuffer-preserve-layout t))
+  (setq zoom-size '(0.618 . 0.618)
+	zoom-ignored-major-modes '(which-key-mode hydra-mode)
+	zoom-ignored-buffer-name-regexps '(" *Help" " *which-key*")
+	zoom-minibuffer-preserve-layout t))
 
 (use-package indent-guide
   :ensure t
@@ -131,27 +142,33 @@
 
 ;;https://github.com/m2ym/popwin-el
 (use-package popwin
-  :ensure t
-  :config
-  (popwin-mode 1)
-  (add-to-list 'popwin:special-display-config '("*Warnings*" :noselect t))
-  (add-to-list 'popwin:special-display-config '("*Messages*"))
-  (add-to-list 'popwin:special-display-config '("*Backtrace*" :noselect t))
-  (add-to-list 'popwin:special-display-config "^*cider-repl"))
+    :ensure t
+    :config
+    (popwin-mode 1)
+    (add-to-list 'popwin:special-display-config '("*Warnings*" :noselect t))
+    (add-to-list 'popwin:special-display-config '("*Messages*"))
+    (add-to-list 'popwin:special-display-config '("*Backtrace*" :noselect t))
+    (add-to-list 'popwin:special-display-config 'calculator-mode)
+    )
 
-;; TODO Prevent esc from exiting ivy
+;;TODO Prevent esc from exiting ivy
+(use-package winner
+    :ensure t
+    :config
+    (winner-mode))
+
 (use-package winum
-  :ensure t
-  :config
-  (winum-mode)) 
+    :ensure t
+    :config
+    (winum-mode)) 
 
 (use-package company
   :ensure t
   :commands company-complete
+  :hook (after-init . global-company-mode)
   :config
   (company-mode 1)
-  (setq company-idle-delay nil)
-  (add-hook 'after-init-hook 'global-company-mode))
+  (setq company-idle-delay nil))
 
 (use-package linum-relative
   :ensure t
@@ -173,20 +190,34 @@
 ;; Source Control
 ;;;;;;;;;;;;;;;;;
 (use-package magit
-  :ensure t
-  :config
-  (use-package evil-magit :ensure t)
-  )
+    :ensure t
+    :config
+    (use-package evil-magit :ensure t))
 
 (use-package spacemacs-theme
-  :pin "melpa-unstable"
-  :defer t ;; Does not require
-  :ensure t
-  :init (load-theme 'spacemacs-dark t)
-  :config
-  (spacemacs-theme-org-highlight t))
+    :pin "melpa-unstable"
+    :defer t ;; Does not require
+    :ensure t
+    :init (load-theme 'spacemacs-dark t)
+    :config
+    (spacemacs-theme-org-highlight t))
 
-;;TODO Better organization required
-;;Maybe have the keymaps be function blocks
-;;to be called in init.el
-;;(require 'init-keymaps)
+(use-package org-bullets
+    :ensure t
+    :hook (org-mode . org-bullets-mode)
+    :config
+
+    (setq org-bullets-bullet-list '("🐙" "💩" "🎃" "🍁" "◉" "○" "✸" "✿")))
+
+(use-package emojify
+    :ensure t
+    :config
+    (global-emojify-mode t))
+
+(use-package yasnippet
+    :ensure t
+    :config
+    (use-package yasnippet-snippets :ensure t)
+    (yas-global-mode t))
+
+

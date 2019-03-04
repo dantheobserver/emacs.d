@@ -8,3 +8,7 @@ recentf
 session*
 *.eld
 .cask
+.#*
+emojis
+transient
+url
