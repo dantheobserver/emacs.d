@@ -25,10 +25,13 @@
   (setq evil-move-beyond t))
 
 (use-package elec-pair
-    :ensure t
-    :hook ((clojure-mode cider-mode clojurescript-mode elisp-mode racket-mode) . electric-pair-mode))
+  :ensure t
+  :hook ((clojure-mode cider-mode clojurescript-mode elisp-mode racket-mode) . electric-pair-mode))
 
 
-(setq lisp-indent-function 'common-lisp-indent-function)
+(use-package fuco
+  :load-path "site-lisp/fuco"
+  :config
+  (setq lisp-indent-function 'fuco1/lisp-indent-function))
 
 (provide 'init-lisps)

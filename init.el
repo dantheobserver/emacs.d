@@ -44,76 +44,76 @@
 ;; Evil ;;
 ;;;;;;;;;;
 (use-package evil
+  :ensure t
+  :init 
+  (setq evil-want-integration nil)
+  (setq evil-want-keybinding nil)
+  (setq evil-want-minibuffer t)
+  (evil-mode 1)
+  (global-set-key (kbd "C-u") 'evil-scroll-up)
+  
+  ;;configure key-chords
+  (use-package key-chord
+    :config
+    (setq key-chord-two-keys-delay 0.3)
+    (key-chord-define evil-insert-state-map "fj" 'evil-write)
+    (key-chord-define evil-normal-state-map "fj" 'evil-write)
+    (key-chord-mode 1))
+
+  (use-package evil-escape
+    :config
+    (evil-escape-mode 1)
+    (setq-default evil-escape-delay 0.4)
+    (setq-default evil-escape-key-sequence "fd"))
+  
+  (use-package evil-surround
     :ensure t
-    :init 
-    (setq evil-want-integration nil)
-    (setq evil-want-keybinding nil)
-    (setq evil-want-minibuffer t)
-    (evil-mode 1)
-    (global-set-key (kbd "C-u") 'evil-scroll-up)
-    
-    ;;configure key-chords
-    (use-package key-chord
-	:config
-      (setq key-chord-two-keys-delay 0.3)
-      (key-chord-define evil-insert-state-map "fj" 'evil-write)
-      (key-chord-define evil-normal-state-map "fj" 'evil-write)
-      (key-chord-mode 1))
+    :config
+    (global-evil-surround-mode 1))
 
-    (use-package evil-escape
-	:config
-      (evil-escape-mode 1)
-      (setq-default evil-escape-delay 0.4)
-      (setq-default evil-escape-key-sequence "fd"))
-    
-    (use-package evil-surround
-	:ensure t
-	:config
-	(global-evil-surround-mode 1))
+  (use-package evil-collection
+    :ensure t
+    :init
+    (setq evil-collection-mode-list nil)
+    (setq evil-collections-setup-minibuffer t)
+    :config
+    (evil-collection-init '(minibuffer ivy dired magit)))
 
-    (use-package evil-collection
-	:ensure t
-	:init
-	(setq evil-collection-mode-list nil)
-	(setq evil-collections-setup-minibuffer t)
-	:config
-	(evil-collection-init '(minibuffer ivy dired)))
-
-    (use-package evil-leader
-	:after org
-	:ensure t
-	:config 
-	(use-package evil-org
-	    :ensure t
-	    :config
-	    (evil-define-key 'normal 'evil-org-mode-map (kbd "H") 'org-shiftleft)
-	    (evil-define-key 'normal 'evil-org-mode-map (kbd "J") 'org-shiftdown)
-	    (evil-define-key 'normal 'evil-org-mode-map (kbd "K") 'org-shiftup)
-	    (evil-define-key 'normal 'evil-org-mode-map (kbd "L") 'org-shiftright)
-	    )))
+  (use-package evil-leader
+    :after org
+    :ensure t
+    :config 
+    (use-package evil-org
+      :ensure t
+      :config
+      (evil-define-key 'normal evil-org-mode-map (kbd "H") 'org-shiftleft)
+      (evil-define-key 'normal evil-org-mode-map (kbd "J") 'org-shiftdown)
+      (evil-define-key 'normal evil-org-mode-map (kbd "K") 'org-shiftup)
+      (evil-define-key 'normal evil-org-mode-map (kbd "L") 'org-shiftright)
+      )))
 
 ;;;;;;;;;;;;;;;;
 ;; Navigation ;;
 ;;;;;;;;;;;;;;;;
 
 (use-package counsel
-    :ensure t
+  :ensure t
+  :config
+  (ivy-mode 1)
+  (setq counsel-grep-base-command
+	"rg -i -M 120 --no-heading --line-number --color never '%s' %s")
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
+  (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
+  (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . ""))
+
+  (use-package projectile
     :config
-    (ivy-mode 1)
-    (setq counsel-grep-base-command
-	  "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t)
-    (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
-    (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
-    (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . ""))
+    (projectile-mode +1)
 
-    (use-package projectile
-	:config
-      (projectile-mode +1)
-
-      (use-package counsel-projectile
-	  :ensure t)))
+    (use-package counsel-projectile
+      :ensure t)))
 
 (use-package eyebrowse
   :ensure t
@@ -142,25 +142,26 @@
 
 ;;https://github.com/m2ym/popwin-el
 (use-package popwin
-    :ensure t
-    :config
-    (popwin-mode 1)
-    (add-to-list 'popwin:special-display-config '("*Warnings*" :noselect t))
-    (add-to-list 'popwin:special-display-config '("*Messages*"))
-    (add-to-list 'popwin:special-display-config '("*Backtrace*" :noselect t))
-    (add-to-list 'popwin:special-display-config 'calculator-mode)
-    )
+  :ensure t
+  :config
+  (popwin-mode 1)
+  (add-to-list 'popwin:special-display-config '("*Warnings*" :noselect t))
+  (add-to-list 'popwin:special-display-config '("*Messages*"))
+  (add-to-list 'popwin:special-display-config '("*Backtrace*" :noselect t))
+  (add-to-list 'popwin:special-display-config 'calculator-mode)
+  )
 
 ;;TODO Prevent esc from exiting ivy
 (use-package winner
-    :ensure t
-    :config
-    (winner-mode))
+  :ensure t
+  :config
+  (winner-mode))
+
 
 (use-package winum
-    :ensure t
-    :config
-    (winum-mode)) 
+  :ensure t
+  :config
+  (winum-mode)) 
 
 (use-package company
   :ensure t
@@ -195,19 +196,21 @@
     (use-package evil-magit :ensure t))
 
 (use-package spacemacs-theme
-    :pin "melpa-unstable"
-    :defer t ;; Does not require
-    :ensure t
-    :init (load-theme 'spacemacs-dark t)
-    :config
-    (spacemacs-theme-org-highlight t))
+  :pin "melpa-unstable"
+  :defer t ;; Does not require
+  :ensure t
+  :init (load-theme 'spacemacs-dark t)
+  :config
+  (spacemacs-theme-org-highlight t))
+
 
 (use-package org-bullets
-    :ensure t
-    :hook (org-mode . org-bullets-mode)
-    :config
+  :ensure t
+  :hook (org-mode . org-bullets-mode)
+  :config
 
-    (setq org-bullets-bullet-list '("🐙" "💩" "🎃" "🍁" "◉" "○" "✸" "✿")))
+
+  (setq org-bullets-bullet-list '("🐙" "💩" "🎃" "🍁" "◉" "○" "✸" "✿")))
 
 (use-package emojify
     :ensure t
@@ -215,9 +218,9 @@
     (global-emojify-mode t))
 
 (use-package yasnippet
-    :ensure t
-    :config
-    (use-package yasnippet-snippets :ensure t)
-    (yas-global-mode t))
+  :ensure t
+  :config
+  (use-package yasnippet-snippets :ensure t)
+  (yas-global-mode t))
 
 

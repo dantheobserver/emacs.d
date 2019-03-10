@@ -7,4 +7,4 @@
  M-0 	Switch to window config 0
  ... 	...
  M-9
-* Hydra -
+** Hydra -
