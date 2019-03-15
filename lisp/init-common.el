@@ -23,4 +23,12 @@
 (desktop-save-mode 1)
 (add-to-list 'desktop-globals-to-save 'ivy-views)
 
+;;line-numbers
+(setq-default display-line-numbers-type 'visual
+              display-line-numbers-current-absolute t
+              display-line-numbers-width 3
+              display-line-numbers-widen t)
+(add-hook 'text-mode-hook #'display-line-numbers-mode)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+
 (provide 'init-common)

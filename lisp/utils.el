@@ -29,12 +29,20 @@
   (interactive)
   (swiper-avy ";;\\*"))
 
-(defun utils//comment-line-and-copy ()
+(defun utils//comment-and-yank ()
   (interactive)
-  (kill-ring-save (line-beginning-position) (line-end-position))
-  (comment-line 1)
-  (yank)
-  (newline))
+  (if (region-active-p)
+      (progn
+	(kill-ring-save (region-beginning) (region-end))
+	(comment-region (region-beginning) (region-end))
+	(yank)
+	(deactivate-mark)
+	(previous-line))
+    (progn
+      (kill-ring-save (line-beginning-position) (line-end-position))
+      (comment-line 1)
+      (yank)
+      (beginning-of-line))))
 
 (defun utils//symbol-concat (&rest values)
   (let ((stringified-values (mapcar (lambda (val)

@@ -38,11 +38,10 @@
   (setq sml/shorten-modes t)
   (sml/setup))
 
-;;;_;;_;;;
-;;/(  )\;;  
-;;;;;;;;;;
-;; Evil ;;
-;;;;;;;;;;
+;;``````````;;
+;; /(    )\ ;;  
+;; ==Evil== ;;
+;;..........;;
 (use-package evil
   :ensure t
   :init 
@@ -92,10 +91,7 @@
       (evil-define-key 'normal evil-org-mode-map (kbd "L") 'org-shiftright)
       )))
 
-;;;;;;;;;;;;;;;;
-;; Navigation ;;
-;;;;;;;;;;;;;;;;
-
+;; ==Navigation==
 (use-package counsel
   :ensure t
   :config
@@ -171,15 +167,6 @@
   (company-mode 1)
   (setq company-idle-delay nil))
 
-(use-package linum-relative
-  :ensure t
-  :load-path "site-lisp/linum-relative"
-  :init
-  (setq linum-relative-current-symbol "")
-  (setq linum-relative-backend 'display-line-numbers)
-  :config
-  (linum-relative-global-mode 1))
-
 ;; https://github.com/Fanael/rainbow-delimiters
 (use-package rainbow-delimiters
   :ensure t
@@ -187,13 +174,11 @@
 
 ;; TODO - https://github.com/istib/rainbow-blocks
 
-;;;;;;;;;;;;;;;;;
-;; Source Control
-;;;;;;;;;;;;;;;;;
+;; ==Source Control==
 (use-package magit
-    :ensure t
-    :config
-    (use-package evil-magit :ensure t))
+  :ensure t
+  :config
+  (use-package evil-magit :ensure t))
 
 (use-package spacemacs-theme
   :pin "melpa-unstable"
@@ -203,19 +188,21 @@
   :config
   (spacemacs-theme-org-highlight t))
 
-
 (use-package org-bullets
   :ensure t
   :hook (org-mode . org-bullets-mode)
   :config
 
-
   (setq org-bullets-bullet-list '("🐙" "💩" "🎃" "🍁" "◉" "○" "✸" "✿")))
 
+(setq org-agenda-files '("~/gtd/inbox.org"
+                         "~/gtd/gtd.org"
+                         "~/gtd/tickler.org"))
+
 (use-package emojify
-    :ensure t
-    :config
-    (global-emojify-mode t))
+  :ensure t
+  :config
+  (global-emojify-mode t))
 
 (use-package yasnippet
   :ensure t
