@@ -1,7 +1,10 @@
 ;; Helper Macros, externalize
-(defun utils//open-init ()
+(defun utils//--get-path (&rest path)
+  (path (format "~/.emacs.d/%s" (string-join path "/"))))
+
+(defun utils//open-config-file (&rest path)
   (interactive)
-  (find-file "~/.emacs.d/init.el"))
+  (find-file (utils//--get-path path)))
 
 (defun utils//open-emacs-directory ()
   (interactive)

@@ -73,6 +73,10 @@
     "eb" 'eval-buffer
     "ee" 'eval-last-sexp
     "ef" 'eval-defun
+    "ep" 'eval-print-last-sexp
+
+    "d" '(:ignore t :which-key "debug")
+    "df" 'edebug-defun
 
     "p" '(:ignore t :which-key "pretty-print")
     "pe" 'pp-macroexpand-expression
@@ -205,8 +209,10 @@
 
    ;; ==emacs==
    "fe" '(:ignore t :which-key "emacs")
-   "fei" 'utils//open-init
-   "fed" 'utils//open-emacs-directory
+   "fec" (utils//wkbinding "open emacs config file"
+	   (utils//open-emacs-file "init.el"))
+   "fek" (utils//wkbinding "open keymaps config file"
+	   (utils//open-emacs-file "lisp" "init-keymaps.el"))
 
    ;; ==buffers==
    "b" '(:ignore t :which-key "buffers")
