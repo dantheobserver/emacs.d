@@ -76,7 +76,9 @@
     "ep" 'eval-print-last-sexp
 
     "d" '(:ignore t :which-key "debug")
+    "di" 'edebug-instrument-function
     "df" 'edebug-defun
+    "db" 'edebug-set-breakpoint
 
     "p" '(:ignore t :which-key "pretty-print")
     "pe" 'pp-macroexpand-expression
@@ -96,6 +98,7 @@
     "eb" 'cider-eval-buffer
     "ee" 'cider-eval-last-sexp
     "ef" 'cider-eval-defun-at-point
+    "er" 'cider-eval-region
 
     "h" '(:ignore t :which-key "help")
     "hh" 'cider-doc
@@ -199,6 +202,8 @@
 
    ;; ==files==
    "f" '(:ignore t :which-key "find")
+   "f." (utils//wkbinding "dired here"
+	  (dired "."))
    "fD" 'delete-file
    "fs" 'save-buffer
    "fR" 'rename-file
@@ -209,10 +214,10 @@
 
    ;; ==emacs==
    "fe" '(:ignore t :which-key "emacs")
-   "fec" (utils//wkbinding "open emacs config file"
-	   (utils//open-emacs-file "init.el"))
+   "fei" (utils//wkbinding "open emacs init file"
+	   (utils//open-config-file "init.el"))
    "fek" (utils//wkbinding "open keymaps config file"
-	   (utils//open-emacs-file "lisp" "init-keymaps.el"))
+	   (utils//open-config-file "lisp" "init-keymaps.el"))
 
    ;; ==buffers==
    "b" '(:ignore t :which-key "buffers")

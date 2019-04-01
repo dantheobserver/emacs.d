@@ -1,6 +1,6 @@
 ;; Helper Macros, externalize
-(defun utils//--get-path (&rest path)
-  (path (format "~/.emacs.d/%s" (string-join path "/"))))
+(defun utils//--get-path (path-list)
+  (format "~/.emacs.d/%s" (string-join path "/")))
 
 (defun utils//open-config-file (&rest path)
   (interactive)

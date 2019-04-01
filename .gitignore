@@ -12,3 +12,6 @@ session*
 emojis
 transient
 url
+eshell
+projectile.cache
+

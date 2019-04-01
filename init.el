@@ -47,7 +47,7 @@
   :init 
   (setq evil-want-integration nil)
   (setq evil-want-keybinding nil)
-  (setq evil-want-minibuffer t)
+  (setq evil-want-minibuffer nil)
   (evil-mode 1)
   (global-set-key (kbd "C-u") 'evil-scroll-up)
   
@@ -80,16 +80,22 @@
 
   (use-package evil-leader
     :after org
+    :ensure t) 
+
+  (use-package evil-org
     :ensure t
-    :config 
-    (use-package evil-org
-      :ensure t
-      :config
-      (evil-define-key 'normal evil-org-mode-map (kbd "H") 'org-shiftleft)
-      (evil-define-key 'normal evil-org-mode-map (kbd "J") 'org-shiftdown)
-      (evil-define-key 'normal evil-org-mode-map (kbd "K") 'org-shiftup)
-      (evil-define-key 'normal evil-org-mode-map (kbd "L") 'org-shiftright)
-      )))
+    :config
+    (evil-define-key 'normal evil-org-mode-map (kbd "H") 'org-shiftleft)
+    (evil-define-key 'normal evil-org-mode-map (kbd "J") 'org-shiftdown)
+    (evil-define-key 'normal evil-org-mode-map (kbd "K") 'org-shiftup)
+    (evil-define-key 'normal evil-org-mode-map (kbd "L") 'org-shiftright))
+
+  ;; (use-package evil-common
+  ;;   :load-path "site-lisp/evil-common"
+  ;;   :config
+  ;;   (define-and-bind-text-object )
+  ;;   )
+  )
 
 ;; ==Navigation==
 (use-package counsel
@@ -107,6 +113,8 @@
   (use-package projectile
     :config
     (projectile-mode +1)
+    (setq projectile-indexing-method 'hybrid)
+    (setq projectile-sort-order 'recentf)
 
     (use-package counsel-projectile
       :ensure t)))
@@ -199,6 +207,12 @@
                          "~/gtd/gtd.org"
                          "~/gtd/tickler.org"))
 
+(setq org-capture-templates '(("t" "Todo [inbox]" entry
+                               (file+headline "~/gtd/inbox.org" "Tasks")
+                               "* TODO %i%?")
+                              ("T" "Tickler" entry
+                               (file+headline "~/gtd/tickler.org" "Tickler")
+                               "* %i%? \n %U")))
 (use-package emojify
   :ensure t
   :config
@@ -209,5 +223,4 @@
   :config
   (use-package yasnippet-snippets :ensure t)
   (yas-global-mode t))
-
 
