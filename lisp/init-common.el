@@ -14,6 +14,9 @@
 (setq default-fill-column 80)    ; toggle wrapping text at the 80th character
 (setq scroll-bar-mode 0)
 (setq help-window-select t)
+(show-smartparens-global-mode)
+;; (setq show-paren-mode t)
+;; (setq show-parend-delay 0)
 (set-frame-font "IBMPlexMono 14" nil t)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)

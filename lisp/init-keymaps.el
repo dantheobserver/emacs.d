@@ -118,23 +118,20 @@
   (general-evil-define-key '(normal insert emacs) 'racket-repl
     "C-k" 'comint-previous-input
     "C-j" 'comint-next-input
-    "C-l" 'racket-repl-submit
-    )
+    "C-l" 'racket-repl-submit)
 
   (general-evil-define-key '(normal visual emacs) 'racket-repl-mode
     "C-k" 'previous-history-element
-    "C-j" 'next-history-element
-    )
+    "C-j" 'next-history-element)
 
   (general-evil-define-key '(normal visual emacs) 'cider
     :prefix ","
     "s" '(:ignore t :which-key "repl")
-    "ss" 'cider-switch-to-repl-buffer
-    )
+    "ss" 'cider-switch-to-repl-buffer)
 
   (general-define-key
    :states '(normal visual insert emacs)
-   :keymaps '(global help)
+   :keymaps '(global help dired)
    :prefix "SPC"
    :non-normal-prefix "M-SPC"
 
@@ -273,6 +270,7 @@
    ;; ==quit== 
    "q" '(:ignore t :which-key "quit")
    "qq" '(save-buffers-kill-terminal :which-key "save & quit")
+   "qr" 'restart-emacs
 
    ;; ==text==
    "t" '(:ignore t :which-key "text")

@@ -1,5 +1,7 @@
 (use-package hydra
-    :load-path "site-lisp/hydra")
+  :load-path "site-lisp/hydra"
+  :config
+  (setq hydra-lv nil))
 
 (defhydra hydra-buffer-menu (:color red :columns 3)
   ("n" next-buffer "next buffer")

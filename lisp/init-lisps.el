@@ -28,7 +28,6 @@
   :ensure t
   :hook ((clojure-mode cider-mode clojurescript-mode elisp-mode racket-mode) . electric-pair-mode))
 
-
 (use-package fuco
   :load-path "site-lisp/fuco"
   :config

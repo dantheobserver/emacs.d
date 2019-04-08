@@ -38,6 +38,8 @@
   (setq sml/shorten-modes t)
   (sml/setup))
 
+(use-package restart-emacs :ensure t)
+
 ;;``````````;;
 ;; /(    )\ ;;  
 ;; ==Evil== ;;
@@ -104,6 +106,7 @@
   (ivy-mode 1)
   (setq counsel-grep-base-command
 	"rg -i -M 120 --no-heading --line-number --color never '%s' %s")
+  (setq ivy-use-selectable-prompt t)
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
@@ -160,7 +163,6 @@
   :ensure t
   :config
   (winner-mode))
-
 
 (use-package winum
   :ensure t
