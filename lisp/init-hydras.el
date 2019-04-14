@@ -1,7 +1,6 @@
 (use-package hydra
   :load-path "site-lisp/hydra"
-  :config
-  (setq hydra-lv nil))
+  :config)
 
 (defhydra hydra-buffer-menu (:color red :columns 3)
   ("n" next-buffer "next buffer")
@@ -11,8 +10,38 @@
   ("_" text-scale-decrease "zoom dec")
   ("0" (text-scale-set 0) "zoom reset"))
 
+(defun hydra-utils//eyebrowse-list ()
+  (mapcar 
+   (lambda (cfg) 
+     (let* ((config-num (car cfg))
+	    (config-name (caddr cfg)))
+       (cons config-num config-name)))
+   (eyebrowse--get 'window-configs)))
+
+(defun hydra-utils//format-eyebrowse-config
+    (sel-formatter-f)
+  (let ((cur-slot (eyebrowse--get 'current-slot)))
+    (mapcar
+     (lambda (config)
+       (let* ((config-idx (car config))
+	      (config-name (cdr config))
+	      (config-str (if (string-empty-p config-name)
+			      (number-to-string config-idx)
+			    config-name)))
+	 (if (eq cur-slot config-idx)
+	     (concat (funcall sel-formatter-f config-str))
+	   config-str)))
+     (hydra-utils//eyebrowse-list))))
+
+
+(defun utils//sel-formatter (s)
+  (propertize (format "[ %s ]" s)
+	      'face '(bold underline)))
+
 (defhydra hydra-eyebrowse-nav (:hint nil)
   "
+               %s(string-join (hydra-utils//format-eyebrowse-config #'utils//sel-formatter) \" \")
+
 _n_: next            _0_: window config 0
 _p_: prev            _1_: window config 1
 _l_: last            _2_: window config 2
@@ -31,6 +60,8 @@ _r_: rename config   _q_:quit"
   ("3" eyebrowse-switch-to-window-config-3)
   ("4" eyebrowse-switch-to-window-config-4)
   ("q" nil :color blue))
+
+(hydra-set-property 'hydra-eyebrowse-nav :verbosity 1)
 
 (defhydra hydra-window (:hint nil)
   "
@@ -78,8 +109,7 @@ Movement^^         ^Split^           ^Switch^           ^misc^
          (interactive)
          (ace-window 16)
          (add-hook 'ace-window-end-once-hook
-                   'hydra-window/body))
-       )
+                   'hydra-window/body)))
   ("o" delete-other-windows)
   ("i" ace-maximize-window)
   ("z" (progn

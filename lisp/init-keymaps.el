@@ -8,6 +8,7 @@
   (add-to-list 'general-keymap-aliases '(clj . clojure-mode-map))
   (add-to-list 'general-keymap-aliases '(cljs . clojurescript-mode-map))
   (add-to-list 'general-keymap-aliases '(cider . cider-mode-map))
+  (add-to-list 'general-keymap-aliases '(cider-repl . cider-repl-mode-map))
   (add-to-list 'general-keymap-aliases '(cider-doc . cider-doc-mode-map))
   (add-to-list 'general-keymap-aliases '(racket . racket-mode-map))
   (add-to-list 'general-keymap-aliases '(racket-repl . racket-repl-mode-map))
@@ -89,25 +90,26 @@
     "C-S-k" 'kill-line)
 
   ;;*clojure-mode
-  (general-evil-define-key '(normal visual emacs) '(clj cljs)
-    :prefix ","
-    "'" 'cider-jack-in
-    "\"" 'cider-jack-in-clojurescript
+  ;; (general-evil-define-key '(normal visual emacs) '(clj cljs)
+  ;;   :prefix ","
+  ;;   "'" 'cider-jack-in
+  ;;   "\"" 'cider-jack-in-clojurescript
 
-    "e" '(:ignore t :which-key "eval")
-    "eb" 'cider-eval-buffer
-    "ee" 'cider-eval-last-sexp
-    "ef" 'cider-eval-defun-at-point
-    "er" 'cider-eval-region
+  ;;   "e" '(:ignore t :which-key "eval")
+  ;;   "eb" 'cider-eval-buffer
+  ;;   "ee" 'cider-eval-last-sexp
+  ;;   "ef" 'cider-eval-defun-at-point
+  ;;   "er" 'cider-eval-region
 
-    "h" '(:ignore t :which-key "help")
-    "hh" 'cider-doc
+  ;;   "h" '(:ignore t :which-key "help")
+  ;;   "hh" 'cider-doc
 
-    "s" '(:ignore t :which-key "repl")
-    "ss" 'cider-switch-to-repl-buffer
+  ;;   "s" '(:ignore t :which-key "repl")
+  ;;   "sn" 'cider-repl-set-ns
+  ;;   "ss" 'cider-switch-to-repl-buffer
 
-    "d" '(:ignore t :which-key "debug")
-    "df" 'cider-debug-defun-at-point)
+  ;;   "d" '(:ignore t :which-key "debug")
+  ;;   "df" 'cider-debug-defun-at-point)
 
   ;;*Racket
   (general-evil-define-key '(normal visual emacs) 'racket
@@ -126,8 +128,90 @@
 
   (general-evil-define-key '(normal visual emacs) 'cider
     :prefix ","
+    "'" 'cider-jack-in
+    "." 'cider-interrupt
+    "\"" 'cider-jack-in-clojurescript
+
+    "d" '(:ignore t :which-key "debug")
+    "df" 'cider-debug-defun-at-point
+
+    "e" '(:ignore t :which-key "eval")
+    "eb" 'cider-eval-buffer
+    "ec" 'cider-eval-last-sexp-in-context
+    "ee" 'cider-eval-last-sexp
+    "ef" 'cider-eval-defun-at-point
+    "en" 'cider-eval-ns-form
+    "ep" 'cider-eval-sexp-at-point-in-context
+    "er" 'cider-eval-region
+    "es" 'cider-eval-sexp-at-point
+    "eu" 'cider-undef
+    "ew" 'cider-eval-last-sexp-and-replace
+    "e." 'cider-read-and-eval-defun-at-point
+    "ez" 'cider-eval-defun-up-to-point
+
+    "h" '(:ignore t :which-key "help")
+    "ha" 'cider-apropos
+    "hd" 'cider-doc
+    "he" 'cider-apropos-documentation-select
+    "hf" 'cider-apropos-documentation
+    "hj" 'cider-javadoc
+    "hr" 'cider-grimoire
+    "hs" 'cider-apropos-select
+    "hw" 'cider-grimoire-web
+
+    "i" '(:ignore t :which-key "insert")
+    "id" 'cider-insert-defun-in-repl
+    "ie" 'cider-insert-last-sexp-in-repl
+    "in" 'cider-insert-ns-form-in-repl
+    "ir" 'cider-insert-region-in-repl
+
+    "m" '(:ignore t :which-key "macro")
+    "mm" 'cider-macroexpand-1
+    "ma" 'cider-macroexpand-all
+
     "s" '(:ignore t :which-key "repl")
-    "ss" 'cider-switch-to-repl-buffer)
+    "sn" 'cider-repl-set-ns
+    "ss" 'cider-switch-to-repl-buffer
+
+    "t" '(:ignore t :which-key "test")
+    "tb" 'cider-test-show-report
+    "tg" 'cider-test-rerun-test
+    "tl" 'cider-test-run-loaded-tests
+    "tn" 'cider-test-run-ns-tests
+    "tp" 'cider-test-run-project-tests
+    "tr" 'cider-test-rerun-failed-tests
+    "ts" 'cider-test-run-ns-tests-with-filters
+    "tt" 'cider-test-run-test
+
+    ;; C-c C-.		cider-find-ns
+    ;; C-c C-:		cider-find-keyword
+    ;; C-c C-=		cider-profile-map
+
+    ;; C-c C-M-l	cider-load-all-files
+    ;; C-c M-.		cider-find-resource
+    ;; C-c M-:		cider-read-and-eval
+    ;; C-c M-;		cider-eval-defun-to-comment
+    ;; C-c M-d		cider-describe-connection
+    ;; C-c M-e		cider-eval-last-sexp-to-repl
+    ;; C-c M-i		cider-inspect
+    ;; C-c M-n		cider-ns-map
+    ;; C-c M-p		cider-insert-last-sexp-in-repl
+    ;; C-c M-r		cider-restart
+    ;; C-c M-s		cider-selector
+    ;; C-c M-t		Prefix Command
+    ;; C-c M-z		cider-load-buffer-and-switch-to-repl-buffer
+
+    ;; C-c M-n ESC	Prefix Command
+    ;; C-c M-n b	cider-browse-ns
+    ;; C-c M-n e	cider-eval-ns-form
+    ;; C-c M-n f	cider-find-ns
+    ;; C-c M-n l	cider-ns-reload
+    ;; C-c M-n n	cider-repl-set-ns
+    ;; C-c M-n r	cider-ns-refresh
+
+    ;; C-c M-t n	cider-toggle-trace-ns
+    ;; C-c M-t v	cider-toggle-trace-var
+    )
 
   (general-define-key
    :states '(normal visual insert emacs)
