@@ -29,18 +29,18 @@
 			      (number-to-string config-idx)
 			    config-name)))
 	 (if (eq cur-slot config-idx)
-	     (concat (funcall sel-formatter-f config-str))
+	     (concat (funcall sel-formatter-f (cons config-idx config-str)))
 	   config-str)))
      (hydra-utils//eyebrowse-list))))
 
 
-(defun utils//sel-formatter (s)
-  (propertize (format "[ %s ]" s)
-	      'face '(bold underline)))
+(defun utils//sel-formatter (cfg)
+  (propertize (format "[ %s:%s ]" (car cfg) (cdr cfg))
+	      'face '(bold 'warning)))
 
 (defhydra hydra-eyebrowse-nav (:hint nil)
   "
-               %s(string-join (hydra-utils//format-eyebrowse-config #'utils//sel-formatter) \" \")
+               %s(string-join (hydra-utils//format-eyebrowse-config #'utils//sel-formatter) \" | \")
 
 _n_: next            _0_: window config 0
 _p_: prev            _1_: window config 1
@@ -51,6 +51,7 @@ _r_: rename config   _q_:quit"
   ("n" eyebrowse-next-window-config)
   ("p" eyebrowse-prev-window-config)
   ("l" eyebrowse-last-window-config)
+  ("TAB" eyebrowse-last-window-config)
   ("c" eyebrowse-create-window-config)
   ("D" eyebrowse-close-window-config)
   ("r" eyebrowse-rename-window-config)

@@ -1,7 +1,10 @@
 ;; Clojure/lisp packages
 (require 'utils)
 
-(use-package clojure-mode :ensure t)
+(use-package clojure-mode :ensure t
+  :config
+  (use-package clj-refactor :ensure t
+    :hook (clojure-mode . clj-refactor-mode)))
 
 (use-package racket-mode :ensure t
   :pin "melpa-unstable")
