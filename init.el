@@ -50,9 +50,17 @@
   (setq evil-want-integration nil)
   (setq evil-want-keybinding nil)
   (setq evil-want-minibuffer nil)
+  (setq evil-move-beyond-eol t)
+  :config
   (evil-mode 1)
   (global-set-key (kbd "C-u") 'evil-scroll-up)
   
+  (use-package evil-adjust
+    :ensure t
+    :load-path "site-lisp/evil-adjust"
+    :config
+    (evil-adjust))
+
   ;;configure key-chords
   (use-package key-chord
     :config
@@ -97,7 +105,10 @@
   ;;   :config
   ;;   (define-and-bind-text-object )
   ;;   )
-  )
+
+  :config
+  (evil-make-overriding-map cider--debug-mode-map 'normal)
+  (evil-normalize-keymaps))
 
 ;; ==Navigation==
 (use-package counsel
@@ -121,6 +132,9 @@
 
     (use-package counsel-projectile
       :ensure t)))
+
+(use-package edit-server
+  :ensure t)
 
 (use-package eyebrowse
   :ensure t

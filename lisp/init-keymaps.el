@@ -20,8 +20,9 @@
   (general-define-key
    "M-x" 'counsel-M-x
    "C-;" 'iedit-mode
-   "C-'" 'hydra-eyebrowse-nav/body
-   "C-:" 'yas-insert-snippet)
+   "C-'" 'eyebrowse-last-window-config
+   "C-:" 'yas-insert-snippet
+   "M-u" 'revert-buffer)
 
   ;;*visual state
   (general-define-key
@@ -34,9 +35,6 @@
    ";" 'evil-ex
    ":" 'evil-repeat-find-char
    "C-u" 'evil-scroll-up)
-
-  (general-define-key
-   :keymaps 'special-mode-map)
 
   ;;*global
   (general-evil-define-key 'insert '(global minibuffer-inactive-mode-map)
@@ -131,9 +129,11 @@
    "C-j" 'cider-repl-next-input
    "C-k" 'cider-repl-previous-input
    "C-c C-o" 'cider-repl-clear-buffer
-   "S-RET" 'cider-repl-newline-and-indent) 
+   "RET" 'cider-repl-newline-and-indent
+   ;; "C-RET" 'cider-repl-newline-and-indent
+   ) 
 
-  (general-evil-define-key '(normal visual emacs) 'cider
+  (general-evil-define-key '(normal visual emacs) '(clj cljs)
     :prefix ","
     "'" 'cider-jack-in
     "." 'cider-interrupt
@@ -189,6 +189,7 @@
     "sn" 'cider-repl-set-ns
     "ss" 'cider-switch-to-repl-buffer
     "sr" 'cider-restart
+    "sq" 'cider-quit
 
     "t" '(:ignore t :which-key "test")
     "tb" 'cider-test-show-report
@@ -236,6 +237,7 @@
     "/" 'counsel-rg
     "." 'ivy-resume
     ";" 'hydra-window/body
+    "`" 'previous-multiframe-window
     "TAB" '(evil-switch-to-windows-last-buffer :which-key "prev buffer")
     "SPC" 'counsel-M-x
     "1" 'winum-select-window-1
@@ -244,6 +246,13 @@
     "4" 'winum-select-window-4
     "5" 'winum-select-window-5
     "6" 'winum-select-window-6
+
+    ;; ==apps==
+    "a" '(:ignroe t :which-key "apps")
+    "as" '(:ignroe t :which-key "server")
+    "ass" 'edit-server-start
+    "asq" 'edit-server-done
+    "asa" 'edit-server-abort
     
     ;; ==ring/resume==
     "r" '(:ignroe t :which-key "ring/resumed")
@@ -258,10 +267,7 @@
 	   (swiper "^.*;;.?==.*"))
 
     ;; ==layouts==
-    "l" '(:ignore t :which-key "layouts")
-    "la" 'ivy-push-view
-    "ld" 'ivy-pop-view
-    "ll" 'ivy-switch-view
+    "l" 'hydra-eyebrowse-nav/body
 
     ;; ==layouts==
     "o" '(:ignore t :which-key "orgmode")
@@ -271,11 +277,12 @@
 
     ;; ==window==
     "w" '(:ignore t :which-key "window")
+    "wa" 'ace-swap-window
     "wd" 'delete-window
-    "wv" 'split-window-below
-    "wV" 'utils//split-window-below-and-focus
-    "ws" 'split-window-right
-    "wS" 'utils//split-window-right-and-focus
+    "ws" 'split-window-below
+    "wS" 'utils//split-window-below-and-focus
+    "wv" 'split-window-right
+    "wV" 'utils//split-window-right-and-focus
     "wk" 'evil-window-up
     "wj" 'evil-window-down
     "wh" 'evil-window-left

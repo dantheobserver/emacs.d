@@ -50,7 +50,6 @@ _D_: delete config   _4_: window config 4
 _r_: rename config   _q_:quit"
   ("n" eyebrowse-next-window-config)
   ("p" eyebrowse-prev-window-config)
-  ("l" eyebrowse-last-window-config)
   ("TAB" eyebrowse-last-window-config)
   ("c" eyebrowse-create-window-config)
   ("D" eyebrowse-close-window-config)
