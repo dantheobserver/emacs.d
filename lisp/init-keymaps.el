@@ -28,6 +28,12 @@
   (general-define-key
    :states 'visual
    "s" 'evil-surround-region)
+  
+  (general-define-key
+   :keymaps 'ivy-minibuffer-map
+   "TAB" 'ivy-call
+   "C-M-j" 'ivy-next-line-and-call
+   "C-M-k" 'ivy-previous-line-and-call)
 
   ;;*motion state
   (general-define-key
@@ -70,7 +76,8 @@
     :prefix ","
     "e" '(:ignore t :which-key "eval")
     "eb" 'eval-buffer
-    "ee" 'eval-last-sexp
+    ;; "ee" 'eval-last-sexp
+    "ee" 'evil-adjust-eval-last-sexp
     "ef" 'eval-defun
     "ep" 'eval-print-last-sexp
 
@@ -278,6 +285,7 @@
     ;; ==window==
     "w" '(:ignore t :which-key "window")
     "wa" 'ace-swap-window
+    "wm" 'utils//maximize-restore-window
     "wd" 'delete-window
     "ws" 'split-window-below
     "wS" 'utils//split-window-below-and-focus
@@ -384,7 +392,7 @@
     "ttc" 'transpose-chars
     "ttl" 'transpose-lines
     "ttp" 'transpose-paragraphs
-    "tts" 'transpose-sexps
-    ))
+    "tts" 'transpose-sexps)
+  )
 
 (provide 'init-keymaps)

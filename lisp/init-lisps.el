@@ -1,6 +1,12 @@
 ;; Clojure/lisp packages
 (require 'utils)
 
+(use-package edebug
+  :config
+  (add-hook 'edebug-setup-hook 'normal-mode)
+  (add-hook 'edebug-setup-hook 'evil-execute-in-emacs-state)
+  )
+
 (use-package clojure-mode :ensure t
   :config
   (use-package clj-refactor :ensure t
@@ -19,7 +25,17 @@
 
 (use-package aggressive-indent
   :ensure t
-  :hook ((clojure-mode clojurescript-mode emacs-lisp-mode racket-mode cider-repl) . aggressive-indent-mode))
+  :hook ((clojure-mode clojurescript-mode emacs-lisp-mode racket-mode cider-repl) . aggressive-indent-mode)
+  :config
+  ;; Indentation of function forms
+  ;; https://github.com/clojure-emacs/clojure-mode#indentation-of-function-forms
+  (setq clojure-indent-style 'align-arguments)
+  ;;
+  ;; Vertically align s-expressions
+  ;; https://github.com/clojure-emacs/clojure-mode#vertical-alignment
+  (setq clojure-align-forms-automatically t)
+  ;;
+  )
 
 (use-package evil-cleverparens
   :ensure t

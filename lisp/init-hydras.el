@@ -34,20 +34,21 @@
      (hydra-utils//eyebrowse-list))))
 
 
-(defun utils//sel-formatter (cfg)
-  (propertize (format "[ %s:%s ]" (car cfg) (cdr cfg))
+(defvar hydra-utils//bracket-format "[ %s:%s ]")
+(defun hydra-utils//sel-formatter (cfg)
+  (propertize (format hydra-utils//bracket-format (car cfg) (cdr cfg))
 	      'face '(bold 'warning)))
 
 (defhydra hydra-eyebrowse-nav (:hint nil)
   "
-               %s(string-join (hydra-utils//format-eyebrowse-config #'utils//sel-formatter) \" | \")
+    %s(string-join (hydra-utils//format-eyebrowse-config #'hydra-utils//sel-formatter) \" | \")
 
-_n_: next            _0_: window config 0
-_p_: prev            _1_: window config 1
-_l_: last            _2_: window config 2
-_c_: create config   _3_: window config 3
-_D_: delete config   _4_: window config 4
-_r_: rename config   _q_:quit"
+^^^^ _n_: _n_ext           _0_: window config _0_
+^^^^ _p_: _p_rev           _1_: window config _1_
+^^^^ _c_: _c_reate config  _2_: window config _2_
+^^^^ _D_: _D_elete config  _3_: window config _3_
+^^^^ _r_: _r_ename config  _4_: window config _4_
+^^^^ _q_:_q_uit            _<_-- move --_>_" 
   ("n" eyebrowse-next-window-config)
   ("p" eyebrowse-prev-window-config)
   ("TAB" eyebrowse-last-window-config)
@@ -59,6 +60,8 @@ _r_: rename config   _q_:quit"
   ("2" eyebrowse-switch-to-window-config-2)
   ("3" eyebrowse-switch-to-window-config-3)
   ("4" eyebrowse-switch-to-window-config-4)
+  (">" utils//move-current-layout-right)
+  ("<" utils//move-current-layout-left)
   ("q" nil :color blue))
 
 (hydra-set-property 'hydra-eyebrowse-nav :verbosity 1)

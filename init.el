@@ -56,8 +56,8 @@
   (global-set-key (kbd "C-u") 'evil-scroll-up)
   
   (use-package evil-adjust
-    :ensure t
     :load-path "site-lisp/evil-adjust"
+    :pin manual
     :config
     (evil-adjust))
 
@@ -240,3 +240,11 @@
   (use-package yasnippet-snippets :ensure t)
   (yas-global-mode t))
 
+(use-package minions :ensure t)
+
+(use-package moody
+  :ensure t
+  :config
+  (setq x-underline-at-descent-line t)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode))
