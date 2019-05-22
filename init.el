@@ -40,10 +40,10 @@
 
 (use-package restart-emacs :ensure t)
 
-;;``````````;;
-;; /(    )\ ;;  
-;; ==Evil== ;;
-;;..........;;
+;;``^````^``;;
+;; /( <> )\ ;;  
+;; <> .  <> ;;
+;;...Evil...;;
 (use-package evil
   :ensure t
   :init 
@@ -54,7 +54,22 @@
   :config
   (evil-mode 1)
   (global-set-key (kbd "C-u") 'evil-scroll-up)
-  
+  ;;(evil-make-overriding-map cider--debug-mode-map 'normal)
+  ;; (add-hook 'iedit-mode-keymap #'evil-normalize-keymaps)
+  (evil-normalize-keymaps)
+  ;; (evil-set-initial-state 'iedit-mode 'normal)
+  (evil-set-initial-state 'cider--debug-mode 'normal)
+
+  (use-package expand-region :ensure t)
+
+  (use-package evil-iedit-state
+    ;; :ensure t
+    :commands (evil-iedit-state evil-iedit-state/iedit-mode)
+    ;; (setq iedit-current-symbol-default t
+    ;;       iedit-only-at-symbol-boundaries t
+    ;;       iedit-toggle-key-default nil)
+    )
+
   (use-package evil-adjust
     :load-path "site-lisp/evil-adjust"
     :pin manual
@@ -100,38 +115,17 @@
     (evil-define-key 'normal evil-org-mode-map (kbd "K") 'org-shiftup)
     (evil-define-key 'normal evil-org-mode-map (kbd "L") 'org-shiftright))
 
-  ;; (use-package evil-common
-  ;;   :load-path "site-lisp/evil-common"
-  ;;   :config
-  ;;   (define-and-bind-text-object )
-  ;;   )
-
-  :config
-  (evil-make-overriding-map cider--debug-mode-map 'normal)
-  (evil-normalize-keymaps))
-
-;; ==Navigation==
-(use-package counsel
-  :ensure t
-  :config
-  (ivy-mode 1)
-  (setq counsel-grep-base-command
-	"rg -i -M 120 --no-heading --line-number --color never '%s' %s")
-  (setq ivy-use-selectable-prompt t)
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t)
-  (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
-  (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
-  (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . ""))
-
-  (use-package projectile
+  (use-package dash
+    :ensure t
     :config
-    (projectile-mode +1)
-    (setq projectile-indexing-method 'hybrid)
-    (setq projectile-sort-order 'recentf)
-
-    (use-package counsel-projectile
-      :ensure t)))
+    (use-package s :ensure t)
+    (use-package origami
+      :after '(dash s)
+      :ensure t
+      :config
+      :hook ((prog-mode text-mode) . origami-mode)
+      (origami-mode))
+    ))
 
 (use-package edit-server
   :ensure t)
@@ -169,8 +163,7 @@
   (add-to-list 'popwin:special-display-config '("*Warnings*" :noselect t))
   (add-to-list 'popwin:special-display-config '("*Messages*"))
   (add-to-list 'popwin:special-display-config '("*Backtrace*" :noselect t))
-  (add-to-list 'popwin:special-display-config 'calculator-mode)
-  )
+  (add-to-list 'popwin:special-display-config 'calculator-mode))
 
 ;;TODO Prevent esc from exiting ivy
 (use-package winner

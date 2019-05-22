@@ -22,6 +22,8 @@
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (setq kill-ring-max 150)
+(setq initial-scratch-message nil)
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Desktop Save Mode
 (desktop-save-mode 1)

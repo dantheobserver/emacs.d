@@ -5,9 +5,12 @@
   :ensure t
   :init
   (add-to-list 'general-keymap-aliases '(elisp . emacs-lisp-mode-map))
+  (add-to-list 'general-keymap-aliases '(miracle . miracle-mode-map))
+  (add-to-list 'general-keymap-aliases '(miracle-interaction. miracle-interaction-mode-map))
   (add-to-list 'general-keymap-aliases '(clj . clojure-mode-map))
   (add-to-list 'general-keymap-aliases '(cljs . clojurescript-mode-map))
   (add-to-list 'general-keymap-aliases '(cider . cider-mode-map))
+  (add-to-list 'general-keymap-aliases '(ielm . ielm-map))
   (add-to-list 'general-keymap-aliases '(cider-repl . cider-repl-mode-map))
   (add-to-list 'general-keymap-aliases '(cider-doc . cider-doc-mode-map))
   (add-to-list 'general-keymap-aliases '(racket . racket-mode-map))
@@ -17,27 +20,28 @@
   (add-to-list 'general-keymap-aliases '(global . global-map))
 
   :config
-  (general-define-key
-   "M-x" 'counsel-M-x
-   "C-;" 'iedit-mode
-   "C-'" 'eyebrowse-last-window-config
-   "C-:" 'yas-insert-snippet
-   "M-u" 'revert-buffer)
+  (general-evil-define-key '(normal visual motion) 'override
+    "M-x" 'counsel-M-x
+    "C-;" 'evil-iedit-state/iedit-mode
+    "C-'" 'eyebrowse-last-window-config
+    "C-:"'yas-insert-snippet
+    "M-u" 'revert-buffer)
+
+  (general-evil-define-key '(normal instert motion) 'ielm
+    "C-j" 'comint-next-input
+    "C-k" 'previous-history-element)
+
+  (general-evil-define-key '(motion insert) 'minibuffer-local-map
+    "C-y" 'evil-paste-after)
 
   ;;*visual state
   (general-define-key
    :states 'visual
    "s" 'evil-surround-region)
-  
-  (general-define-key
-   :keymaps 'ivy-minibuffer-map
-   "TAB" 'ivy-call
-   "C-M-j" 'ivy-next-line-and-call
-   "C-M-k" 'ivy-previous-line-and-call)
 
   ;;*motion state
   (general-define-key
-   :states 'motion
+   :states '(motion)
    ";" 'evil-ex
    ":" 'evil-repeat-find-char
    "C-u" 'evil-scroll-up)
@@ -94,28 +98,6 @@
     "C-k" 'kill-sexp
     "C-S-k" 'kill-line)
 
-  ;;*clojure-mode
-  ;; (general-evil-define-key '(normal visual emacs) '(clj cljs)
-  ;;   :prefix ","
-  ;;   "'" 'cider-jack-in
-  ;;   "\"" 'cider-jack-in-clojurescript
-
-  ;;   "e" '(:ignore t :which-key "eval")
-  ;;   "eb" 'cider-eval-buffer
-  ;;   "ee" 'cider-eval-last-sexp
-  ;;   "ef" 'cider-eval-defun-at-point
-  ;;   "er" 'cider-eval-region
-
-  ;;   "h" '(:ignore t :which-key "help")
-  ;;   "hh" 'cider-doc
-
-  ;;   "s" '(:ignore t :which-key "repl")
-  ;;   "sn" 'cider-repl-set-ns
-  ;;   "ss" 'cider-switch-to-repl-buffer
-
-  ;;   "d" '(:ignore t :which-key "debug")
-  ;;   "df" 'cider-debug-defun-at-point)
-
   ;;*Racket
   (general-evil-define-key '(normal visual emacs) 'racket
     :prefix ","
@@ -140,9 +122,24 @@
    ;; "C-RET" 'cider-repl-newline-and-indent
    ) 
 
-  (general-evil-define-key '(normal visual emacs) '(clj cljs)
+  (general-evil-define-key '(normal visual motion) '(miracle-interaction)
+    :prefix ","
+    "," 'miracle-interrupt
+    "r" 'miracle-switch-to-repl
+
+    "e" '(:ignore t :which-key "eval")
+    "ee" 'miracle-eval-expression-at-point 
+    "er" 'miracle-eval-region
+    "eb" 'miracle-eval-buffer
+    "ef" 'miracle-eval-defun
+    "en" 'miracle-eval-namespace
+
+    "j" 'miracle-jump)
+
+  (general-evil-define-key '(normal visual motion) '(clj cljs)
     :prefix ","
     "'" 'cider-jack-in
+    ";" 'miracle
     "." 'cider-interrupt
     "\"" 'cider-jack-in-clojurescript
 
@@ -189,8 +186,61 @@
     "mm" 'cider-macroexpand-1
     "ma" 'cider-macroexpand-all
 
-    ;; "r" '(:ignore t :which-key "test")
-    ;; "rr" 'cljr-
+    ;; "r" '(:ignore t :which-key "refactor")
+    "r" 'hydra-cljr-code-menu/hydra-cljr-help-menu/body-and-exit
+
+    ;; "r" '(:ignore t :which-key "refactor")
+    ;; cljr-add-declaration
+    ;; cljr-add-import-to-ns
+    ;; cljr-add-keybindings-with-modifier
+    ;; cljr-add-keybindings-with-prefix
+    ;; cljr-add-missing-libspec
+    ;; cljr-add-project-dependency
+    ;; cljr-add-require-to-ns
+    ;; cljr-add-stubs
+    ;; cljr-add-use-to-ns
+    ;; cljr-change-function-signature
+    ;; cljr-clean-ns
+    ;; cljr-create-fn-from-example
+    ;; cljr-cycle-if
+    ;; cljr-cycle-privacy
+    ;; cljr-cycle-thread
+    ;; cljr-describe-refactoring
+    ;; cljr-destructure-keys
+    ;; cljr-expand-let
+    ;; cljr-extract-constant
+    ;; cljr-extract-def
+    ;; cljr-extract-function
+    ;; cljr-find-usages
+    ;; cljr-hotload-dependency
+    ;; cljr-inline-symbol
+    ;; cljr-introduce-let
+    ;; cljr-move-form
+    ;; cljr-move-to-let
+    ;; cljr-project-clean
+    ;; cljr-promote-function
+    ;; cljr-raise-sexp
+    ;; cljr-reify-to-defrecord
+    ;; cljr-remove-let
+    ;; cljr-rename-file
+    ;; cljr-rename-file-or-dir
+    ;; cljr-rename-symbol
+    ;; cljr-require-macro
+    ;; cljr-show-changelog
+    ;; cljr-slash
+    ;; cljr-sort-project-dependencies
+    ;; cljr-splice-sexp-killing-backward
+    ;; cljr-splice-sexp-killing-forward
+    ;; cljr-stop-referring
+    ;; cljr-thread
+    ;; cljr-thread-first-all
+    ;; cljr-thread-last-all
+    ;; cljr-toggle-debug-mode
+    ;; cljr-unwind
+    ;; cljr-unwind-all
+    ;; cljr-update-project-dependencies
+    ;; cljr-update-project-dependency
+    ;; cljr-version
 
     "s" '(:ignore t :which-key "repl")
     "sn" 'cider-repl-set-ns
@@ -235,10 +285,15 @@
     ;; C-c M-t v	cider-toggle-trace-var
     )
 
-  (general-evil-define-key '(normal visual insert emacs) '(global help dired)
+  (general-evil-define-key '(normal visual) 'wdired-mode-map
+    :prefix ","
+    "," 'wdired-finish-edit
+    "a" 'wdired-abort-changes
+    )
+
+  (general-evil-define-key '(normal visual emacs) 'override
     :prefix "SPC"
     :non-normal-prefix "M-SPC"
-
     ;; ==simple command==
     "u" 'universal-argument
     "/" 'counsel-rg
@@ -255,19 +310,20 @@
     "6" 'winum-select-window-6
 
     ;; ==apps==
-    "a" '(:ignroe t :which-key "apps")
-    "as" '(:ignroe t :which-key "server")
+    "a" '(:ignore t :which-key "apps")
+    "as" '(:ignore t :which-key "server")
     "ass" 'edit-server-start
     "asq" 'edit-server-done
     "asa" 'edit-server-abort
     
     ;; ==ring/resume==
-    "r" '(:ignroe t :which-key "ring/resumed")
+    "r" '(:ignore t :which-key "ring/resumed")
     "rl" 'ivy-resume
     "ry" 'counsel-yank-pop
     
     ;; ==search==
     "s" '(:ignore t :which-key "search")
+    "sb" 'counsel-bookmark
     "ss" 'counsel-grep-or-swiper
     "sa" 'swiper-avy
     "sh" (utils//wkbinding "search headers"
@@ -337,12 +393,12 @@
     "bs" (utils//wkbinding "scratch-buffer"
 	   (switch-to-buffer "*scratch*"))
     "bm" '(view-echo-area-messages :which-key "messages buffer")
-    "bR" 'revert-buffer
 
     ;; ==projects==
     "p" '(:ignore t :which-key "projects")
     "pf" 'counsel-projectile-find-file
     "pp" 'counsel-projectile-switch-project
+    "pI" 'projectile-invalidate-cache
 
     ;; ==comment==
     "c" '(:ignore t :which-key "comment")
@@ -393,6 +449,6 @@
     "ttl" 'transpose-lines
     "ttp" 'transpose-paragraphs
     "tts" 'transpose-sexps)
-  )
+  
 
-(provide 'init-keymaps)
+  (provide 'init-keymaps))

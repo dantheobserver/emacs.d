@@ -50,12 +50,14 @@
       (yank)
       (beginning-of-line))))
 
+
 (defun utils//symbol-concat (&rest values)
-  (let ((stringified-values (mapcar (lambda (val)
-				      (if (symbolp val)
-					  (symbol-name val)
-					val))
-				    values)))
+  (let ((stringified-values
+	 (mapcar (lambda (val)
+		   (if (symbolp val)
+		       (symbol-name val)
+		     val))
+		 values)))
     (intern (apply #'concat stringified-values))))
 
 (defun utils//maximize-restore-window ()
@@ -65,52 +67,35 @@
 	(winner-undo)
       (ace-maximize-window))))
 
-(defun utils//layout-config ()
-  (eyebrowse--get 'window-configs))
 
-(defun utils//set-layout-config (cfg)
-  (eyebrowse--set 'window-configs cfg))
+(defun swap-cfg-idx (current-idx next-idx cfg)
+  (let ((item (nth current-idx cfg))
+	(next-item (nth next-idx cfg)))
+    (seq-map-indexed (lambda (cfg-item idx)
+		       (cond ((= current-idx idx)
+			      (cons next-idx (cdr next-item)))
+			     ((= next-idx idx)
+			      (cons current-idx (cdr item)))
+			     (t cfg-item)))
+		     cfg)))
 
-(defun shift-layout-to (direction boundary-fn &optional comparator-fn)
-  (let* ((comparator-fn (or comparator-fn #'=))
-	 (layout-config (utils//layout-config))
+(defun move-current-layout-to (direction)
+  (interactive)
+  (let* ((cfg (eyebrowse--get 'window-configs)) 
+	 (cfg-count (length cfg))
 	 (current-slot (eyebrowse--get 'current-slot))
-	 (cfg-idx (seq-position layout-config current-slot
-				(lambda (cfg-item slot-num)
-				  (= (car cfg-item) slot-num)))))
-    ;; skip processing if boundary test fails
-    (if (funcall boundary-fn cfg-idx layout-config)
-	(let ((left-side (seq-subseq layout-config 0 cfg-idx))
-	      (right-side (seq-subseq layout-config (1+ cfg-idx)))
-	      (item (nth cfg-idx layout-config)))
-	  (cond ((eq 'right direction)
-		 (let ((other-slot (caar right-part))
-		       (updated-item (cons other-slot (cdr item)))
-		       (updated-other (cons current-slot (cdar right-part))))
-		   (utils//set-layout-config 
-		    (seq-concatenate 'list
-				     left-part
-				     (list updated-other updated-item)
-				     (cdr right-part)))))
-		((eq 'left direction)
-		 (let ((other-slot (car (last left-part)))
-		       (updated-item (cons other-slot (cdr item)))
-		       (updated-other (cons current-slot (last left-side))))
-		   (utils//set-layout-config
-		    (seq concatenate
-			 (seq-subseq left-side 0 (1- (length left-side)))
-			 (liest updated-item updated-other)
-			 right-side)))))))))
+	 (current-cfg-idx (seq-position cfg 1 (lambda (item elt)
+						(= (car item) elt))))
+	 (next-cfg-idx (cond ((eq direction 'left)
+			      (1- current-cfg-idx))
+			     ((eq direction 'right)
+			      (1+ current-cfg-idx))
+			     (t -1))))
+    (if (< 0 next-cfg-idx cfg-count)
+	(let* ((updated-cfg (swap-cfg-idx current-cfg-idx next-cfg-idx cfg)))
+	  (eyebrowse--set 'window-configs updated-cfg)
+	  (eyebrowse--set 'current-slot)))))
 
-(defun utils//move-current-layout-right ()
-  (interactive)
-  (shift-layout-to 'right (lambda (cfg-idx config)
-			    (< cfg-idx (1- (length config))))))
-
-(defun utils//move-current-layout-left ()
-  (interactive)
-  (shift-layout-to 'left (lambda (cfg-idx _)
-			   (> cfg-idx 0))))
 (provide 'utils)
 
 (comment
@@ -128,6 +113,8 @@
 
  (let ((cfg (utils//layout-config)))
    (cdar cfg))
+
+ (defvar my-layout (utils//layout-config))
 
 
  )

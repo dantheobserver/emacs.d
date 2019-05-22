@@ -18,8 +18,7 @@
        (cons config-num config-name)))
    (eyebrowse--get 'window-configs)))
 
-(defun hydra-utils//format-eyebrowse-config
-    (sel-formatter-f)
+(defun hydra-utils//format-eyebrowse-config (sel-formatter-f)
   (let ((cur-slot (eyebrowse--get 'current-slot)))
     (mapcar
      (lambda (config)
@@ -48,7 +47,7 @@
 ^^^^ _c_: _c_reate config  _2_: window config _2_
 ^^^^ _D_: _D_elete config  _3_: window config _3_
 ^^^^ _r_: _r_ename config  _4_: window config _4_
-^^^^ _q_:_q_uit            _<_-- move --_>_" 
+^^^^ _q_:_q_uit            " 
   ("n" eyebrowse-next-window-config)
   ("p" eyebrowse-prev-window-config)
   ("TAB" eyebrowse-last-window-config)
@@ -60,9 +59,8 @@
   ("2" eyebrowse-switch-to-window-config-2)
   ("3" eyebrowse-switch-to-window-config-3)
   ("4" eyebrowse-switch-to-window-config-4)
-  (">" utils//move-current-layout-right)
-  ("<" utils//move-current-layout-left)
-  ("q" nil :color blue))
+  ("q" nil :color blue)
+  )
 
 (hydra-set-property 'hydra-eyebrowse-nav :verbosity 1)
 

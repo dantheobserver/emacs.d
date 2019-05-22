@@ -2,20 +2,26 @@
 (require 'utils)
 
 (use-package edebug
+  :after 'evil 
   :config
   (add-hook 'edebug-setup-hook 'normal-mode)
-  (add-hook 'edebug-setup-hook 'evil-execute-in-emacs-state)
-  )
+  (add-hook 'edebug-setup-hook 'evil-execute-in-emacs-state))
 
 (use-package clojure-mode :ensure t
   :config
   (use-package clj-refactor :ensure t
-    :hook (clojure-mode . clj-refactor-mode)))
+    :hook (clojure-mode . clj-refactor-mode))
+
+  (use-package miracle
+    :load-path "site-lisp/miracle"
+    :config
+    (add-hook 'clojure-mode-hook 'clojure-enable-miracle)
+    ))
 
 (use-package racket-mode :ensure t
   :pin "melpa-unstable")
 
-(use-package cider :ensure t
+(use-package cider :ensure 
   :hook ((clojure-mode clojurescript-mode) . cider-mode)
   :pin "melpa")
 
@@ -33,7 +39,7 @@
   ;;
   ;; Vertically align s-expressions
   ;; https://github.com/clojure-emacs/clojure-mode#vertical-alignment
-  (setq clojure-align-forms-automatically t)
+  (setq clojure-align-forms-automatically nil)
   ;;
   )
 
