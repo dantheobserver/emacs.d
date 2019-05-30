@@ -1,6 +1,5 @@
 ;; Helper Macros, externalize
-(defmacro comment (&rest body)
-  nil)
+(defmacro comment (&rest body) nil)
 
 (defun utils//--get-path (path-list)
   (format "~/.emacs.d/%s" (string-join path "/")))
@@ -68,35 +67,37 @@
       (ace-maximize-window))))
 
 
-(defun swap-cfg-idx (current-idx next-idx cfg)
-  (let ((item (nth current-idx cfg))
-	(next-item (nth next-idx cfg)))
-    (seq-map-indexed (lambda (cfg-item idx)
-		       (cond ((= current-idx idx)
-			      (cons next-idx (cdr next-item)))
-			     ((= next-idx idx)
-			      (cons current-idx (cdr item)))
-			     (t cfg-item)))
-		     cfg)))
+(defun utils/code-header (header)
+  (interactive "sEnter Header: ")
+  (let ((formatted-header (with-temp-buffer
+			    (let* ((count (length header))
+				   (margin 2)
+				   (line-length (+ count (* 2 margin) 2)))
+			      ;; Top line
+			      (insert ";;")
+			      (insert-char ?\= line-length)
+			      (insert "\n")
+			      ;; Title
+			      (insert ";;=")
+			      (insert-char ?\s margin)
+			      (insert header)
+			      (insert-char ?\s margin)
+			      (insert "=\n")
+			      (insert ";;")
+			      (insert-char ?\= line-length)
+			      (insert "\n")
+			      ;; (message (buffer-string))
+			      (buffer-string)
+			      ))))
+    (save-excursion
+      (beginning-of-line)
+      (insert formatted-header))))
 
-(defun move-current-layout-to (direction)
-  (interactive)
-  (let* ((cfg (eyebrowse--get 'window-configs)) 
-	 (cfg-count (length cfg))
-	 (current-slot (eyebrowse--get 'current-slot))
-	 (current-cfg-idx (seq-position cfg 1 (lambda (item elt)
-						(= (car item) elt))))
-	 (next-cfg-idx (cond ((eq direction 'left)
-			      (1- current-cfg-idx))
-			     ((eq direction 'right)
-			      (1+ current-cfg-idx))
-			     (t -1))))
-    (if (< 0 next-cfg-idx cfg-count)
-	(let* ((updated-cfg (swap-cfg-idx current-cfg-idx next-cfg-idx cfg)))
-	  (eyebrowse--set 'window-configs updated-cfg)
-	  (eyebrowse--set 'current-slot)))))
 
 (provide 'utils)
+;;===========
+;;= testing =
+;;===========
 
 (comment
  (utils//layout-config)

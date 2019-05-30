@@ -27,9 +27,9 @@
     "C-:"'yas-insert-snippet
     "M-u" 'revert-buffer)
 
-  (general-evil-define-key '(normal instert motion) 'ielm
+  (general-evil-define-key '(normal instert motion emacs) 'ielm
     "C-j" 'comint-next-input
-    "C-k" 'previous-history-element)
+    "C-k" 'comint-previous-input)
 
   (general-evil-define-key '(motion insert) 'minibuffer-local-map
     "C-y" 'evil-paste-after)
@@ -425,6 +425,7 @@
 
     ;; ==insert==
     "is" 'yas-insert-snippet
+    "ih" 'utils/code-header
 
     ;; ==zoom==
     "z" '(:ignore t :which-key "text-zooming")

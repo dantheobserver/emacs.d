@@ -60,8 +60,38 @@
   ;; (evil-set-initial-state 'iedit-mode 'normal)
   (evil-set-initial-state 'cider--debug-mode 'normal)
 
-  (use-package expand-region :ensure t)
+  
+  ;; ==Navigation==
+  (use-package counsel
+    :ensure t
+    :config
+    (ivy-mode 1)
+    (setq counsel-grep-base-command
+	  "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
+    (setq ivy-use-selectable-prompt t)
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
+    (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
+    (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . ""))
+    
+    (use-package projectile
+      :ensure t
+      :config
+      (projectile-mode +1)
+      (setq projectile-indexing-method 'hybrid)
+      (setq projectile-sort-order 'recentf)
+      (use-package counsel-projectile :ensure t)))
 
+  (use-package dash :ensure t)
+  (use-package s :ensure t)
+  ;; (use-package origami
+  ;;   ;; :after '(dash s)
+  ;;   ;; :ensure t
+  ;;   :hook (prog-mode . origami-mode)
+  ;;   (origami-mode))
+
+  (use-package expand-region :ensure t)
   (use-package evil-iedit-state
     ;; :ensure t
     :commands (evil-iedit-state evil-iedit-state/iedit-mode)
@@ -89,7 +119,7 @@
     (evil-escape-mode 1)
     (setq-default evil-escape-delay 0.4)
     (setq-default evil-escape-key-sequence "fd"))
-  
+
   (use-package evil-surround
     :ensure t
     :config
@@ -105,7 +135,7 @@
 
   (use-package evil-leader
     :after org
-    :ensure t) 
+    :ensure t)
 
   (use-package evil-org
     :ensure t
@@ -113,22 +143,8 @@
     (evil-define-key 'normal evil-org-mode-map (kbd "H") 'org-shiftleft)
     (evil-define-key 'normal evil-org-mode-map (kbd "J") 'org-shiftdown)
     (evil-define-key 'normal evil-org-mode-map (kbd "K") 'org-shiftup)
-    (evil-define-key 'normal evil-org-mode-map (kbd "L") 'org-shiftright))
+    (evil-define-key 'normal evil-org-mode-map (kbd "L") 'org-shiftright)))
 
-  (use-package dash
-    :ensure t
-    :config
-    (use-package s :ensure t)
-    (use-package origami
-      :after '(dash s)
-      :ensure t
-      :config
-      :hook ((prog-mode text-mode) . origami-mode)
-      (origami-mode))
-    ))
-
-(use-package edit-server
-  :ensure t)
 
 (use-package eyebrowse
   :ensure t

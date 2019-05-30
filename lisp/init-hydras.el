@@ -1,6 +1,8 @@
+(use-package eb-layout
+  :load-path "site-lisp/eb-layout")
+
 (use-package hydra
-  :load-path "site-lisp/hydra"
-  :config)
+  :load-path "site-lisp/hydra")
 
 (defhydra hydra-buffer-menu (:color red :columns 3)
   ("n" next-buffer "next buffer")
@@ -59,8 +61,9 @@
   ("2" eyebrowse-switch-to-window-config-2)
   ("3" eyebrowse-switch-to-window-config-3)
   ("4" eyebrowse-switch-to-window-config-4)
-  ("q" nil :color blue)
-  )
+  ("<" ebl-move-left)
+  (">" ebl-move-right)
+  ("q" nil :color blue))
 
 (hydra-set-property 'hydra-eyebrowse-nav :verbosity 1)
 

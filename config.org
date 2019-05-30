@@ -11,4 +11,3 @@
 *** ivy/helm
 *** restclient
 * Nice to Haves
-** namespace
