@@ -30,13 +30,13 @@
   (setq max-mini-window-height 20)
   (setq which-key-popup-type 'side-window))
 
-(use-package smart-mode-line
-  :ensure t
-  :config
-  (setq sml/theme 'respectful)
-  (setq sml/shorten-directory t)
-  (setq sml/shorten-modes t)
-  (sml/setup))
+;; (use-package smart-mode-line
+;;   :ensure t
+;;   :config
+;;   (setq sml/theme 'respectful)
+;;   (setq sml/shorten-directory t)
+;;   (setq sml/shorten-modes t)
+;;   (sml/setup))
 
 (use-package restart-emacs :ensure t)
 
@@ -163,7 +163,7 @@
   (zoom-mode t)
   (setq zoom-size '(0.618 . 0.618)
 	zoom-ignored-major-modes '(which-key-mode hydra-mode)
-	zoom-ignored-buffer-name-regexps '(" *Help" " *which-key*")
+	zoom-ignored-buffer-name-regexps '("\\*Help\\*" "\\*which-key\\*")
 	zoom-minibuffer-preserve-layout t))
 
 (use-package indent-guide
@@ -249,11 +249,33 @@
   (use-package yasnippet-snippets :ensure t)
   (yas-global-mode t))
 
-(use-package minions :ensure t)
-
 (use-package moody
   :ensure t
   :config
+  (setq mode-line-format
+	'("%e"
+	  (:eval
+	   (format winum-format
+		   (winum-get-number-string)))
+	  mode-line-front-space
+	  mode-line-mule-info
+	  mode-line-client
+	  mode-line-modified
+	  mode-line-remote
+	  mode-line-frame-identification
+	  moody-mode-line-buffer-identification
+	  sml/pos-id-separator
+	  mode-line-position
+	  evil-mode-line-tag
+	  (vc-mode moody-vc-mode)
+	  sml/pre-modes-separator
+	  mode-line-modes
+	  mode-line-misc-info
+	  mode-line-end-spaces))
   (setq x-underline-at-descent-line t)
   (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode))
+  ;; (moody-replace-vc-mode)
+  (use-package minions :ensure t
+    :config
+    (minions-mode))
+  )

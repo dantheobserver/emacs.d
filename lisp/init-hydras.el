@@ -44,11 +44,11 @@
   "
     %s(string-join (hydra-utils//format-eyebrowse-config #'hydra-utils//sel-formatter) \" | \")
 
-^^^^ _n_: _n_ext           _0_: window config _0_
-^^^^ _p_: _p_rev           _1_: window config _1_
-^^^^ _c_: _c_reate config  _2_: window config _2_
-^^^^ _D_: _D_elete config  _3_: window config _3_
-^^^^ _r_: _r_ename config  _4_: window config _4_
+^^^^ _n_: _n_ext           _0_: window config _0_  _5_: window config _5_
+^^^^ _p_: _p_rev           _1_: window config _1_  _6_: window config _6_
+^^^^ _c_: _c_reate config  _2_: window config _2_  _7_: window config _7_
+^^^^ _D_: _D_elete config  _3_: window config _3_  _8_: window config _8_
+^^^^ _r_: _r_ename config  _4_: window config _4_  _9_: window config _9_
 ^^^^ _q_:_q_uit            " 
   ("n" eyebrowse-next-window-config)
   ("p" eyebrowse-prev-window-config)
@@ -61,6 +61,11 @@
   ("2" eyebrowse-switch-to-window-config-2)
   ("3" eyebrowse-switch-to-window-config-3)
   ("4" eyebrowse-switch-to-window-config-4)
+  ("5" eyebrowse-switch-to-window-config-5)
+  ("6" eyebrowse-switch-to-window-config-6)
+  ("7" eyebrowse-switch-to-window-config-7)
+  ("8" eyebrowse-switch-to-window-config-8)
+  ("9" eyebrowse-switch-to-window-config-9)
   ("<" ebl-move-left)
   (">" ebl-move-right)
   ("q" nil :color blue))

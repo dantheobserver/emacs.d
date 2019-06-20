@@ -1,6 +1,12 @@
 (require 'utils)
 (require 'init-hydras)
 
+(defmacro ilambda (spec arrow &rest body)
+  (declare (indent 2))
+  (if (eq arrow '=>)
+      `(lambda (,@args)
+	 ,@body)))
+
 (use-package general
   :ensure t
   :init
@@ -76,6 +82,12 @@
    :states 'normal
    "ESC" 'keyboard-escape-quit)
 
+  (defun eval-and-run-tests (type)
+    ;; (if (file-exists-p "test-helper.el")
+    ;; 	(load "test-helper.el"))
+    (eval-buffer)
+    (ert type))
+
   (general-evil-define-key '(normal visual emacs) elisp
     :prefix ","
     "e" '(:ignore t :which-key "eval")
@@ -84,6 +96,7 @@
     "ee" 'evil-adjust-eval-last-sexp
     "ef" 'eval-defun
     "ep" 'eval-print-last-sexp
+    "er" 'eval-region
 
     "d" '(:ignore t :which-key "debug")
     "di" 'edebug-instrument-function
@@ -92,7 +105,12 @@
 
     "p" '(:ignore t :which-key "pretty-print")
     "pe" 'pp-macroexpand-expression
-    "pl" 'pp-macroexpand-last-sexp)
+    "pl" 'pp-macroexpand-last-sexp
+    
+    "t" '(:ignore t :which-key "test")
+    ;; "tt" '((lambda () (interactive) (eval-and-run-tests t)) :which-key "run all tests")
+    "tt" '((lambda () (interactive) (eval-and-run-tests t)) :which-key "run all tests")
+    "tf" '((lambda () (interactive) (eval-and-run-tests :failed)) :which-key "run failed tests"))
 
   (general-evil-define-key 'normal '(clj cljs elisp racket)
     "C-k" 'kill-sexp
@@ -113,14 +131,16 @@
     "C-k" 'previous-history-element
     "C-j" 'next-history-element)
 
-  (general-define-key
-   :keymaps 'cider-repl
-   "C-j" 'cider-repl-next-input
-   "C-k" 'cider-repl-previous-input
-   "C-c C-o" 'cider-repl-clear-buffer
-   "RET" 'cider-repl-newline-and-indent
-   ;; "C-RET" 'cider-repl-newline-and-indent
-   ) 
+  (general-evil-define-key 'motion 'cider-repl
+    "C-j" 'cider-repl-next-input
+    "C-k" 'cider-repl-previous-input
+    "C-c C-o" 'cider-repl-clear-buffer
+    "RET" 'cider-repl-newline-and-indent
+    :prefix ","
+
+    "," 'cider-repl-handle-shortcut
+    ;; "C-RET" 'cider-repl-newline-and-indent
+    ) 
 
   (general-evil-define-key '(normal visual motion) '(miracle-interaction)
     :prefix ","
@@ -244,6 +264,7 @@
 
     "s" '(:ignore t :which-key "repl")
     "sn" 'cider-repl-set-ns
+    "sc" 'cider-connect-clj
     "ss" 'cider-switch-to-repl-buffer
     "sr" 'cider-restart
     "sq" 'cider-quit
@@ -311,6 +332,7 @@
 
     ;; ==apps==
     "a" '(:ignore t :which-key "apps")
+    "au" 'undo-tree-visualize
     "as" '(:ignore t :which-key "server")
     "ass" 'edit-server-start
     "asq" 'edit-server-done
@@ -393,6 +415,7 @@
     "bs" (utils//wkbinding "scratch-buffer"
 	   (switch-to-buffer "*scratch*"))
     "bm" '(view-echo-area-messages :which-key "messages buffer")
+    "bl" 'electric-buffer-list
 
     ;; ==projects==
     "p" '(:ignore t :which-key "projects")
