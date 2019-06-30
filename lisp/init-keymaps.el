@@ -108,8 +108,7 @@
     "pl" 'pp-macroexpand-last-sexp
     
     "t" '(:ignore t :which-key "test")
-    ;; "tt" '((lambda () (interactive) (eval-and-run-tests t)) :which-key "run all tests")
-    "tt" '((lambda () (interactive) (eval-and-run-tests t)) :which-key "run all tests")
+    "tt" '((lambda () (interactive) (eval-and-run-tests t)) :which-key "cider-test-run-tests")
     "tf" '((lambda () (interactive) (eval-and-run-tests :failed)) :which-key "run failed tests"))
 
   (general-evil-define-key 'normal '(clj cljs elisp racket)
@@ -135,10 +134,13 @@
     "C-j" 'cider-repl-next-input
     "C-k" 'cider-repl-previous-input
     "C-c C-o" 'cider-repl-clear-buffer
-    "RET" 'cider-repl-newline-and-indent
-    :prefix ","
+    "RET" 'cider-repl-newline-and-indent) 
 
+  (general-evil-define-key 'motion 'cider-repl
+    :prefix ","
     "," 'cider-repl-handle-shortcut
+    "s" '(:ignore t :which-key "switch")
+    "ss" 'cider-switch-to-last-clojure-buffer
     ;; "C-RET" 'cider-repl-newline-and-indent
     ) 
 
@@ -155,6 +157,11 @@
     "en" 'miracle-eval-namespace
 
     "j" 'miracle-jump)
+
+  (defun user/cider-eval-and-run-tests ()
+    (interactive)
+    (cider-eval-buffer)
+    (cider-test-run-test))
 
   (general-evil-define-key '(normal visual motion) '(clj cljs)
     :prefix ","
@@ -277,7 +284,7 @@
     "tp" 'cider-test-run-project-tests
     "tr" 'cider-test-rerun-failed-tests
     "ts" 'cider-test-run-ns-tests-with-filters
-    "tt" 'cider-test-run-test
+    "tt" 'user/cider-eval-and-run-tests
 
     ;; C-c C-.		cider-find-ns
     ;; C-c C-:		cider-find-keyword

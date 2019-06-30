@@ -72,6 +72,7 @@
   (let ((formatted-header (with-temp-buffer
 			    (let* ((count (length header))
 				   (margin 2)
+				   (line-length 80)
 				   (line-length (+ count (* 2 margin) 2)))
 			      ;; Top line
 			      (insert ";;")

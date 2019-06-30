@@ -20,6 +20,10 @@
        (cons config-num config-name)))
    (eyebrowse--get 'window-configs)))
 
+(defun hydra-utils//sel-formatter (cfg-str)
+  (propertize (format "[ %s ]" cfg-str)
+	      'face '(bold 'warning)))
+
 (defun hydra-utils//format-eyebrowse-config (sel-formatter-f)
   (let ((cur-slot (eyebrowse--get 'current-slot)))
     (mapcar
@@ -28,17 +32,11 @@
 	      (config-name (cdr config))
 	      (config-str (if (string-empty-p config-name)
 			      (number-to-string config-idx)
-			    config-name)))
+			    (format "%s:%s" config-idx config-name))))
 	 (if (eq cur-slot config-idx)
-	     (concat (funcall sel-formatter-f (cons config-idx config-str)))
+	     (concat (funcall sel-formatter-f config-str))
 	   config-str)))
      (hydra-utils//eyebrowse-list))))
-
-
-(defvar hydra-utils//bracket-format "[ %s:%s ]")
-(defun hydra-utils//sel-formatter (cfg)
-  (propertize (format hydra-utils//bracket-format (car cfg) (cdr cfg))
-	      'face '(bold 'warning)))
 
 (defhydra hydra-eyebrowse-nav (:hint nil)
   "

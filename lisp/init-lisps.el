@@ -4,8 +4,9 @@
 (use-package edebug
   :after 'evil 
   :config
-  (add-hook 'edebug-setup-hook 'normal-mode)
-  (add-hook 'edebug-setup-hook 'evil-execute-in-emacs-state))
+  ;; (add-hook 'edebug-setup-hook 'normal-mode)
+  ;; (add-hook 'edebug-setup-hook 'evil-execute-in-emacs-state)
+  (add-hook 'edebug-setup-hook 'evil-normalize-keymaps))
 
 (use-package clojure-mode :ensure t
   :config
@@ -15,15 +16,16 @@
   (use-package miracle
     :load-path "site-lisp/miracle"
     :config
-    (add-hook 'clojure-mode-hook 'clojure-enable-miracle)
-    ))
+    (add-hook 'clojure-mode-hook 'clojure-enable-miracle)))
 
 (use-package racket-mode :ensure t
   :pin "melpa-unstable")
 
 (use-package cider :ensure 
   :hook ((clojure-mode clojurescript-mode) . cider-mode)
-  :pin "melpa")
+  :pin "melpa"
+  :config
+  (add-hook 'cider--debug-mode-hook 'evil-normalize-keymaps))
 
 (use-package clj-refactor
   :ensure t

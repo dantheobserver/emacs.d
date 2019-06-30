@@ -30,14 +30,6 @@
   (setq max-mini-window-height 20)
   (setq which-key-popup-type 'side-window))
 
-;; (use-package smart-mode-line
-;;   :ensure t
-;;   :config
-;;   (setq sml/theme 'respectful)
-;;   (setq sml/shorten-directory t)
-;;   (setq sml/shorten-modes t)
-;;   (sml/setup))
-
 (use-package restart-emacs :ensure t)
 
 ;;``^````^``;;
@@ -54,12 +46,7 @@
   :config
   (evil-mode 1)
   (global-set-key (kbd "C-u") 'evil-scroll-up)
-  ;;(evil-make-overriding-map cider--debug-mode-map 'normal)
-  ;; (add-hook 'iedit-mode-keymap #'evil-normalize-keymaps)
-  (evil-normalize-keymaps)
-  ;; (evil-set-initial-state 'iedit-mode 'normal)
-  (evil-set-initial-state 'cider--debug-mode 'normal)
-
+  (add-hook 'iedit-mode-keymap #'evil-normalize-keymaps)
   
   ;; ==Navigation==
   (use-package counsel
@@ -241,7 +228,7 @@
 (use-package emojify
   :ensure t
   :config
-  (global-emojify-mode t))
+  (with-eval-after-load 'org (emojify-mode t)))
 
 (use-package yasnippet
   :ensure t
