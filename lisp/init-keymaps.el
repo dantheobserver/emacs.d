@@ -40,19 +40,19 @@
   (general-evil-define-key '(motion insert) 'minibuffer-local-map
     "C-y" 'evil-paste-after)
 
-  ;;*visual state
+  ;; ==visual state==
   (general-define-key
    :states 'visual
    "s" 'evil-surround-region)
 
-  ;;*motion state
+  ;; ==motion state==
   (general-define-key
    :states '(motion)
    ";" 'evil-ex
    ":" 'evil-repeat-find-char
    "C-u" 'evil-scroll-up)
 
-  ;;*global
+  ;; ==global==
   (general-evil-define-key 'insert '(global minibuffer-inactive-mode-map)
     "C-SPC" 'company-complete
     "C-h" 'counsel-up-directory
@@ -61,23 +61,23 @@
     "C-k" 'ivy-previous-line
     "C-c C-o" 'ivy-occur)
 
-  ;;*company
+  ;; ==company==
   (general-define-key
    :keymaps 'company-active-map
    "C-j" 'company-select-next
    "C-k" 'company-select-previous)
 
-  ;;*stacktrace
+  ;; ==stacktrace==
 
   (general-evil-define-key 'normal 'clj-stacktrace
     "q" 'quit-window)
 
-  ;;*text-mode
+  ;; ==text-mode==
   (general-evil-define-key 'normal 'text-mode-map
     :prefix ","
     "," 'with-editor-finish
     "a" 'with-editor-cancel)
-
+  
   (general-define-key
    :states 'normal
    "ESC" 'keyboard-escape-quit)
@@ -115,7 +115,7 @@
     "C-k" 'kill-sexp
     "C-S-k" 'kill-line)
 
-  ;;*Racket
+  ;; ==Racket==
   (general-evil-define-key '(normal visual emacs) 'racket
     :prefix ","
     "r" 'racket-run
@@ -180,7 +180,7 @@
     "ee" 'cider-eval-last-sexp
     "ef" 'cider-eval-defun-at-point
     "en" 'cider-eval-ns-form
-    "ep" 'cider-eval-sexp-at-point-in-context
+    "ep" 'cider-eval-print-last-sexp
     "er" 'cider-eval-region
     "es" 'cider-eval-sexp-at-point
     "eu" 'cider-undef
@@ -216,63 +216,11 @@
     ;; "r" '(:ignore t :which-key "refactor")
     "r" 'hydra-cljr-code-menu/hydra-cljr-help-menu/body-and-exit
 
-    ;; "r" '(:ignore t :which-key "refactor")
-    ;; cljr-add-declaration
-    ;; cljr-add-import-to-ns
-    ;; cljr-add-keybindings-with-modifier
-    ;; cljr-add-keybindings-with-prefix
-    ;; cljr-add-missing-libspec
-    ;; cljr-add-project-dependency
-    ;; cljr-add-require-to-ns
-    ;; cljr-add-stubs
-    ;; cljr-add-use-to-ns
-    ;; cljr-change-function-signature
-    ;; cljr-clean-ns
-    ;; cljr-create-fn-from-example
-    ;; cljr-cycle-if
-    ;; cljr-cycle-privacy
-    ;; cljr-cycle-thread
-    ;; cljr-describe-refactoring
-    ;; cljr-destructure-keys
-    ;; cljr-expand-let
-    ;; cljr-extract-constant
-    ;; cljr-extract-def
-    ;; cljr-extract-function
-    ;; cljr-find-usages
-    ;; cljr-hotload-dependency
-    ;; cljr-inline-symbol
-    ;; cljr-introduce-let
-    ;; cljr-move-form
-    ;; cljr-move-to-let
-    ;; cljr-project-clean
-    ;; cljr-promote-function
-    ;; cljr-raise-sexp
-    ;; cljr-reify-to-defrecord
-    ;; cljr-remove-let
-    ;; cljr-rename-file
-    ;; cljr-rename-file-or-dir
-    ;; cljr-rename-symbol
-    ;; cljr-require-macro
-    ;; cljr-show-changelog
-    ;; cljr-slash
-    ;; cljr-sort-project-dependencies
-    ;; cljr-splice-sexp-killing-backward
-    ;; cljr-splice-sexp-killing-forward
-    ;; cljr-stop-referring
-    ;; cljr-thread
-    ;; cljr-thread-first-all
-    ;; cljr-thread-last-all
-    ;; cljr-toggle-debug-mode
-    ;; cljr-unwind
-    ;; cljr-unwind-all
-    ;; cljr-update-project-dependencies
-    ;; cljr-update-project-dependency
-    ;; cljr-version
-
     "s" '(:ignore t :which-key "repl")
     "sn" 'cider-repl-set-ns
     "sc" 'cider-connect-clj
     "ss" 'cider-switch-to-repl-buffer
+    "sp" 'cider-pprint-eval-last-sexp
     "sr" 'cider-restart
     "sq" 'cider-quit
 

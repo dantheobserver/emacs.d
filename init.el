@@ -46,7 +46,7 @@
   :config
   (evil-mode 1)
   (global-set-key (kbd "C-u") 'evil-scroll-up)
-  (add-hook 'iedit-mode-keymap #'evil-normalize-keymaps)
+  ;; (add-hook 'iedit-mode-keymap 'evil-normalize-keymaps)
   
   ;; ==Navigation==
   (use-package counsel
@@ -228,7 +228,7 @@
 (use-package emojify
   :ensure t
   :config
-  (with-eval-after-load 'org (emojify-mode t)))
+  (add-hook 'org-mode-hook emojify-mode))
 
 (use-package yasnippet
   :ensure t

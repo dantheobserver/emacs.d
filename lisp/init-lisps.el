@@ -25,7 +25,13 @@
   :hook ((clojure-mode clojurescript-mode) . cider-mode)
   :pin "melpa"
   :config
-  (add-hook 'cider--debug-mode-hook 'evil-normalize-keymaps))
+  (setq cider-pprint-fn 'puget)
+  ;; (evil-set-initial-state 'cider--debug-mode 'emacs)
+  (add-hook 'cider--debug-mode-hook #'evil-emacs-state)
+  (evil-set-initial-state 'cider-test-report-mode 'emacs)
+  (evil-set-initial-state 'cider-classpath-mode 'emacs)
+  (evil-set-initial-state 'cider-stacktrace-mode 'normal)
+  )
 
 (use-package clj-refactor
   :ensure t
