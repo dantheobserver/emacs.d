@@ -74,7 +74,8 @@
 
   ;; ==text-mode==
   (general-evil-define-key 'normal 'text-mode-map
-    :prefix ","
+    :prefix
+    ","
     "," 'with-editor-finish
     "a" 'with-editor-cancel)
   

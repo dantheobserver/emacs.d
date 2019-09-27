@@ -16,6 +16,7 @@
         ("gnu" . 10)
         ("melpa-unstable" . 0)))
 (add-to-list 'package-pinned-packages '(use-package . "melpa-unstable") t)
+(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
 (package-initialize) ; guess what this one does ?
 

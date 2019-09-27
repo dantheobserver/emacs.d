@@ -20,7 +20,9 @@
 (require 'init-common)
 (require 'init-hydras)
 (require 'init-lisps)
+(require 'init-rust)
 (require 'init-keymaps)
+(require 'init-themes)
 
 (use-package which-key
   :ensure t
@@ -199,14 +201,6 @@
   :ensure t
   :config
   (use-package evil-magit :ensure t))
-
-(use-package spacemacs-theme
-  :pin "melpa-unstable"
-  :defer t ;; Does not require
-  :ensure t
-  :init (load-theme 'spacemacs-dark t)
-  :config
-  (spacemacs-theme-org-highlight t))
 
 (use-package org-bullets
   :ensure t
