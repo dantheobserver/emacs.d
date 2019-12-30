@@ -47,7 +47,9 @@
       (kill-ring-save (line-beginning-position) (line-end-position))
       (comment-line 1)
       (yank)
-      (beginning-of-line))))
+      (newline)
+      (previous-line)
+      (end-of-line))))
 
 
 (defun utils//symbol-concat (&rest values)
@@ -66,6 +68,26 @@
 	(winner-undo)
       (ace-maximize-window))))
 
+(defun utils//insert-line-numbers (start end text)
+  (interactive (if (region-active-p)
+		   (list (region-beginning)
+			 (region-end)
+			 (buffer-substring-no-properties (region-beginning) (region-end)))
+		 (list (point-min)
+		       (point-max)
+		       (buffer-substring-no-properties (point-min) (point-max)))))
+  (let* ((line 0) 
+	 (lines (split-string text "\n"))
+	 (numbered-lines (mapcar (lambda (current-line)
+				   (setq line (+ 1 line))
+				   (if (zerop (length (string-trim current-line)))
+				       current-line
+				     (concatenate 'string (number-to-string line) ". " current-line)))
+				 lines)))
+    (save-excursion 
+      (delete-region start end)
+      (insert
+       (string-join numbered-lines "\n")))))
 
 (defun utils/code-header (header)
   (interactive "sEnter Header: ")

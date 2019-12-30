@@ -48,6 +48,7 @@
   :config
   (evil-mode 1)
   (global-set-key (kbd "C-u") 'evil-scroll-up)
+  ;; (setq evil-jumps-cross-buffers)
   ;; (add-hook 'iedit-mode-keymap 'evil-normalize-keymaps)
   
   ;; ==Navigation==
@@ -206,23 +207,20 @@
   :ensure t
   :hook (org-mode . org-bullets-mode)
   :config
+  (setq org-bullets-bullet-list '("🐙" "💩" "🎃" "🍁" "◉" "○" "✸" "✿"))
+  (setq org-agenda-files '("~/gtd/inbox.org"
+                           "~/gtd/gtd.org"
+                           "~/gtd/tickler.org"))
 
-  (setq org-bullets-bullet-list '("🐙" "💩" "🎃" "🍁" "◉" "○" "✸" "✿")))
-
-(setq org-agenda-files '("~/gtd/inbox.org"
-                         "~/gtd/gtd.org"
-                         "~/gtd/tickler.org"))
-
-(setq org-capture-templates '(("t" "Todo [inbox]" entry
-                               (file+headline "~/gtd/inbox.org" "Tasks")
-                               "* TODO %i%?")
-                              ("T" "Tickler" entry
-                               (file+headline "~/gtd/tickler.org" "Tickler")
-                               "* %i%? \n %U")))
+  (setq org-capture-templates '(("t" "Todo [inbox]" entry
+				 (file+headline "~/gtd/inbox.org" "Tasks")
+				 "* TODO %i%?")
+				("T" "Tickler" entry
+				 (file+headline "~/gtd/tickler.org" "Tickler")
+				 "* %i%? \n %U"))))
 (use-package emojify
   :ensure t
-  :config
-  (add-hook 'org-mode-hook emojify-mode))
+  :hook (org-mode . emojify-mode))
 
 (use-package yasnippet
   :ensure t
@@ -260,3 +258,6 @@
     :config
     (minions-mode))
   )
+
+(use-package emmet-mode :ensure t
+  :hook (css-mode html-mode mhtml-mode))

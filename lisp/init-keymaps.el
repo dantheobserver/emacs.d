@@ -33,12 +33,24 @@
     "C-:"'yas-insert-snippet
     "M-u" 'revert-buffer)
 
+  (general-define-key
+   :states
+   'iedit
+   :keymaps
+   'iedit-mode-keymap
+   "TAB" 'iedit-toggle-selection)
+
   (general-evil-define-key '(normal instert motion emacs) 'ielm
     "C-j" 'comint-next-input
     "C-k" 'comint-previous-input)
 
   (general-evil-define-key '(motion insert) 'minibuffer-local-map
     "C-y" 'evil-paste-after)
+
+  (general-define-key
+   :keymaps
+   'ivy-minibuffer-map
+   "TAB" 'ivy-call)
 
   ;; ==visual state==
   (general-define-key
@@ -65,7 +77,8 @@
   (general-define-key
    :keymaps 'company-active-map
    "C-j" 'company-select-next
-   "C-k" 'company-select-previous)
+   "C-k" 'company-select-previous
+   "C-w" 'company-filter-candidates)
 
   ;; ==stacktrace==
 
@@ -137,6 +150,10 @@
     "C-c C-o" 'cider-repl-clear-buffer
     "RET" 'cider-repl-newline-and-indent) 
 
+  (general-evil-define-key 'insert 'cider-repl
+    "RET" 'cider-repl-newline-and-indent
+    "C-RET" 'cider-eval)
+
   (general-evil-define-key 'motion 'cider-repl
     :prefix ","
     "," 'cider-repl-handle-shortcut
@@ -178,6 +195,11 @@
     "e" '(:ignore t :which-key "eval")
     "eb" 'cider-eval-buffer
     "ec" 'cider-eval-last-sexp-in-context
+    "eC" '((lambda ()
+	     (interactive)
+	     (setq cider-previous-eval-context nil)
+	     (cider-eval-last-sexp-in-context))
+	   :which-key "cider-eval-last-sexp-in-context (clear)")
     "ee" 'cider-eval-last-sexp
     "ef" 'cider-eval-defun-at-point
     "en" 'cider-eval-ns-form
@@ -376,6 +398,7 @@
     ;; ==projects==
     "p" '(:ignore t :which-key "projects")
     "pf" 'counsel-projectile-find-file
+    "pF" 'projectile-find-file-dwim
     "pp" 'counsel-projectile-switch-project
     "pI" 'projectile-invalidate-cache
 
@@ -419,8 +442,9 @@
     "qq" '(save-buffers-kill-terminal :which-key "save & quit")
     "qr" 'restart-emacs
 
-    ;; ==text==
+    ;; ==text/toggle/themes==
     "t" '(:ignore t :which-key "text")
+    "ts" 'counsel-load-theme
 
     ;; ==transpose==
     "tt" '(:ignore t :which-key "transpose")

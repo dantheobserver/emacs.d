@@ -4,12 +4,11 @@
  package-enable-at-startup nil) ; tells emacs not to load any packages before starting up
 ;; the following lines tell emacs where on the internet to look up
 ;; for new packages.
-(setq package-archives '(;;("org" . "http://orgmode.org/elpa/")
+(setq package-archives '(("org" . "http://orgmode.org/elpa/")
                          ("melpa" . "https://stable.melpa.org/packages/")
                          ("melpa-unstable" . "https://melpa.org/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")
-                         ;;("marmalade" . "http://marmalade-repo.org/packages/")
-                         ))
+			 ("marmalade" . "http://marmalade-repo.org/packages/")))
 
 (setq package-archive-priorities
       '(("melpa" . 50)
@@ -25,6 +24,12 @@
   (package-refresh-contents) ; updage packages archive
   (package-install 'use-package)) ; and install the most recent version of use-package
 
-(require 'use-package) ; guess what this one does too ?
+(eval-when-compile
+  (require 'use-package))
+
+(require 'bind-key)
+
+(setq use-package-always-ensure t)
+;; (require 'use-package) ; guess what this one does too ?
 
 (provide 'bootstrap-use-package)
