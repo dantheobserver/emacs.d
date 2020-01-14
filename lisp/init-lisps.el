@@ -26,8 +26,12 @@
   :pin "melpa"
   :config
   (setq cider-pprint-fn 'puget)
+  (setq cider-test-show-report-on-success nil)
+  (setq cider-test-infer-test-ns 'cider-test-default-test-ns-fn)
   ;; (evil-set-initial-state 'cider--debug-mode 'emacs)
   (add-hook 'cider--debug-mode-hook #'evil-emacs-state)
+  (add-hook 'cider-test-report-mode-hook (lambda ()
+					   (setq-local truncate-lines 1)))
   ;; (evil-set-initial-state 'cider-test-report-mode 'emacs)
   ;; (evil-set-initial-state 'cider-classpath-mode 'emacs)
   ;; (evil-set-initial-state 'cider-stacktrace-mode 'normal)

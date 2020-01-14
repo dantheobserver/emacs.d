@@ -68,53 +68,57 @@
 	(winner-undo)
       (ace-maximize-window))))
 
-(defun utils//insert-line-numbers (start end text)
-  (interactive (if (region-active-p)
-		   (list (region-beginning)
-			 (region-end)
-			 (buffer-substring-no-properties (region-beginning) (region-end)))
-		 (list (point-min)
-		       (point-max)
-		       (buffer-substring-no-properties (point-min) (point-max)))))
+(defun utils//insert-line-numbers (start end text insert-extra-line)
+  (interactive
+   (let ((begin (if (region-active-p) (region-beginning) (point-min)))
+	 (end (if (region-active-p) (region-end) (point-max)))
+	 (insert-extra-line
+	  (y-or-n-p "insert extra line")))
+     (list begin
+	   end
+	   (buffer-substring-no-properties begin end)
+	   insert-extra-line)))
   (let* ((line 0) 
 	 (lines (split-string text "\n"))
 	 (numbered-lines (mapcar (lambda (current-line)
 				   (setq line (+ 1 line))
 				   (if (zerop (length (string-trim current-line)))
 				       current-line
-				     (concatenate 'string (number-to-string line) ". " current-line)))
+				     (concatenate 'string
+						  (number-to-string line)
+						  ". "
+						  current-line)))
 				 lines)))
     (save-excursion 
       (delete-region start end)
-      (insert
-       (string-join numbered-lines "\n")))))
+      (insert (string-join lines (if insert-extra-line "\n\n" "\n"))))))
 
 (defun utils/code-header (header)
   (interactive "sEnter Header: ")
-  (let ((formatted-header (with-temp-buffer
-			    (let* ((count (length header))
-				   (margin 2)
-				   (line-length 80)
-				   (line-length (+ count (* 2 margin) 2)))
-			      ;; Top line
-			      (insert ";;")
-			      (insert-char ?\= line-length)
-			      (insert "\n")
-			      ;; Title
-			      (insert ";;=")
-			      (insert-char ?\s margin)
-			      (insert header)
-			      (insert-char ?\s margin)
-			      (insert "=\n")
-			      (insert ";;")
-			      (insert-char ?\= line-length)
-			      (insert "\n")
-			      ;; (message (buffer-string))
-			      (buffer-string)
-			      ))))
-    (save-excursion
-      (beginning-of-line)
-      (insert formatted-header))))
+  (let (save-excursion
+	 (beginning-of-line)
+	 (insert formatted-header))
+    ((formatted-header (with-temp-buffer
+			 (let* ((count (length header))
+				(margin 2)
+				(line-length 80)
+				(line-length (+ count (* 2 margin) 2)))
+			   ;; Top line
+			   (insert ";;")
+			   (insert-char ?\= line-length)
+			   (insert "\n")
+			   ;; Title
+			   (insert ";;=")
+			   (insert-char ?\s margin)
+			   (insert header)
+			   (insert-char ?\s margin)
+			   (insert "=\n")
+			   (insert ";;")
+			   (insert-char ?\= line-length)
+			   (insert "\n")
+			   ;; (message (buffer-string))
+			   (buffer-string)
+			   ))))))
 
 
 (provide 'utils)

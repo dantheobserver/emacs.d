@@ -82,7 +82,8 @@
 
   ;; ==stacktrace==
 
-  (general-evil-define-key 'normal 'clj-stacktrace
+  (general-evil-define-key 'normal '(clj-stacktrace
+				     cider-test-report-mode-map)
     "q" 'quit-window)
 
   ;; ==text-mode==
@@ -307,6 +308,7 @@
     "4" 'winum-select-window-4
     "5" 'winum-select-window-5
     "6" 'winum-select-window-6
+    "u" 'universal-argument
 
     ;; ==apps==
     "a" '(:ignore t :which-key "apps")
@@ -370,7 +372,11 @@
 	   (dired "."))
     "fD" 'delete-file
     "fs" 'save-buffer
-    "fR" 'rename-file
+    "fR" (utils//wkbinding "rename-file"
+	   (let ((filename (buffer-file-name)))
+	     (rename-file filename
+			  (read-file-name
+			   (format "rename file %s to :" filename)))))
     "ff" 'counsel-find-file
     "fF" 'counsel-git
     "fg" 'counsel-git

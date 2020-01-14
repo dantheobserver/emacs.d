@@ -256,8 +256,7 @@
   ;; (moody-replace-vc-mode)
   (use-package minions :ensure t
     :config
-    (minions-mode))
-  )
+    (minions-mode)))
 
 (use-package emmet-mode :ensure t
   :hook (css-mode html-mode mhtml-mode))
