@@ -167,7 +167,10 @@
   :config
   (popwin-mode 1)
   (add-to-list 'popwin:special-display-config '("*Warnings*" :noselect t))
-  (add-to-list 'popwin:special-display-config '("*Messages*"))
+  (add-to-list 'popwin:special-display-config '(cider-repl-mode
+						:dedicated t
+						:position right))
+  (add-to-list 'popwin:special-display-config '("*Backtrace*" :noselect t))
   (add-to-list 'popwin:special-display-config '("*Backtrace*" :noselect t))
   (add-to-list 'popwin:special-display-config 'calculator-mode))
 

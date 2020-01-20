@@ -65,7 +65,7 @@
    "C-u" 'evil-scroll-up)
 
   ;; ==global==
-  (general-evil-define-key 'insert '(global minibuffer-inactive-mode-map)
+  (general-evil-define-key 'insert '(minibuffer-inactive-mode-map)
     "C-SPC" 'company-complete
     "C-h" 'counsel-up-directory
     "C-l" 'counsel-down-directory
@@ -75,7 +75,7 @@
 
   ;; ==company==
   (general-define-key
-   :keymaps 'company-active-map
+   :keymaps '(company-active-map)
    "C-j" 'company-select-next
    "C-k" 'company-select-previous
    "C-w" 'company-filter-candidates)
@@ -327,6 +327,11 @@
     "s" '(:ignore t :which-key "search")
     "sb" 'counsel-bookmark
     "ss" 'counsel-grep-or-swiper
+    "sS" (utils//wkbinding "swiper"
+	   (let ((initial (if (region-active-p)
+			      (buffer-substring-no-properties (region-beginning) (region-end))
+			    (word-at-point))))
+	     (counsel-grep-or-swiper initial)))
     "sa" 'swiper-avy
     "sh" (utils//wkbinding "search headers"
 	   (swiper "^.*;;.?==.*"))
