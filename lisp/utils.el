@@ -51,6 +51,24 @@
       (previous-line)
       (end-of-line))))
 
+(defun utils//comment-line ()
+  (interactive)
+  (save-excursion
+    (if (region-active-p)
+	(let* ((beg (region-beginning))
+	       (end (region-end))
+	       (lines (split-string (buffer-substring-no-properties beg-end) "\n"))
+	       (lines-commented? (reduce (lambda (memo line)
+					   (and memo (comment-only-p line)))
+					 lines
+					 :initial-value true)))
+	  (if lines-commented?
+	      (uncomment-region beg end)
+	    (comment-region beg end)))
+      (comment-line 1))))
+
+;; (defun utils//comment-form ()
+;;   )
 
 (defun utils//symbol-concat (&rest values)
   (let ((stringified-values
@@ -63,10 +81,10 @@
 
 (defun utils//maximize-restore-window ()
   (interactive)
-  (let ((window-count (length  (window-list))))
+  (let ((window-count (length (window-list))))
     (if (= window-count 1)
 	(winner-undo)
-      (ace-maximize-window))))
+      (delete-other-windows))))
 
 (defun utils//insert-line-numbers (start end text insert-extra-line)
   (interactive

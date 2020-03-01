@@ -24,6 +24,7 @@
   (add-to-list 'general-keymap-aliases '(clj-stacktrace . cider-stacktrace-mode-map))
   (add-to-list 'general-keymap-aliases '(help . help-mode-map))
   (add-to-list 'general-keymap-aliases '(global . global-map))
+  (add-to-list 'general-keymap-aliases '(evil-org . evil-org-mode-map))
 
   :config
   (general-evil-define-key '(normal visual motion) 'override
@@ -65,7 +66,7 @@
    "C-u" 'evil-scroll-up)
 
   ;; ==global==
-  (general-evil-define-key 'insert '(minibuffer-inactive-mode-map)
+  (general-evil-define-key 'insert '(minibuffer-inactive-mode-map override)
     "C-SPC" 'company-complete
     "C-h" 'counsel-up-directory
     "C-l" 'counsel-down-directory
@@ -73,9 +74,29 @@
     "C-k" 'ivy-previous-line
     "C-c C-o" 'ivy-occur)
 
+  (general-evil-define-key 'normal 'evil-org
+    "H" 'org-shiftleft
+    "J" 'org-shiftdown
+    "K" 'org-shiftup
+    "L" 'org-shiftright
+    "TAB" 'org-cycle)
+
+  (general-evil-define-key 'normal 'evil-org
+    :prefix ","
+    "c" '(:ignore t :which-key "clock")
+    "ci" 'org-clock-in
+    "co" 'org-clock-out
+    "cc" 'org-clock-cancel
+    "cd" 'org-clock-display
+
+    "p" '(:ignore t :which-key "pomodoro")
+    "pp" 'org-pomodoro
+    "pk" 'org-pomodoro-kill
+    )
+
   ;; ==company==
   (general-define-key
-   :keymaps '(company-active-map)
+   :keymaps '(company-active-map override)
    "C-j" 'company-select-next
    "C-k" 'company-select-previous
    "C-w" 'company-filter-candidates)
@@ -415,7 +436,8 @@
 
     ;; ==comment==
     "c" '(:ignore t :which-key "comment")
-    "cl" 'comment-line
+    "cl" (utils//wkbinding "comment-line"
+	   (utils//comment-line))
     "cy" (utils//wkbinding "copy-and-comment"
 	   (utils//comment-and-yank))
 

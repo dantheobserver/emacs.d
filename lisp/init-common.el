@@ -27,9 +27,11 @@
 (setq kill-ring-max 150)
 (setq initial-scratch-message nil)
 (defalias 'yes-or-no-p 'y-or-n-p)
+(add-hook 'org-mode-hook 'auto-fill-mode)
 
 ;; Desktop Save Mode
 (desktop-save-mode 1)
+(setq desktop-load-locked-desktop t)
 (add-to-list 'desktop-globals-to-save 'ivy-views)
 
 ;;line-numbers

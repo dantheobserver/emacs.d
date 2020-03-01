@@ -56,6 +56,7 @@
     :ensure t
     :config
     (ivy-mode 1)
+    (setq ivy-count-format "(%d/%d) ")
     (setq counsel-grep-base-command
 	  "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
     (setq ivy-use-selectable-prompt t)
@@ -69,8 +70,9 @@
       :ensure t
       :config
       (projectile-mode +1)
-      (setq projectile-indexing-method 'hybrid)
       (setq projectile-sort-order 'recentf)
+      (setq projectile-enable-caching t)
+      (setq projectile-indexing-method 'hybrid)
       (use-package counsel-projectile :ensure t)))
 
   (use-package dash :ensure t)
@@ -128,13 +130,17 @@
     :ensure t)
 
   (use-package evil-org
-    :ensure t
-    :config
-    (evil-define-key 'normal evil-org-mode-map (kbd "H") 'org-shiftleft)
-    (evil-define-key 'normal evil-org-mode-map (kbd "J") 'org-shiftdown)
-    (evil-define-key 'normal evil-org-mode-map (kbd "K") 'org-shiftup)
-    (evil-define-key 'normal evil-org-mode-map (kbd "L") 'org-shiftright)))
+    :after org
+    :ensure t))
 
+(use-package org-pomodoro
+  :after org
+  :ensure t)
+
+(use-package discover
+  :ensure t
+  :init
+  (global-discover-mode 1))
 
 (use-package eyebrowse
   :ensure t

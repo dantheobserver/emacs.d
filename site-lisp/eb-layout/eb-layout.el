@@ -132,6 +132,21 @@
     (ebl--shift-position (not ())
 			 cur-slot (1+ cur-slot))))
 
+(defun ebl-rename-to-current-project ()
+  (interactive)
+  (eyebrowse-rename-window-config (ebl--get-current-slot) (projectile-project-name)))
+
+(defun ebl-add-project-layout (&optional auto-save) 
+  (interactive)
+  (ivy-read
+   "Create Project Layout: "
+   (projectile-relevant-known-projects)
+   :action
+   (lambda (project)
+     (interactive)
+     (eyebrowse-create-window-config)
+     (counsel-projectile-switch-project-by-name project))))
+
 ;;TODO: Delete to right
 ;;TODO: Delete to left
 ;;TODO: Balance on deletion
