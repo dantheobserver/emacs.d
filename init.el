@@ -52,37 +52,34 @@
   ;; (add-hook 'iedit-mode-keymap 'evil-normalize-keymaps)
   
   ;; ==Navigation==
-  (use-package counsel
+  (use-package smex
     :ensure t
     :config
-    (ivy-mode 1)
-    (setq ivy-count-format "(%d/%d) ")
-    (setq counsel-grep-base-command
-	  "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
-    (setq ivy-use-selectable-prompt t)
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t)
-    (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
-    (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
-    (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . ""))
-    
-    (use-package projectile
+    (use-package counsel
       :ensure t
       :config
-      (projectile-mode +1)
-      (setq projectile-sort-order 'recentf)
-      (setq projectile-enable-caching t)
-      (setq projectile-indexing-method 'hybrid)
-      (use-package counsel-projectile :ensure t)))
+      (ivy-mode 1)
+      (setq ivy-count-format "(%d/%d) ")
+      (setq counsel-grep-base-command
+	    "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
+      (setq ivy-use-selectable-prompt t)
+      (setq ivy-use-virtual-buffers t)
+      (setq enable-recursive-minibuffers t)
+      (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
+      (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
+      (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . ""))
+      
+      (use-package projectile
+	:ensure t
+	:config
+	(projectile-mode +1)
+	(setq projectile-sort-order 'recentf)
+	(setq projectile-enable-caching t)
+	(setq projectile-indexing-method 'hybrid)
+	(use-package counsel-projectile :ensure t))))
 
   (use-package dash :ensure t)
   (use-package s :ensure t)
-  ;; (use-package origami
-  ;;   ;; :after '(dash s)
-  ;;   ;; :ensure t
-  ;;   :hook (prog-mode . origami-mode)
-  ;;   (origami-mode))
-
   (use-package expand-region :ensure t)
   (use-package evil-iedit-state
     ;; :ensure t
@@ -123,7 +120,7 @@
     (setq evil-collection-mode-list nil)
     (setq evil-collections-setup-minibuffer t)
     :config
-    (evil-collection-init '(minibuffer ivy dired magit)))
+    (evil-collection-init '(minibuffer ivy dired magit neotree elisp-mode slime)))
 
   (use-package evil-leader
     :after org
@@ -131,16 +128,16 @@
 
   (use-package evil-org
     :after org
-    :ensure t))
+    :ensure t)
 
-(use-package org-pomodoro
-  :after org
-  :ensure t)
+  (use-package org-pomodoro
+    :after org
+    :ensure t)
 
-(use-package discover
-  :ensure t
-  :init
-  (global-discover-mode 1))
+  (use-package discover
+    :ensure t
+    :init
+    (global-discover-mode 1)))
 
 (use-package eyebrowse
   :ensure t
@@ -173,9 +170,6 @@
   :config
   (popwin-mode 1)
   (add-to-list 'popwin:special-display-config '("*Warnings*" :noselect t))
-  (add-to-list 'popwin:special-display-config '(cider-repl-mode
-						:dedicated t
-						:position right))
   (add-to-list 'popwin:special-display-config '("*Backtrace*" :noselect t))
   (add-to-list 'popwin:special-display-config '("*Backtrace*" :noselect t))
   (add-to-list 'popwin:special-display-config 'calculator-mode))
@@ -269,3 +263,13 @@
 
 (use-package emmet-mode :ensure t
   :hook (css-mode html-mode mhtml-mode))
+
+(use-package all-the-icons
+  :ensure t
+  :pin "melpa"
+  :config
+  (use-package neotree
+    :ensure t
+    :config
+    (setq neo-theme (if (display-graphic-p) 'icons 'nerd))))
+

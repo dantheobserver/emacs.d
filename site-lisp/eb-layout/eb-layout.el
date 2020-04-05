@@ -136,14 +136,19 @@
   (interactive)
   (eyebrowse-rename-window-config (ebl--get-current-slot) (projectile-project-name)))
 
+(defun ebl-list-projects ()
+  (seq-filter (lambda (project-path)
+		(string-match-p "^\~/" project-path))
+	      (projectile-relevant-known-projects)))
+
 (defun ebl-add-project-layout (&optional auto-save) 
   (interactive)
   (ivy-read
    "Create Project Layout: "
-   (projectile-relevant-known-projects)
+   (ebl-list-projects)
    :action
    (lambda (project)
-     (interactive)
+     ;; (interactive)
      (eyebrowse-create-window-config)
      (counsel-projectile-switch-project-by-name project))))
 

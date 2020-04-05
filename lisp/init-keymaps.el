@@ -28,18 +28,12 @@
 
   :config
   (general-evil-define-key '(normal visual motion) 'override
+    ;;"ESC" 'keyboard-escape-quit
     "M-x" 'counsel-M-x
     "C-;" 'evil-iedit-state/iedit-mode
     "C-'" 'eyebrowse-last-window-config
     "C-:"'yas-insert-snippet
     "M-u" 'revert-buffer)
-
-  (general-define-key
-   :states
-   'iedit
-   :keymaps
-   'iedit-mode-keymap
-   "TAB" 'iedit-toggle-selection)
 
   (general-evil-define-key '(normal instert motion emacs) 'ielm
     "C-j" 'comint-next-input
@@ -66,7 +60,7 @@
    "C-u" 'evil-scroll-up)
 
   ;; ==global==
-  (general-evil-define-key 'insert '(minibuffer-inactive-mode-map override)
+  (general-evil-define-key 'insert '(minibuffer-inactive-mode-map evil-ex-map override)
     "C-SPC" 'company-complete
     "C-h" 'counsel-up-directory
     "C-l" 'counsel-down-directory
@@ -108,15 +102,15 @@
     "q" 'quit-window)
 
   ;; ==text-mode==
-  (general-evil-define-key 'normal 'text-mode-map
-    :prefix
-    ","
-    "," 'with-editor-finish
-    "a" 'with-editor-cancel)
+  ;; (general-evil-define-key 'normal 'text-mode-map
+  ;;   :prefix
+  ;;   ","
+  ;;   "," 'with-editor-finish
+  ;;   "a" 'with-editor-cancel)
   
-  (general-define-key
-   :states 'normal
-   "ESC" 'keyboard-escape-quit)
+  ;; (general-define-key
+  ;;  :states 'normal
+  ;;  "ESC" 'keyboard-escape-quit)
 
   (defun eval-and-run-tests (type)
     ;; (if (file-exists-p "test-helper.el")
@@ -264,6 +258,7 @@
     "s" '(:ignore t :which-key "repl")
     "sn" 'cider-repl-set-ns
     "sc" 'cider-connect-clj
+    "sC" 'cider-connect-cljs
     "ss" 'cider-switch-to-repl-buffer
     "sp" 'cider-pprint-eval-last-sexp
     "sr" 'cider-restart
@@ -407,6 +402,8 @@
     "fF" 'counsel-git
     "fg" 'counsel-git
     "fX" 'delete-file
+    "ft" 'neotree-show
+    "fp" 'neotree-projectile-action
 
     ;; ==emacs==
     "fe" '(:ignore t :which-key "emacs")
@@ -436,8 +433,7 @@
 
     ;; ==comment==
     "c" '(:ignore t :which-key "comment")
-    "cl" (utils//wkbinding "comment-line"
-	   (utils//comment-line))
+    "cl" '(utils//comment-line :which-key "comment-line")
     "cy" (utils//wkbinding "copy-and-comment"
 	   (utils//comment-and-yank))
 

@@ -47,28 +47,16 @@
       (kill-ring-save (line-beginning-position) (line-end-position))
       (comment-line 1)
       (yank)
-      (newline)
+      ;; (newline)
       (previous-line)
       (end-of-line))))
 
-(defun utils//comment-line ()
-  (interactive)
+(defun utils//comment-line (beg end)
+  (interactive (list (region-beginning) (region-end)))
   (save-excursion
     (if (region-active-p)
-	(let* ((beg (region-beginning))
-	       (end (region-end))
-	       (lines (split-string (buffer-substring-no-properties beg-end) "\n"))
-	       (lines-commented? (reduce (lambda (memo line)
-					   (and memo (comment-only-p line)))
-					 lines
-					 :initial-value true)))
-	  (if lines-commented?
-	      (uncomment-region beg end)
-	    (comment-region beg end)))
+	(comment-or-uncomment-region beg end)
       (comment-line 1))))
-
-;; (defun utils//comment-form ()
-;;   )
 
 (defun utils//symbol-concat (&rest values)
   (let ((stringified-values
@@ -111,7 +99,7 @@
       (delete-region start end)
       (insert (string-join lines (if insert-extra-line "\n\n" "\n"))))))
 
-(defun utils/code-header (header)
+(defun utils//code-header (header)
   (interactive "sEnter Header: ")
   (let (save-excursion
 	 (beginning-of-line)
@@ -137,6 +125,12 @@
 			   ;; (message (buffer-string))
 			   (buffer-string)
 			   ))))))
+
+()
+(defun utils//M-x-recent ()
+  (interactive)
+  (let ((last-cmd )))
+  (counsel-M-x ))
 
 
 (provide 'utils)

@@ -36,6 +36,8 @@
   :config 
   (require 'dracula-theme))
 
+(use-package material-theme)
+
 (use-package color-theme-sanityinc-tomorrow
   :defer t
   :ensure t
@@ -45,6 +47,8 @@
 (defun pick-theme (theme)
   (nth (random (length theme))
        theme))
+
+(load-theme 'material)
 
 ;; (let* ((dark-themes '(spacemacs-dark dracula-dark))
 ;;        (light-themes '())

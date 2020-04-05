@@ -15,12 +15,17 @@
 (setq scroll-bar-mode 0)
 (setq help-window-select t)
 (setq dired-auto-revert-buffer t)
+(setq dired-dwim-target t)
 (with-eval-after-load 'smartparens-mode (show-smartparens-global-mode))
 (show-paren-mode 1)
+
+;; Hideshow mode for folding support
+(add-hook 'prog-mode-hook 'hs-minor-mode)
 (setq show-parend-delay 0)
 (setq show-paren-style 'mixed)
-;; (set-frame-font "IBMPlexMono 14" nil)
-(set-frame-font "Source Code Pro 14")
+;; (set-frame-font "IBMPlexMono 18" nil)
+;; (set-frame-font "Source Code Pro 18")
+(set-frame-font "Menlo 18")
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -28,6 +33,8 @@
 (setq initial-scratch-message nil)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (add-hook 'org-mode-hook 'auto-fill-mode)
+(setq x-alt-keysym 'meta)
+(set-keyboard-coding-system nil)
 
 ;; Desktop Save Mode
 (desktop-save-mode 1)
@@ -39,7 +46,12 @@
               display-line-numbers-current-absolute t
               display-line-numbers-width 3
               display-line-numbers-widen t)
+
 (add-hook 'text-mode-hook #'display-line-numbers-mode)
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+
+;;setup path for node
+
+(getenv "PATH")
 
 (provide 'init-common)

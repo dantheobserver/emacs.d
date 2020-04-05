@@ -30,8 +30,8 @@
   (setq cider-test-infer-test-ns 'cider-test-default-test-ns-fn)
   ;; (evil-set-initial-state 'cider--debug-mode 'emacs)
   (add-hook 'cider--debug-mode-hook #'evil-emacs-state)
-  (add-hook 'cider-test-report-mode-hook (lambda ()
-					   (setq-local truncate-lines 1)))
+  ;; (remove-hook 'cider-test-report-mode-hook (lambda ()
+  ;; 					      (setq-local truncate-lines 1)))
   ;; (evil-set-initial-state 'cider-test-report-mode 'emacs)
   ;; (evil-set-initial-state 'cider-classpath-mode 'emacs)
   ;; (evil-set-initial-state 'cider-stacktrace-mode 'normal)
@@ -47,7 +47,8 @@
   :config
   ;; Indentation of function forms
   ;; https://github.com/clojure-emacs/clojure-mode#indentation-of-function-forms
-  (setq clojure-indent-style 'align-arguments)
+  ;; (setq clojure-indent-style 'align-arguments)
+  (setq clojure-indent-style 'always-indent)
   ;;
   ;; Vertically align s-expressions
   ;; https://github.com/clojure-emacs/clojure-mode#vertical-alignment
