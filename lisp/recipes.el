@@ -30,3 +30,12 @@
 ;; see if function symbol is bound 
 (fboundp 'testing) ;;nil
 (fboundp 'funcall) ;;t
+
+;; Loops
+(loop for i
+      in '((:a 1) (:a 1))
+      collect (plist-get i :a))
+
+(loop for i
+      in '("a" "b" "c" "d")
+      do (insert i))
