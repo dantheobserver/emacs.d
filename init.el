@@ -17,6 +17,7 @@
 (setup//load-path)
 
 (require 'bootstrap-use-package)
+(require 'init-evil-mode)
 (require 'init-common)
 (require 'init-hydras)
 (require 'init-lisps)
@@ -24,6 +25,11 @@
 (require 'init-keymaps)
 (require 'init-themes)
 (require 'init-js)
+
+;; Utilities
+(use-package dash :ensure t)
+(use-package s :ensure t)
+(use-package expand-region :ensure t)
 
 (use-package which-key
   :ensure t
@@ -35,110 +41,50 @@
 
 (use-package restart-emacs :ensure t)
 
-;;``^````^``;;
-;; /( <> )\ ;;  
-;; <> .  <> ;;
-;;...Evil...;;
-(use-package evil
+(use-package smex :ensure t)
+
+(use-package counsel
   :ensure t
-  :init 
-  (setq evil-want-integration nil)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-minibuffer nil)
-  (setq evil-move-beyond-eol t)
+  :after smex
   :config
-  (evil-mode 1)
-  (global-set-key (kbd "C-u") 'evil-scroll-up)
-  ;; (setq evil-jumps-cross-buffers)
-  ;; (add-hook 'iedit-mode-keymap 'evil-normalize-keymaps)
-  
-  ;; ==Navigation==
-  (use-package smex
-    :ensure t
-    :config
-    (use-package counsel
-      :ensure t
-      :config
-      (ivy-mode 1)
-      (setq ivy-count-format "(%d/%d) ")
-      (setq counsel-grep-base-command
-	    "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
-      (setq ivy-use-selectable-prompt t)
-      (setq ivy-use-virtual-buffers t)
-      (setq enable-recursive-minibuffers t)
-      (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
-      (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
-      (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . ""))
-      
-      (use-package projectile
-	:ensure t
-	:config
-	(projectile-mode +1)
-	(setq projectile-sort-order 'recentf)
-	(setq projectile-enable-caching t)
-	(setq projectile-indexing-method 'hybrid)
-	(use-package counsel-projectile :ensure t))))
+  (ivy-mode 1)
+  (setq ivy-count-format "(%d/%d) ")
+  (setq counsel-grep-base-command
+	"rg -i -M 120 --no-heading --line-number --color never %s %s")
+  (setq ivy-use-selectable-prompt t)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . ""))
+  (add-to-list 'ivy-initial-inputs-alist '(counsel-desribe-function . ""))
+  (add-to-list 'ivy-initial-inputs-alist '(counsel-describe-variable . "")))
 
-  (use-package dash :ensure t)
-  (use-package s :ensure t)
-  (use-package expand-region :ensure t)
-  (use-package evil-iedit-state
-    ;; :ensure t
-    :commands (evil-iedit-state evil-iedit-state/iedit-mode)
-    ;; (setq iedit-current-symbol-default t
-    ;;       iedit-only-at-symbol-boundaries t
-    ;;       iedit-toggle-key-default nil)
-    )
+(use-package projectile
+  :ensure t
+  :commands (counsel-projectile-find-file
+	     projectile-find-file-dwim
+	     counsel-projectile-switch-project
+	     projectile-invalidate-cache)
+  :config
+  (projectile-mode +1)
+  (setq projectile-sort-order 'recentf)
+  (setq projectile-enable-caching t)
+  (setq projectile-indexing-method 'hybrid)
+  (use-package counsel-projectile :ensure t))
 
-  (use-package evil-adjust
-    :load-path "site-lisp/evil-adjust"
-    :pin manual
-    :config
-    (evil-adjust))
+(use-package dumb-jump
+  :ensure t
+  :commands (dumb-jump-go-current-window
+	     dumb-jump-quick-look)
+  :general
+  (:keymaps 'prog-mode-map
+   :states 'normal
+   "gd" 'dumb-jump-go-current-window)
 
-  ;;configure key-chords
-  (use-package key-chord
-    :config
-    (setq key-chord-two-keys-delay 0.3)
-    (key-chord-define evil-insert-state-map "fj" 'evil-write)
-    (key-chord-define evil-normal-state-map "fj" 'evil-write)
-    (key-chord-mode 1))
-
-  (use-package evil-escape
-    :config
-    (evil-escape-mode 1)
-    (setq-default evil-escape-delay 0.4)
-    (setq-default evil-escape-key-sequence "fd"))
-
-  (use-package evil-surround
-    :ensure t
-    :config
-    (global-evil-surround-mode 1))
-
-  (use-package evil-collection
-    :ensure t
-    :init
-    (setq evil-collection-mode-list nil)
-    (setq evil-collections-setup-minibuffer t)
-    :config
-    (evil-collection-init '(minibuffer ivy dired magit neotree elisp-mode slime)))
-
-  (use-package evil-leader
-    :after org
-    :ensure t)
-
-  (use-package evil-org
-    :after org
-    :ensure t)
-
-  (use-package org-pomodoro
-    :after org
-    :ensure t)
-
-  (use-package discover
-    :ensure t
-    :init
-    (global-discover-mode 1)))
+  :config
+  (setq dumb-jump-selector 'ivy)
+  (setq dumb-jump-force-searcher 'ag)
+  ;; (setq dumb-jump-rg-cmd "rg -P")
+  )
 
 (use-package eyebrowse
   :ensure t
@@ -202,10 +148,7 @@
 ;; TODO - https://github.com/istib/rainbow-blocks
 
 ;; ==Source Control==
-(use-package magit
-  :ensure t
-  :config
-  (use-package evil-magit :ensure t))
+(use-package magit :ensure t)
 
 (use-package org-bullets
   :ensure t
@@ -222,6 +165,15 @@
 				("T" "Tickler" entry
 				 (file+headline "~/gtd/tickler.org" "Tickler")
 				 "* %i%? \n %U"))))
+(use-package org-pomodoro
+  :after org
+  :ensure t)
+
+(use-package discover
+  :ensure t
+  :init
+  (global-discover-mode 1))
+
 (use-package emojify
   :ensure t
   :hook (org-mode . emojify-mode))
@@ -274,3 +226,22 @@
     :config
     (setq neo-theme (if (display-graphic-p) 'icons 'nerd))))
 
+(use-package lsp-mode
+  :ensure t
+  :commands lsp)
+;; (use-package lsp-ui :commands lsp-ui-mode)
+
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+
+(use-package ccls
+  :ensure t
+  :hook ((c-mode c++-mode) .
+	 (lambda () (require 'ccls) (lsp))))
+
+(add-to-list 'magic-mode-alist '("\\.c\\'" . c-mode))
+(setq c-basic-offset)
+
+;; (use-package lsp-ui :ensure t :after lsp-mode)
+;; (use-package company-lsp :ensure t :after lsp-mode)

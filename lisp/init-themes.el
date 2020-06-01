@@ -44,17 +44,11 @@
   :config
   (require 'color-theme-sanityinc-tomorrow))
 
-(defun pick-theme (theme)
-  (nth (random (length theme))
-       theme))
-
-(load-theme 'material)
+(load-theme 'dracula)
 
 ;; (let* ((dark-themes '(spacemacs-dark dracula-dark))
 ;;        (light-themes '())
 ;;        (both-themes (cl-concatenate 'list dark-themes light-themes)))
 ;;   (pick-theme both-themes)))
-
-
 
 (provide 'init-themes)

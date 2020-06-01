@@ -54,4 +54,8 @@
 
 (getenv "PATH")
 
+(setq explicit-shell-file-name "/usr/bin/zsh")
+(setq shell-file-name "zsh")
+(setenv "SHELL" shell-file-name)
+
 (provide 'init-common)

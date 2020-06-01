@@ -138,6 +138,30 @@
 ;;= testing =
 ;;===========
 
+;; (defmacro (expand-variables)
+;;     )
+;;
+;; (setq mode-line-format
+;;       '("%e"
+;; 	(:eval
+;; 	 (format winum-format
+;; 		 (winum-get-number-string)))
+;; 	mode-line-front-space
+;; 	mode-line-mule-info
+;; 	mode-line-client
+;; 	mode-line-modified
+;; 	mode-line-remote
+;; 	mode-line-frame-identification
+;; 	moody-mode-line-buffer-identification
+;; 	sml/pos-id-separator
+;; 	mode-line-position
+;; 	evil-mode-line-tag
+;; 	(vc-mode moody-vc-mode)
+;; 	sml/pre-modes-separator
+;; 	mode-line-modes
+;; 	mode-line-misc-info
+;; 	mode-line-end-spaces))
+
 (comment
  (utils//layout-config)
  (equal '(1 2 3) '(1 2 4))
