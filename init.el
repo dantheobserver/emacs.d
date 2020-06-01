@@ -2,7 +2,8 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-(package-initialize)
+;; (if (< (string-to-number emacs-version) 27)
+;;     (package-initialize))
 
 (defun setup//add-packages (lisp-dir)
   (dolist (package-dir (directory-files lisp-dir t "\\w+"))
@@ -241,7 +242,7 @@
 	 (lambda () (require 'ccls) (lsp))))
 
 (add-to-list 'magic-mode-alist '("\\.c\\'" . c-mode))
-(setq c-basic-offset)
+
 
 ;; (use-package lsp-ui :ensure t :after lsp-mode)
 ;; (use-package company-lsp :ensure t :after lsp-mode)

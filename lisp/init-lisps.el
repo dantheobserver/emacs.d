@@ -64,7 +64,7 @@
 
 (use-package elec-pair
   :ensure t
-  :hook ((clojure-mode cider-repl-mode clojurescript-mode elisp-mode racket-mode) . electric-pair-mode))
+  :hook ((clojure-mode cider-repl-mode clojurescript-mode emacs-lisp-mode racket-mode) . electric-pair-mode))
 
 (use-package fuco
   :load-path "site-lisp/fuco"

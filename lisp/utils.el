@@ -166,7 +166,7 @@
  (utils//layout-config)
  (equal '(1 2 3) '(1 2 4))
  (nth 2 '(1 2 3))
- (alist-get 1 (utils//layout-config))
+ (alist-get 1 (utils//layout-config)) 
  (seq-position '((1 . 1) (3 . 3) (2 . 2))
 	       2
 	       (lambda (a b) (= (car a) b)))

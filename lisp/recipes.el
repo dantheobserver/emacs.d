@@ -5,6 +5,9 @@
   (insert "b")
   (buffer-string))
 
+;;Read from buffer
+(read-from-minibuffer "Name of project: ")
+
 ;; region active
 (region-active-p)
 

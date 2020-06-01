@@ -16,6 +16,7 @@
 (setq help-window-select t)
 (setq dired-auto-revert-buffer t)
 (setq dired-dwim-target t)
+(electric-pair-mode)
 (with-eval-after-load 'smartparens-mode (show-smartparens-global-mode))
 (show-paren-mode 1)
 
