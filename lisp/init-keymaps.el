@@ -41,53 +41,53 @@
 
 ;; ==motion state==
 (mmap :keymaps 'override
-  ";" 'evil-ex
-  ":" 'evil-repeat-find-char
-  "C-u" 'evil-scroll-up)
+  ";" #'evil-ex
+  ":" #'evil-repeat-find-char
+  "C-u" #'evil-scroll-up)
 
 ;; ==org==
 (nmap 'evil-org
-  "H" 'org-shiftleft
-  "J" 'org-shiftdown
-  "K" 'org-shiftup
-  "L" 'org-shiftright
-  "TAB" 'org-cycle)
+  "H" #'org-shiftleft
+  "J" #'org-shiftdown
+  "K" #'org-shiftup
+  "L" #'org-shiftright
+  "TAB" #'org-cycle)
+
+(nmap '(messages-buffer-mode-map)
+  q #'quit-window)
 
 ;; ==global==
 (imap 'override
-  "C-SPC"'company-complete)
+  "C-SPC"'company-complete
+  "ENTER" (key-binding "RET"))
 
 (general-evil-define-key '(insert normal emacs) '(ivy-minibuffer-map) 
-  "C-j" 'ivy-next-line
-  "C-k" 'ivy-previous-line
-  "C-h" 'counsel-up-directory
-  "C-l" 'counsel-down-directory)
+  "C-j" #'ivy-next-line
+  "C-k" #'ivy-previous-line
+  "C-h" #'counsel-up-directory
+  "C-l" #'counsel-down-directory)
 
 (imap '(minibuffer-inactive-mode-map evil-ex-map)
-  "C-h" 'counsel-up-directory
-  "C-l" 'counsel-down-directory
-  "C-c C-o" 'ivy-occur)
+  "C-h" #'counsel-up-directory
+  "C-l" #'counsel-down-directory
+  "C-c C-o" #'ivy-occur)
 
 (general-create-definer minor-mode-def
   :prefix ","
   :non-normal-perfix "M-,")
 
+(minor-mode-def '(normal motion) 'org-capture-mode-map
+  :major-modes t
+  "," #'org-capture-finalize
+  "a" #'org-capture-kill
+  "r" #'org-capture-refile)
+
 ;; ** Org Modes
-(minor-mode-def 'normal 'org-mode-map
-  "," #'org-ctrl-c-ctrl-c)
-
-(minor-mode-def 'normal 'org-roam-mode-map
-  :major-modes '(org-mode t)
-  "f" #'org-roam-find-file
-  "d" #'org-roam-find-directory
-  "r" #'org-roam-find-ref
-  "t" #'org-tags-view
-  "B" #'org-roam-db-build-cache)
-
-(minor-mode-def '(normal motion) 'evil-org
-  :major-modes '(org-mode t)
-  "a" #'org-capture
-  "f" #'org-roam-find-file
+(minor-mode-def '(normal motion) 'org-mode-map
+  :major-modes t
+  "," #'org-ctrl-c-ctrl-c
+  "a" #'org-agenda
+  "d" #'org-deadline
 
   "c" '(:ignore t :which-key "clock")
   "ci" #'org-clock-in
@@ -99,12 +99,24 @@
   "pp" #'org-pomodoro
   "pk" #'org-pomodoro-kill
 
+  "r" '(:ignore t :which-key "roam")
+  "rl" #'org-roam
+  "ri" #'org-roam-insert
+  "rb" #'org-roam-switch-to-buffer
+  "rf" #'org-roam-find-file
+  "rg" #'org-roam-show-graph
+  "rc" #'org-roam-capture
+  "rd" #'org-roam-find-directory
+  "rr" #'org-roam-find-ref
+  "rt" #'org-tags-view
+  "rB" #'org-roam-db-build-cache
+
   "e" '(:ignore t :which-key "error")
   "en" #'next-error
   "ep" #'previous-error)
 
 (minor-mode-def 'normal 'c-mode-map
-  :major-modes '(c-mode t)
+  :major-modes t
   "c" '(:ignore t :which-key "compile")
   "cc" #'projectile-compile-project
   "cr" #'recompile
@@ -113,7 +125,7 @@
   "rd" #'gdb)
 
 (minor-mode-def 'normal 'with-editor-mode-map
-  :major-modes '(with-editor-mode t)
+  :major-modes t
   "," #'with-editor-finish
   "a" #'with-editor-cancel)
 
@@ -130,12 +142,8 @@
 				   cider-test-report-mode-map)
   "q" 'quit-window)
 
-(defun eval-and-run-tests (type)
-  (eval-buffer)
-  (ert type))
-
-(general-evil-define-key '(normal visual) elisp
-  :prefix ","
+(minor-mode-def '(normal visual) emacs-lisp-mode-map
+  :major-modes t
   "e" '(:ignore t :which-key "eval")
   "eb" 'eval-buffer
   ;; "ee" 'eval-last-sexp
@@ -149,21 +157,20 @@
   "df" 'edebug-defun
   "db" 'edebug-set-breakpoint
 
-  "p" '(:ignore t :which-key "pretty-print" :major-modes 'elisp-mode)
+  "p" '(:ignore t :which-key "pretty-print")
   "pe" 'pp-macroexpand-expression
   "pl" 'pp-macroexpand-last-sexp
   
   "t" '(:ignore t :which-key "test")
-  "tt" '((lambda () (interactive) (eval-and-run-tests t)) :which-key "cider-test-run-tests")
-  "tf" '((lambda () (interactive) (eval-and-run-tests :failed)) :which-key "run failed tests"))
+  "tt" '((lambda () (interactive) (utils//eval-and-run-tests t)) :which-key "cider-test-run-tests")
+  "tf" '((lambda () (interactive) (utils//eval-and-run-tests :failed)) :which-key "run failed tests"))
 
 (general-evil-define-key 'normal '(clj cljs elisp racket)
   "C-k" 'kill-sexp
   "C-S-k" 'kill-line)
 
 ;; ==Racket==
-(general-evil-define-key '(normal visual emacs) 'racket
-  :prefix ","
+(minor-mode-def '(normal visual emacs) 'racket
   "r" 'racket-run
   "e" 'racket-eval-last-sexp)
 
@@ -186,16 +193,16 @@
   "RET" 'cider-repl-newline-and-indent
   "C-RET" 'cider-eval)
 
-(general-evil-define-key 'motion 'cider-repl
-  :prefix ","
+(minor-mode-def 'motion 'cider-repl-mode-map
+  :major-mode t
   "," 'cider-repl-handle-shortcut
   "s" '(:ignore t :which-key "switch")
   "ss" 'cider-switch-to-last-clojure-buffer
   ;; "C-RET" 'cider-repl-newline-and-indent
   ) 
 
-(general-evil-define-key '(normal visual motion) '(miracle-interaction)
-  :prefix ","
+(minor-mode-def '(normal visual motion) 'miracle-interaction-mode-map
+  :major-mode t
   "," 'miracle-interrupt
   "r" 'miracle-switch-to-repl
 
@@ -208,13 +215,8 @@
 
   "j" 'miracle-jump)
 
-(defun user/cider-eval-and-run-tests ()
-  (interactive)
-  (cider-eval-buffer)
-  (cider-test-run-test))
-
-(general-evil-define-key '(normal visual motion) '(clj cljs)
-  :prefix ","
+(minor-mode-def '(normal visual motion) '(clj-mode cljs-mode)
+  :major-modes t
   "'" 'cider-jack-in
   ";" 'miracle
   "." 'cider-interrupt
@@ -288,7 +290,7 @@
   "tp" 'cider-test-run-project-tests
   "tr" 'cider-test-rerun-failed-tests
   "ts" 'cider-test-run-ns-tests-with-filters
-  "tt" 'user/cider-eval-and-run-tests
+  "tt" 'utils//cider-eval-and-run-tests
 
   ;; C-c C-.		cider-find-ns
   ;; C-c C-:		cider-find-keyword
@@ -317,8 +319,8 @@
   ;; C-c M-t v	cider-toggle-trace-var
   )
 
-(general-evil-define-key '(normal visual) 'wdired-mode-map
-  :prefix ","
+(minor-mode-def '(normal visual) 'wdired-mode-map
+  :major-mode t
   "," 'wdired-finish-edit
   "a" 'wdired-abort-changes)
 
@@ -330,20 +332,20 @@
   :keymaps 'override)
 
 (global-leader
-  "u" 'universal-argument
-  "l" 'hydra-eyebrowse-nav/body ;;My layout hydra
-  "/" 'counsel-rg
-  "." 'ivy-resume
-  ";" 'hydra-window/body
-  "`" 'previous-multiframe-window
+  "u" #'universal-argument
+  "l" #'hydra-eyebrowse-nav/body ;;My layout hydra
+  "/" #'counsel-rg
+  "." #'ivy-resume
+  ";" #'hydra-window/body
+  "`" #'previous-multiframe-window
   "TAB" '(evil-switch-to-windows-last-buffer :which-key "prev buffer")
-  "SPC" 'counsel-M-x
-  "1" 'winum-select-window-1
-  "2" 'winum-select-window-2
-  "3" 'winum-select-window-3
-  "4" 'winum-select-window-4
-  "5" 'winum-select-window-5
-  "6" 'winum-select-window-6)
+  "SPC" #'counsel-M-x
+  "1" #'winum-select-window-1
+  "2" #'winum-select-window-2
+  "3" #'winum-select-window-3
+  "4" #'winum-select-window-4
+  "5" #'winum-select-window-5
+  "6" #'winum-select-window-6)
 
 ;; Apps Leader
 (general-create-definer global-apps-leader
@@ -351,6 +353,7 @@
   :states '(normal visual motion)
   :keymaps 'override)
 (global-apps-leader
+  "" '(:which-key "apps")
   "u" 'undo-tree-visualize
   "s" '(:ignore t :which-key "server")
   "ss" 'edit-server-start
@@ -363,8 +366,9 @@
   :states '(normal visual motion)
   :keymaps 'override)
 (global-ring-leader
- "l" 'ivy-resume
- "y" 'counsel-yank-pop)
+  "" '(:which-key "ring")
+  "l" 'ivy-resume
+  "y" 'counsel-yank-pop)
 
 ;; Search Leader
 (general-create-definer global-search-leader
@@ -372,37 +376,44 @@
   :states '(normal visual motion)
   :keymaps 'override)
 (global-search-leader
- "b" 'counsel-bookmark
- "s" 'counsel-grep-or-swiper
- "S" (utils//wkbinding "swiper"
-       (let ((initial (if (region-active-p)
-			  (buffer-substring-no-properties (region-beginning) (region-end))
-			(word-at-point))))
-	 (counsel-grep-or-swiper initial)))
- "a" 'swiper-avy
- "h" (utils//wkbinding "search headers"
-       (swiper "^.*;;.?==.*")))
+  "" '(:which-key "search")
+  "b" 'counsel-bookmark
+  "s" 'counsel-grep-or-swiper
+  "S" (utils//wkbinding "swiper"
+	(let ((initial (if (region-active-p)
+			   (buffer-substring-no-properties (region-beginning) (region-end))
+			 (word-at-point))))
+	  (counsel-grep-or-swiper initial)))
+  "a" 'swiper-avy
+  "h" (utils//wkbinding "search headers"
+	(swiper "^.*;;.?==.*")))
 
 (general-create-definer global-org-leader
   :prefix "SPC o"
   :states '(normal visual motion)
   :keymaps 'override)
 (global-org-leader
+  "" '(:which-key "org")
   "a" 'org-agenda
   "c" 'org-capture
   "e" 'org-refile
+
   "r" '(:ignore t :which-key "roam")
+  "rd" 'deft
   "rf" 'org-roam-find-file
   "ri" 'org-roam-insert
   "ri" 'org-roam-find-index)
 
+(defun utils//goto-leaders ()
+  (interactive)
+  (counsel-rg "general-create-definer.*global-.*?-leader"))
 ;; Window Leader
 (general-create-definer global-window-leader
   :prefix "SPC w"
   :states '(normal visual motion)
   :keymaps 'override)
-
 (global-window-leader
+  "" '(:which-key "window")
   "a" 'ace-swap-window
   "m" 'utils//maximize-restore-window
   "d" 'delete-window
@@ -429,9 +440,10 @@
   :states '(normal visual motion)
   :keymaps 'override)
 (global-frames-leader
- "n" 'make-frame
- "D" 'delete-frame
- "o" 'other-frame)
+  "" '(:which-key "Frames")
+  "n" #'make-frame
+  "D" #'delete-frame
+  "o" #'other-frame)
 
 ;; Files Leader
 (general-create-definer global-files-leader
@@ -439,27 +451,28 @@
   :states '(normal visual motion)
   :keymaps 'override)
 (global-files-leader
- "." (utils//wkbinding "dired here"
-       (dired "."))
- "D" 'delete-file
- "s" 'save-buffer
- "R" (utils//wkbinding "rename-file"
-       (let ((filename (buffer-file-name)))
-	 (rename-file filename
-		      (read-file-name
-		       (format "rename file %s to :" filename)))))
- "f" 'counsel-find-file
- "F" 'counsel-git
- "g" 'counsel-git
- "X" 'delete-file
- "t" 'neotree-show
- "p" 'neotree-projectile-action
- 
- "e" '(:ignore t :which-key "emacs")
- "ei" (utils//wkbinding "open emacs init file"
-	(utils//open-config-file "init.el"))
- "ek" (utils//wkbinding "open keymaps config file"
-	(utils//open-config-file "lisp" "init-keymaps.el")))
+  "" '(:which-key "files")
+  "." (utils//wkbinding "dired here"
+	(dired "."))
+  "D" #'delete-file
+  "s" #'save-buffer
+  "R" (utils//wkbinding "rename-file"
+	(let ((filename (buffer-file-name)))
+	  (rename-file filename
+		       (read-file-name
+			(format "rename file %s to :" filename)))))
+  "f" #'counsel-find-file
+  "F" #'counsel-git
+  "g" #'counsel-git
+  "X" #'delete-file
+  "t" #'neotree-show
+  "p" #'neotree-projectile-action
+  
+  "e" '(:ignore t :which-key "emacs")
+  "ei" (utils//wkbinding "open emacs init file"
+	 (utils//open-config-file "init.el"))
+  "ek" (utils//wkbinding "open keymaps config file"
+	 (utils//open-config-file "lisp" "init-keymaps.el")))
 
 ;; Buffer Leader
 (general-create-definer global-buffer-leader
@@ -467,16 +480,17 @@
   :states '(normal visual motion)
   :keymaps 'override)
 (global-buffer-leader
- ;; ==buffers==
- "." 'hydra-buffer-menu/body
- "b" 'ivy-switch-buffer
- "p" 'previous-buffer
- "n" 'next-buffer
- "d" 'kill-this-buffer
- "s" (utils//wkbinding "scratch-buffer"
-       (switch-to-buffer "*scratch*"))
- "m" '(view-echo-area-messages :which-key "messages buffer")
- "l" 'electric-buffer-list)
+  "" '(:which-key "buffer")
+  ;; ==buffers==
+  "." #'hydra-buffer-menu/body
+  "b" #'ivy-switch-buffer
+  "p" #'previous-buffer
+  "n" #'next-buffer
+  "d" #'kill-this-buffer
+  "s" (utils//wkbinding "scratch-buffer"
+	(switch-to-buffer "*scratch*"))
+  "m" '(view-echo-area-messages :which-key "messages buffer")
+  "l" #'electric-buffer-list)
 
 ;; Projectile Leader
 (general-create-definer global-projectile-leader
@@ -484,12 +498,13 @@
   :states '(normal visual motion)
   :keymaps 'override)
 (global-projectile-leader
- "f" 'counsel-projectile-find-file
- "F" 'projectile-find-file-dwim
- "p" 'counsel-projectile-switch-project
- "I" 'projectile-invalidate-cache
- "c" 'projectile-compile-project
- "r" 'projectile-run-project)
+  "" '(:which-key "projectile")
+  "f" #'counsel-projectile-find-file
+  "F" #'projectile-find-file-dwim
+  "p" #'counsel-projectile-switch-project
+  "I" #'projectile-invalidate-cache
+  "c" #'projectile-compile-project
+  "r" #'projectile-run-project)
 
 ;; Comment Leader
 (general-create-definer global-comment-leader
@@ -497,9 +512,10 @@
   :states '(normal visual motion)
   :keymaps 'override)
 (global-comment-leader
- "l" '(utils//comment-line :which-key "comment-line")
- "y" (utils//wkbinding "copy-and-comment"
-       (utils//comment-and-yank)))
+  "" '(:which-key "comment")
+  "l" '(utils//comment-line :which-key "comment-line")
+  "y" (utils//wkbinding "copy-and-comment"
+	(utils//comment-and-yank)))
 
 ;; Help Leader
 (general-create-definer global-help-leader
@@ -507,15 +523,15 @@
   :states '(normal visual motion)
   :keymaps 'override)
 (global-help-leader
- "d" '(:ignore t :which-key  "describe")
- "dm" '(describe-mode :which-key "describe mode")
- "df" '(describe-function :which-key "describe function")
- "dv" '(describe-variable :which-key "describe variable")
- "dk" '(describe-key :which-key "describe key")
+  "" '(:which-key "help")
+  "m" #'describe-mode
+  "f" #'describe-function
+  "v" #'describe-variable
+  "k" #'describe-key
 
- "c" '(:ignore t :which-key "customize")
- "cv" 'customize-variable
- "cg" 'customize-group)
+  "c" '(:ignore t :which-key "customize")
+  "cv" #'customize-variable
+  "cg" #'customize-group)
 
 ;; Magit Leader
 (general-create-definer global-git-leader
@@ -523,17 +539,19 @@
   :states '(normal visual motion)
   :keymaps 'override)
 (global-git-leader
- "s" 'magit-status)
-
+  "" '(:which-key "git")
+  "s" #'magit-status
+  "b" #'magit-blame)
 
 (general-create-definer global-insert-leader
   :prefix "SPC i"
   :states '(normal visual motion)
   :keymaps 'override)
 (global-insert-leader
- ;; Insert Leader
- "s" 'yas-insert-snippet
- "h" 'utils/code-header)
+  "" '(:which-key "insert")
+  ;; Insert Leader
+  "s" #'yas-insert-snippet
+  "h" #'utils/code-header)
 
 ;; Zoom Leader
 (general-create-definer global-zoom-leader
@@ -541,21 +559,22 @@
   :states '(normal visual motion)
   :keymaps 'override)
 (global-zoom-leader
- "k" 'text-scale-increase
- "j" 'text-scale-decrease
- "0" (utils//wkbinding "reset"
-       (text-scale-set 0))
- "a" 'text-scale-adjust)
+  "" '(:which-key "zoom")
+  "k" 'text-scale-increase
+  "j" 'text-scale-decrease
+  "0" (utils//wkbinding "reset"
+	(text-scale-set 0))
+  "a" 'text-scale-adjust)
 
 ;; Quit Leader
 (general-create-definer global-quit-leader
   :prefix "SPC q"
   :states '(normal visual motion)
   :keymaps 'override)
-
 (global-quit-leader
- "q" '(save-buffers-kill-terminal :which-key "save & quit")
- "r" 'restart-emacs)
+  "" '(:which-key "Quit")
+  "q" '(save-buffers-kill-terminal :which-key "save & quit")
+  "r" 'restart-emacs)
 
 ;; Theme Leader
 (general-create-definer global-theme-leader
@@ -563,21 +582,22 @@
   :states '(normal visual motion)
   :keymaps 'override)
 (global-theme-leader
-  "ts" 'counsel-load-theme)
+  "" '(:which-key "Toggles")
+  "s" #'counsel-load-theme)
 
 ;; Text Leader
 (general-create-definer global-text-leader
-  :prefix "SPC "
+  :prefix "SPC t"
   :states '(normal visual motion)
   :keymaps 'override)
-
 (global-text-leader
- "t" '(:ignore t :which-key "transpose")
- "tw" 'transpose-words
- "tc" 'transpose-chars
- "tl" 'transpose-lines
- "tp" 'transpose-paragraphs
- "ts" 'transpose-sexps)
+  "" '(:which-key "text")
+  "t" '(:which-key "transpose")
+  "tw" 'transpose-words
+  "tc" 'transpose-chars
+  "tl" 'transpose-lines
+  "tp" 'transpose-paragraphs
+  "ts" 'transpose-sexps)
 
 
 (provide 'init-keymaps)

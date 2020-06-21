@@ -25,13 +25,14 @@
   (add-to-list 'general-keymap-aliases '(evil-org . evil-org-mode-map))
   (general-evil-setup t))
 
+;; https://github.com/justbur/emacs-which-key
 (use-package which-key
   :ensure t
   :config
   (which-key-mode)
   (setq which-key-idle-delay 0.2)
   (setq which-key-popup-type 'side-window)
-  (setq which-key-side-window-max-height 5))
+  (setq which-key-side-window-max-height 10))
 
 (use-package restart-emacs :ensure t)
 
@@ -91,30 +92,36 @@
 	eyebrowse-mode-line-style t))
 
 ;; https://github.com/cyrus-and/zoom
+(defun utils//fix-which-key ()
+  (with-selected-window (get-buffer-window "*which-key*")
+    (setq window-size-fixed t)
+    (window-resize (selected-window) (- (window-total-height) 4) t t)))
+
 (use-package zoom
   :ensure t
   :config
   (zoom-mode t)
+  (add-hook 'which-key-mode-hook #'utils//fix-which-key)
   (setq zoom-size '(0.618 . 0.618)
 	zoom-ignored-major-modes '(which-key-mode hydra-mode)
 	zoom-ignored-buffer-name-regexps '("\\*Help\\*" "\\*which-key\\*")
 	zoom-minibuffer-preserve-layout t))
 
 ;; https://github.com/zk-phi/indent-guide
-;; (use-package indent-guide
-;;   :ensure t
-;;   :config
-;;   (indent-guide-global-mode))
-
-
-;;https://github.com/antonj/Highlight-Indentation-for-Emacs/
-(use-package highlight-indentation
+(use-package indent-guide
   :ensure t
   :config
-  (highlight-indentation-mode)
-  (set-face-background 'highlight-indentation-face "#3f5958")
-  ;; (highlight-indentation-current-column-mode)
-  )
+  (indent-guide-global-mode))
+
+;;https://github.com/antonj/Highlight-Indentation-for-Emacs/
+;; (use-package highlight-indentation
+;;   :ensure t
+;;   :hook '(prog-mode . highlight-indentation-mode)
+;;   :config
+;;   (highlight-indentation-mode)
+;;   (set-face-background 'highlight-indentation-face "#3f5958")
+;;   ;; (highlight-indentation-current-column-mode)
+;;   )
 
 ;;https://github.com/m2ym/popwin-el
 (use-package popwin
@@ -157,7 +164,12 @@
   (add-hook 'edebug-mode-hook 'evil-normalize-keymaps))
 
 ;; ==Source Control==
-(use-package magit :ensure t)
+(use-package magit :ensure t
+  :pin "melpa-stable"
+  :config
+  ;; (setq magit-display-buffer-function 'magit-display-buffer-traditional)
+  (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+  )
 
 (use-package yasnippet
   :ensure t

@@ -137,6 +137,16 @@
 	   "gcc" nil "*Messages*" nil
 	   cmd-opts)))
 
+(defun utils//eval-and-run-tests (type)
+  (eval-buffer)
+  (ert type))
+
+(defun utils//cider-eval-and-run-tests ()
+  (interactive)
+  (cider-eval-buffer)
+  (cider-test-run-test))
+
+
 (provide 'utils)
 ;;===========
 ;;= testing =
