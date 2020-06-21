@@ -5,7 +5,7 @@
 ;; the following lines tell emacs where on the internet to look up
 ;; for new packages.
 (setq package-archives '(("org" . "http://orgmode.org/elpa/")
-                         ;; ("melpa" . "https://stable.melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")
 			 ("melpa" . "http://melpa.milkbox.net/packages/")
                          ("melpa-unstable" . "https://melpa.org/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")

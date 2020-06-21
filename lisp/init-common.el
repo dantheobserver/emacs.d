@@ -1,3 +1,6 @@
+(defun move-comment-above-form
+    (interactive ()))
+
 (setq custom-file "~/.emacs.d/custom.el") ;move customs out of init.el
 (load custom-file)
 (setq delete-old-versions -1)    ; delete excess backup versions silently
@@ -26,7 +29,8 @@
 (setq show-paren-style 'mixed)
 ;; (set-frame-font "IBMPlexMono 18" nil)
 ;; (set-frame-font "Source Code Pro 18")
-(set-frame-font "Menlo 18")
+;; (set-frame-font "Menlo 18")
+(set-frame-font "Borg Sans Mono 18")
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)

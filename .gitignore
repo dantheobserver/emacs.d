@@ -14,4 +14,10 @@ transient
 url
 eshell
 projectile.cache
-be-layouts
+eb-layouts
+request/
+network-security.data
+.mc-lists.el
+.lsp-session-v1
+bookmarks
+\#*

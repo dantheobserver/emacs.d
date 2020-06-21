@@ -47,7 +47,7 @@
       (kill-ring-save (line-beginning-position) (line-end-position))
       (comment-line 1)
       (yank)
-      ;; (newline)
+      (newline)
       (previous-line)
       (end-of-line))))
 
@@ -126,12 +126,16 @@
 			   (buffer-string)
 			   ))))))
 
-()
-(defun utils//M-x-recent ()
-  (interactive)
-  (let ((last-cmd )))
-  (counsel-M-x ))
-
+;; Auto Compile mode for c
+(defun utils/gcc-autocompile-file (file)
+  (interactive (list (c-get-current-file)))
+  (let ((cmd-opts (list "-o" file
+			"-Wall"
+			(format "./%s.c" file))))
+    (file-name-as-directory)
+    (apply #'call-process
+	   "gcc" nil "*Messages*" nil
+	   cmd-opts)))
 
 (provide 'utils)
 ;;===========

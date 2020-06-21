@@ -1,5 +1,5 @@
 (use-package eb-layout
-  :load-path "site-lisp/eb-layout")
+  :load-path "~/projects/elisp/eb-layout.el/")
 
 (use-package hydra
   :load-path "site-lisp/hydra")
@@ -47,7 +47,7 @@
 ^^^^ _c_: _c_reate config  _2_: window config _2_  _7_: window config _7_
 ^^^^ _D_: _D_elete config  _3_: window config _3_  _8_: window config _8_
 ^^^^ _r_: _r_ename config  _4_: window config _4_  _9_: window config _9_
-^^^^ _q_:_q_uit            " 
+^^^^ _S_: _S_ave config    _L_: _L_oad config      _q_:_q_uit            " 
   ("n" eyebrowse-next-window-config)
   ("p" eyebrowse-prev-window-config)
   ("TAB" eyebrowse-last-window-config)
@@ -64,6 +64,8 @@
   ("7" eyebrowse-switch-to-window-config-7)
   ("8" eyebrowse-switch-to-window-config-8)
   ("9" eyebrowse-switch-to-window-config-9)
+  ("S" ebl-save-current-layout)
+  ("L" ebl-load-layout)
   ("<" ebl-move-left)
   (">" ebl-move-right)
   ("q" nil :color blue))
