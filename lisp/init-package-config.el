@@ -165,7 +165,6 @@
 
 ;; ==Source Control==
 (use-package magit :ensure t
-  :pin "melpa-stable"
   :config
   ;; (setq magit-display-buffer-function 'magit-display-buffer-traditional)
   (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
@@ -189,7 +188,6 @@
 
 (use-package all-the-icons
   :ensure t
-  :pin "melpa"
   :config
   (use-package neotree
     :ensure t

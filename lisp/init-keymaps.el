@@ -58,8 +58,8 @@
 
 ;; ==global==
 (imap 'override
-  "C-SPC"'company-complete
-  "ENTER" (key-binding "RET"))
+  "C-SPC" #'company-complete
+  "<ENTER>" #'newline)
 
 (general-evil-define-key '(insert normal emacs) '(ivy-minibuffer-map) 
   "C-j" #'ivy-next-line
@@ -397,6 +397,7 @@
   "a" 'org-agenda
   "c" 'org-capture
   "e" 'org-refile
+  "j" 'org-journal-new-entry
 
   "r" '(:ignore t :which-key "roam")
   "rd" 'deft
@@ -472,7 +473,9 @@
   "ei" (utils//wkbinding "open emacs init file"
 	 (utils//open-config-file "init.el"))
   "ek" (utils//wkbinding "open keymaps config file"
-	 (utils//open-config-file "lisp" "init-keymaps.el")))
+	 (utils//open-config-file "lisp" "init-keymaps.el"))
+  "eo" (utils//wkbinding "open org config file"
+	 (utils//open-config-file "lisp" "init-org-mode.el")))
 
 ;; Buffer Leader
 (general-create-definer global-buffer-leader

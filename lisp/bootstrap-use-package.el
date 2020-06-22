@@ -6,17 +6,17 @@
 ;; for new packages.
 (setq package-archives '(("org" . "http://orgmode.org/elpa/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
-			 ("melpa" . "http://melpa.milkbox.net/packages/")
-                         ("melpa-unstable" . "https://melpa.org/packages/")
+			 ;; ("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")
 			 ("marmalade" . "http://marmalade-repo.org/packages/")))
 
 (setq package-archive-priorities
       '(("melpa" . 50)
-        ("gnu" . 10)
-        ("melpa-unstable" . 0)))
-(add-to-list 'package-pinned-packages '(use-package . "melpa-unstable") t)
-(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+	("melpa-stable" . 0)
+        ("gnu" . 10)))
+;;(add-to-list 'package-pinned-packages '(use-package . "melpa-unstable") t)
+;;(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
 (package-initialize) ; guess what this one does ?
 

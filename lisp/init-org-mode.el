@@ -29,6 +29,17 @@
   :config
   (add-to-list 'company-backends 'company-org-roam))
 
+(use-package org-journal
+  ;; :bind
+  ;; ("C-c n j" . org-journal-new-entry)
+  :pin "melpa-stable"
+  :config
+  (setq org-journal-dir (string-join `(,config--org-roam-dir "journal")  "/"))
+  (setq org-journal-date-prefix "#+TITLE: ")
+  (setq org-journal-file-format "%Y-%m-%d.org")
+  (setq org-journal-date-format "%A, %d %B %Y")
+  (setq org-journal-enable-agenda-integration t))
+
 ;; (use-package deft
 ;;   :ensure t)
 (use-package deft

@@ -18,12 +18,10 @@
     :config
     (add-hook 'clojure-mode-hook 'clojure-enable-miracle)))
 
-(use-package racket-mode :ensure t
-  :pin "melpa-unstable")
+(use-package racket-mode :ensure t)
 
 (use-package cider :ensure 
   :hook ((clojure-mode clojurescript-mode) . cider-mode)
-  :pin "melpa"
   :config
   (setq cider-pprint-fn 'puget)
   (setq cider-test-show-report-on-success nil)
@@ -38,8 +36,7 @@
   )
 
 (use-package clj-refactor
-  :ensure t
-  :pin "melpa-unstable")
+  :ensure t)
 
 (use-package aggressive-indent
   :ensure t
