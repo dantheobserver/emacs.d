@@ -1,6 +1,3 @@
-(defun move-comment-above-form
-    (interactive ()))
-
 (setq custom-file "~/.emacs.d/custom.el") ;move customs out of init.el
 (load custom-file)
 (setq delete-old-versions -1)    ; delete excess backup versions silently
@@ -21,16 +18,17 @@
 (setq dired-dwim-target t)
 (electric-pair-mode)
 (with-eval-after-load 'smartparens-mode (show-smartparens-global-mode))
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 (show-paren-mode 1)
 
 ;; Hideshow mode for folding support
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 (setq show-parend-delay 0)
 (setq show-paren-style 'mixed)
-;; (set-frame-font "IBMPlexMono 18" nil)
+(set-frame-font "IBMPlexMono 18" nil)
 ;; (set-frame-font "Source Code Pro 18")
 ;; (set-frame-font "Menlo 18")
-(set-frame-font "Borg Sans Mono 18")
+;; (set-frame-font "Borg Sans Mono 18")
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -56,8 +54,6 @@
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
 ;;setup path for node
-
-(getenv "PATH")
 
 (setq explicit-shell-file-name "/usr/bin/zsh")
 (setq shell-file-name "zsh")

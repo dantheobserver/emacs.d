@@ -35,17 +35,19 @@
 (use-package key-chord
   :after evil
   :config
-  (setq key-chord-two-keys-delay 0.3)
-  (key-chord-define evil-insert-state-map "fj" 'evil-write)
-  (key-chord-define evil-normal-state-map "fj" 'evil-write)
+  (setq key-chord-two-keys-delay 0.2)
+  (key-chord-define evil-insert-state-map "fj" #'evil-write)
+  (key-chord-define evil-normal-state-map "fj" #'evil-write)
+  (key-chord-define evil-insert-state-map "fd" #'evil-normal-state)
+  (key-chord-define evil-normal-state-map "fd" #'keyboard-escape-quit)
   (key-chord-mode 1))
 
-(use-package evil-escape
-  :after evil
-  :config
-  (evil-escape-mode 1)
-  (setq-default evil-escape-delay 0.4)
-  (setq-default evil-escape-key-sequence "fd"))
+;; (use-package evil-escape
+;;   :after evil
+;;   :config
+;;   (evil-escape-mode 1)
+;;   (setq evil-escape-delay 0.4)
+;;   (setq evil-escape-key-sequence nil))
 
 (use-package evil-surround
   :after evil

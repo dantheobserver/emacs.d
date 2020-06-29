@@ -53,8 +53,29 @@
   "L" #'org-shiftright
   "TAB" #'org-cycle)
 
+;; ==treemacs==
+(nmap 'treemacs-mode-map
+  "?" #'treemacs-helpful-hydra
+  "<tab>" #'treemacs-TAB-action
+  "RET" #'treemacs-RET-action
+  "t" #'treemacs-toggle-node
+  "q" #'treemacs-quit
+  "h" #'treemacs-goto-parent-node
+  "h" #'treemacs-goto-parent-node
+  "j" #'treemacs-next-line
+  "k" #'treemacs-previous-line
+  "J" #'treemacs-next-neighbour
+  "K" #'treemacs-previous-neighbour
+  "H" #'treemacs-root-up
+  "L" #'treemacs-root-down
+
+  "o" '(:ignore t :which-key "open")
+  "oa" #'treemacs-visit-node-ace
+  "oh" #'treemacs-visit-node-ace-horizontal-split
+  "ov" #'treemacs-visit-node-ace-horizontal-split)
+
 (nmap '(messages-buffer-mode-map)
-  q #'quit-window)
+  "q" #'quit-window)
 
 ;; ==global==
 (imap 'override
@@ -88,6 +109,7 @@
   "," #'org-ctrl-c-ctrl-c
   "a" #'org-agenda
   "d" #'org-deadline
+  "o" #'org-open-at-point
 
   "c" '(:ignore t :which-key "clock")
   "ci" #'org-clock-in
@@ -333,7 +355,7 @@
 
 (global-leader
   "u" #'universal-argument
-  "l" #'hydra-eyebrowse-nav/body ;;My layout hydra
+  "l" #'ebl-hydra-nav/body ;;My layout hydra
   "/" #'counsel-rg
   "." #'ivy-resume
   ";" #'hydra-window/body
@@ -466,7 +488,7 @@
   "F" #'counsel-git
   "g" #'counsel-git
   "X" #'delete-file
-  "t" #'neotree-show
+  "t" #'treemacs
   "p" #'neotree-projectile-action
   
   "e" '(:ignore t :which-key "emacs")
@@ -507,7 +529,8 @@
   "p" #'counsel-projectile-switch-project
   "I" #'projectile-invalidate-cache
   "c" #'projectile-compile-project
-  "r" #'projectile-run-project)
+  "r" #'projectile-run-project
+  "t" #'treemacs-add-project)
 
 ;; Comment Leader
 (general-create-definer global-comment-leader

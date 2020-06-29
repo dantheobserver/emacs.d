@@ -18,10 +18,10 @@
 (setup//load-path)
 
 (require 'bootstrap-use-package)
+(require 'init-common)
 (require 'init-evil-mode)
 (require 'init-package-config)
 (require 'init-org-mode)
-(require 'init-common)
 (require 'init-hydras)
 (require 'init-lisps)
 (require 'init-rust)

@@ -1,7 +1,18 @@
 ;; -*- lexical-binding: t -*-
 
 (use-package dash :ensure t)
+
 (use-package expand-region :ensure t)
+
+(use-package all-the-icons :ensure t)
+
+(use-package treemacs :ensure t
+  :after all-the-icons
+  :config
+  (add-hook 'treemacs-mode-hook #'evil-normalize-keymaps)
+  (setq treemacs-width 25))
+
+(use-package docker :ensure t)
 
 (use-package general
   :ensure t
@@ -91,6 +102,13 @@
 	eyebrowse-wrap-around t
 	eyebrowse-mode-line-style t))
 
+(use-package eb-layout
+  :load-path "~/projects/elisp/eb-layout.el/"
+  :config
+  (add-to-list 'desktop-globals-to-save 'ebl-saved-layouts)
+  (add-to-list 'desktop-globals-to-save 'ebl-layout-name)
+  (ebl-load-layout "main"))
+
 ;; https://github.com/cyrus-and/zoom
 (defun utils//fix-which-key ()
   (with-selected-window (get-buffer-window "*which-key*")
@@ -147,7 +165,7 @@
 (use-package company
   :ensure t
   :commands company-complete
-  :hook (after-init . global-company-mode)
+  :hook '(after-init . global-company-mode)
   :config
   (company-mode 1)
   (setq company-idle-delay nil))
@@ -181,18 +199,25 @@
   :ensure t
   :config
   ;; https://github.com/dbordak/telephone-line/blob/master/examples.org
+  (setq telephone-line-lhs
+	'((evil   . (telephone-line-evil-tag-segment))
+          (accent . (telephone-line-vc-segment
+                     telephone-line-erc-modified-channels-segment
+                     telephone-line-process-segment))
+          (nil    . (telephone-line-buffer-segment))))
+  (setq telephone-line-rhs
+	'((nil    . (telephone-line-misc-info-segment))
+          (accent . (telephone-line-minions-mode-segment))
+          (evil   . (telephone-line-airline-position-segment))))
   (telephone-line-mode 1))
 
 (use-package emmet-mode :ensure t
   :hook (css-mode html-mode mhtml-mode))
 
-(use-package all-the-icons
-  :ensure t
-  :config
-  (use-package neotree
-    :ensure t
-    :config
-    (setq neo-theme (if (display-graphic-p) 'icons 'nerd))))
+;; (use-package neotree
+;;   :ensure t
+;;   :config
+;;   (setq neo-theme (if (display-graphic-p) 'icons 'nerd)))
 
 ;; LSP c programming
 (use-package lsp-mode
