@@ -40,6 +40,7 @@
   (key-chord-define evil-normal-state-map "fj" #'evil-write)
   (key-chord-define evil-insert-state-map "fd" #'evil-normal-state)
   (key-chord-define evil-normal-state-map "fd" #'keyboard-escape-quit)
+  (key-chord-define evil-replace-state-map "fd" #'evil-normal-state)
   (key-chord-mode 1))
 
 ;; (use-package evil-escape

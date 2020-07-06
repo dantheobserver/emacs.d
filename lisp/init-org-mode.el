@@ -56,8 +56,7 @@
   :config
   (setq org-bullets-bullet-list '("◉" "○" "✸" "✿"))
   (setq org-agenda-files '("~/gtd/inbox.org"
-                           "~/gtd/gtd.org"
-                           "~/gtd/tickler.org")))
+                           "~/gtd/gtd.org")))
 
 (use-package org-pomodoro :ensure t)
 

@@ -15,11 +15,16 @@
   "C-:"'yas-insert-snippet
   "M-u" 'revert-buffer)
 
+(general-create-definer org-def
+  :states 'insert
+  :keymaps 'org-mode-map)
+(org-def
+  "RET" #'org-return)
+
 ;; **ielm
 (general-create-definer ielm-def
   :states '(normal instert motion emacs)
   :keymaps 'ielm)
-
 (ielm-def
   "C-j" 'comint-next-input
   "C-k" 'comint-previous-input)
@@ -30,20 +35,21 @@
 (minibuffer-def
   "C-y" 'evil-paste-after)
 
-(general-create-definer minibuffer-def)
-(general-define-key
- :keymaps 'ivy-minibuffer-map
- "TAB" 'ivy-call)
+(general-create-definer ivy-def
+  :keymaps 'ivy-minibuffer-map)
+(ivy-def
+  "TAB" 'ivy-call)
 
 ;; ==visual state==
 (vmap
   "s" 'evil-surround-region)
 
 ;; ==motion state==
-(mmap :keymaps 'override
+(mmap 'override
   ";" #'evil-ex
   ":" #'evil-repeat-find-char
-  "C-u" #'evil-scroll-up)
+  "C-u" #'evil-scroll-up
+  "C-i" #'evil-jump-forward)
 
 ;; ==org==
 (nmap 'evil-org
@@ -131,11 +137,16 @@
   "rd" #'org-roam-find-directory
   "rr" #'org-roam-find-ref
   "rt" #'org-tags-view
+  "rs" #'org-roam-store-link
+  "ru" #'org-roam-unlinked-references
   "rB" #'org-roam-db-build-cache
 
   "e" '(:ignore t :which-key "error")
   "en" #'next-error
-  "ep" #'previous-error)
+  "ep" #'previous-error
+
+  "t" '(:ignore t :which-key "toggle")
+  "l" #'org-toggle-link-display)
 
 (minor-mode-def 'normal 'c-mode-map
   :major-modes t

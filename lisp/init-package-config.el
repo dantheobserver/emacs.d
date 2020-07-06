@@ -103,11 +103,12 @@
 	eyebrowse-mode-line-style t))
 
 (use-package eb-layout
-  :load-path "~/projects/elisp/eb-layout.el/"
+  :load-path "site-lisp/eb-layout.el"
   :config
   (add-to-list 'desktop-globals-to-save 'ebl-saved-layouts)
   (add-to-list 'desktop-globals-to-save 'ebl-layout-name)
-  (ebl-load-layout "main"))
+  ;;(ebl-load-layout "main")
+  )
 
 ;; https://github.com/cyrus-and/zoom
 (defun utils//fix-which-key ()
@@ -195,6 +196,8 @@
   (yas-global-mode t))
 
 ;; Mode Line customization
+(use-package minions
+  :ensure t)
 (use-package telephone-line
   :ensure t
   :config
@@ -236,10 +239,14 @@
   :config
   (add-to-list 'company-backends 'company-lsp))
 
+(defun ccls-start ()
+  (interactive)
+  (require 'ccls)
+  (lsp))
+
 (use-package ccls
   :ensure t
-  ;; :hook ((c-mode c++-mode) .
-  ;; 	 (lambda () (require 'ccls) (lsp)))
+  ;; :hook ((c-mode c++-mode) . #'ccls-start)
   )
 
 (add-to-list 'magic-mode-alist '("\\.c\\'" . c-mode))
