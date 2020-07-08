@@ -35,7 +35,6 @@
 (setq kill-ring-max 150)
 (setq initial-scratch-message nil)
 (defalias 'yes-or-no-p 'y-or-n-p)
-(add-hook 'org-mode-hook 'auto-fill-mode)
 (setq x-alt-keysym 'meta)
 (set-keyboard-coding-system nil)
 
@@ -58,5 +57,8 @@
 (setq explicit-shell-file-name "/usr/bin/zsh")
 (setq shell-file-name "zsh")
 (setenv "SHELL" shell-file-name)
+(setenv "PATH"
+	(concat (getenv "PATH") ":"
+		"/usr/local/bin"))
 
 (provide 'init-common)

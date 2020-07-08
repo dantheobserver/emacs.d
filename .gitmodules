@@ -1,6 +1,6 @@
-[submodule "site-lisp/spinner"]
-	path = site-lisp/spinner
-	url = git@github.com:Malabarba/spinner.el.git
 [submodule "site-lisp/eb-layout.el"]
 	path = site-lisp/eb-layout
 	url = git@github.com:dantheobserver/eb-layout.el.git
+[submodule "site-lisp/hydra"]
+	path = site-lisp/hydra
+	url = git@github.com:abo-abo/hydra.git

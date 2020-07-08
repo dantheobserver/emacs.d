@@ -74,17 +74,15 @@
 	(winner-undo)
       (delete-other-windows))))
 
-(defun utils//insert-line-numbers (start end text insert-extra-line)
+(defun utils//insert-line-numbers (start end text starting-number)
   (interactive
    (let ((begin (if (region-active-p) (region-beginning) (point-min)))
-	 (end (if (region-active-p) (region-end) (point-max)))
-	 (insert-extra-line
-	  (y-or-n-p "insert extra line")))
+	 (end (if (region-active-p) (region-end) (point-max))))
      (list begin
 	   end
 	   (buffer-substring-no-properties begin end)
-	   insert-extra-line)))
-  (let* ((line 0) 
+	   (read-number "starting-number" 1))))
+  (let* ((line (- starting-number 1)) 
 	 (lines (split-string text "\n"))
 	 (numbered-lines (mapcar (lambda (current-line)
 				   (setq line (+ 1 line))
@@ -97,7 +95,8 @@
 				 lines)))
     (save-excursion 
       (delete-region start end)
-      (insert (string-join lines (if insert-extra-line "\n\n" "\n"))))))
+      (insert (string-join numbered-lines "\n")))))
+
 
 (defun utils//code-header (header)
   (interactive "sEnter Header: ")

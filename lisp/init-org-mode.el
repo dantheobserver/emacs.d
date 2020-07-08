@@ -11,6 +11,8 @@
 				 (file+headline "~/gtd/journal.org" "Tickler")
 				 "* %i%? \n %U"))))
 
+(use-package verb :ensure t)
+
 (use-package org-roam
   :ensure t
   :pin "melpa-stable"

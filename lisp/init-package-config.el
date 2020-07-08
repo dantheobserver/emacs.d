@@ -88,8 +88,7 @@
 
   :config
   (setq dumb-jump-selector 'ivy)
-  (setq dumb-jump-force-searcher 'ag)
-  ;; (setq dumb-jump-rg-cmd "rg -P")
+  (setq dumb-jump-force-searcher 'rg)
   )
 
 (use-package eyebrowse
@@ -186,8 +185,7 @@
 (use-package magit :ensure t
   :config
   ;; (setq magit-display-buffer-function 'magit-display-buffer-traditional)
-  (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
-  )
+  (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1))
 
 (use-package yasnippet
   :ensure t

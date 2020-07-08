@@ -141,6 +141,19 @@
   "ru" #'org-roam-unlinked-references
   "rB" #'org-roam-db-build-cache
 
+  "v" '(:ignore t :which-key "verb")
+  "vs" #'verb-send-request-on-point
+  "vS" #'verb-send-request-on-point-no-window
+  "vo" #'verb-send-request-on-point-other-window-stay
+  "vO" #'verb-send-request-on-point-other-window
+  "vv" #'verb-set-var
+  "vk" #'verb-kill-all-response-buffers
+
+  "ve" '(:ignore t :which-key "export")
+  "ver" #'verb-export-request-on-point-verb
+  "vec" #'verb-export-request-on-point-curl
+  "vep" #'verb-export-request-on-point
+
   "e" '(:ignore t :which-key "error")
   "en" #'next-error
   "ep" #'previous-error
