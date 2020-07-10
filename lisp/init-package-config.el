@@ -37,11 +37,12 @@
   (general-evil-setup t))
 
 ;; https://github.com/justbur/emacs-which-key
+;;Its value is #<buffer  *which-key*>
 (use-package which-key
   :ensure t
   :config
   (which-key-mode)
-  (setq which-key-idle-delay 0.2)
+  (setq which-key-idle-delay 0)
   (setq which-key-popup-type 'side-window)
   (setq which-key-side-window-max-height 10))
 
@@ -185,7 +186,9 @@
 (use-package magit :ensure t
   :config
   ;; (setq magit-display-buffer-function 'magit-display-buffer-traditional)
-  (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1))
+  (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+  (add-hook 'magit-mode-hook #'evil-normalize-keymaps)
+  (add-hook 'magit-status-mode-hook #'evil-normalize-keymaps))
 
 (use-package yasnippet
   :ensure t

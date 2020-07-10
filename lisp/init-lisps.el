@@ -10,6 +10,7 @@
 
 (use-package clojure-mode :ensure t
   :config
+
   (use-package clj-refactor :ensure t
     :hook (clojure-mode . clj-refactor-mode))
 
@@ -34,9 +35,6 @@
   ;; (evil-set-initial-state 'cider-classpath-mode 'emacs)
   ;; (evil-set-initial-state 'cider-stacktrace-mode 'normal)
   )
-
-(use-package clj-refactor
-  :ensure t)
 
 (use-package aggressive-indent
   :ensure t

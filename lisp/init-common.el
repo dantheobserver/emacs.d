@@ -25,7 +25,7 @@
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 (setq show-parend-delay 0)
 (setq show-paren-style 'mixed)
-(set-frame-font "IBMPlexMono 18" nil)
+(set-frame-font "IBM Plex Mono 16" nil)
 ;; (set-frame-font "Source Code Pro 18")
 ;; (set-frame-font "Menlo 18")
 ;; (set-frame-font "Borg Sans Mono 18")

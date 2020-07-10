@@ -97,6 +97,24 @@
       (delete-region start end)
       (insert (string-join numbered-lines "\n")))))
 
+(setq select-enable-clipboard t)
+(setq select-enable-primary nil)
+(defun utils//copy-val-to-clipboard (str &optional show-message)
+  ;; (gui-select-text str)
+  (with-temp-buffer
+    (insert str)
+    (clipboard-kill-region (point-min) (point-max)))
+  (when show-message
+    (message "\"%s\"" str)))
+
+(defun utils//copy-file-name ()
+  (utils//copy-val-to-clipboard (file-name-base) t))
+
+(defun utils//copy-file-path ()
+  (utils//copy-val-to-clipboard (buffer-file-name) t))
+
+(defun utils//copy-buffer ();; Helper Macros, externalize
+  (utils//copy-val-to-clipboard (buffer-string)))
 
 (defun utils//code-header (header)
   (interactive "sEnter Header: ")

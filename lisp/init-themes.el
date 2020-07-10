@@ -3,52 +3,25 @@
               ewal-use-built-in-on-failure-p t
               ewal-built-in-palette "sexy-material"))
 
-;; (use-package ewal-spacemacs-themes
-;;   :init (progn
-;;           (setq spacemacs-theme-underline-parens t
-;;                 my:rice:font (font-spec
-;;                               :family "Source Code Pro"
-;;                               :weight 'semi-bold
-;;                               :size 14.0))
+(use-package doom-themes
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
 
-;;           (show-paren-mode +1)
-;;           (global-hl-line-mode)
-;;           (set-frame-font my:rice:font nil t)
-;;           (add-to-list  'default-frame-alist
-;;                         `(font . ,(font-xlfd-name my:rice:font))))
-;;   :config (progn
-;;             (load-theme 'ewal-spacemacs-modern t)
-;;             (enable-theme 'ewal-spacemacs-modern)))
-
-;; (use-package ewal-evil-cursors
-;;   :after (ewal-spacemacs-themes)
-;;   :config (ewal-evil-cursors-get-colors
-;;            :apply t :spaceline t))
-
-;; (use-package spaceline
-;;   :after (ewal-evil-cursors winum)
-;;   :init (setq powerline-default-separator nil)
-;;   :config (spaceline-spacemacs-theme))
-
-(use-package dracula-theme
-  :defer t
-  :ensure t
-  :config 
-  (require 'dracula-theme))
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+  (doom-themes-treemacs-config)
+  
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
 (use-package material-theme)
-
-(use-package color-theme-sanityinc-tomorrow
-  :defer t
-  :ensure t
-  :config
-  (require 'color-theme-sanityinc-tomorrow))
-
-(load-theme 'dracula)
-
-;; (let* ((dark-themes '(spacemacs-dark dracula-dark))
-;;        (light-themes '())
-;;        (both-themes (cl-concatenate 'list dark-themes light-themes)))
-;;   (pick-theme both-themes)))
 
 (provide 'init-themes)

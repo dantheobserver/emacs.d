@@ -5,9 +5,11 @@
   (setq evil-want-keybinding nil)
   (setq evil-want-minibuffer nil)
   (setq evil-move-beyond-eol t)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-i-jump t)
   :config
   (evil-mode 1)
-  (global-set-key (kbd "C-u") 'evil-scroll-up)
+  (setq evil-shift-width 2)
   ;; (setq evil-jumps-cross-buffers)
   ;; (add-hook 'iedit-mode-keymap 'evil-normalize-keymaps)
   )
@@ -33,14 +35,14 @@
 
 ;;configure key-chords
 (use-package key-chord
-  :after evil
+  :after (evil ivy)
   :config
   (setq key-chord-two-keys-delay 0.2)
   (key-chord-define evil-insert-state-map "fj" #'evil-write)
   (key-chord-define evil-normal-state-map "fj" #'evil-write)
   (key-chord-define evil-insert-state-map "fd" #'evil-normal-state)
-  (key-chord-define evil-normal-state-map "fd" #'keyboard-escape-quit)
   (key-chord-define evil-replace-state-map "fd" #'evil-normal-state)
+  (key-chord-define ivy-minibuffer-map "fd" #'keyboard-escape-quit)
   (key-chord-mode 1))
 
 ;; (use-package evil-escape

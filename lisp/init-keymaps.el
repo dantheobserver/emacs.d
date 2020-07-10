@@ -9,17 +9,22 @@
 
 (global-def
   ;;"ESC" 'keyboard-escape-quit
-  "M-x" 'counsel-M-x
-  "C-;" 'evil-iedit-state/iedit-mode
-  "C-'" 'eyebrowse-last-window-config
-  "C-:"'yas-insert-snippet
-  "M-u" 'revert-buffer)
+  "M-x" #'counsel-M-x
+  "C-;" #'evil-iedit-state/iedit-mode
+  "C-'" #'eyebrowse-last-window-config
+  "C-:" #'yas-insert-snippet
+  "M-u" #'revert-buffer
+  "C-i" #'evil-jump-forward
+  "C-o" #'evil-jump-backward)
 
-(general-create-definer org-def
-  :states 'insert
-  :keymaps 'org-mode-map)
-(org-def
-  "RET" #'org-return)
+(general-define-key
+ :states '(emacs normal visual)
+ :keymaps '(magit-mode-map magit-status-mode-map)
+ "<tab>" #'magit-section-toggle
+ "q" #'quit-window)
+
+(nvmap
+  "<tab>" #'indent-for-tab-command)
 
 ;; **ielm
 (general-create-definer ielm-def
@@ -38,7 +43,7 @@
 (general-create-definer ivy-def
   :keymaps 'ivy-minibuffer-map)
 (ivy-def
-  "TAB" 'ivy-call)
+  "<tab>" 'ivy-call)
 
 ;; ==visual state==
 (vmap
@@ -48,8 +53,7 @@
 (mmap 'override
   ";" #'evil-ex
   ":" #'evil-repeat-find-char
-  "C-u" #'evil-scroll-up
-  "C-i" #'evil-jump-forward)
+  "C-u" #'evil-scroll-up)
 
 ;; ==org==
 (nmap 'evil-org
@@ -57,12 +61,17 @@
   "J" #'org-shiftdown
   "K" #'org-shiftup
   "L" #'org-shiftright
-  "TAB" #'org-cycle)
+  "<tab>" #'org-cycle)
+
+(imap 'org-mode-map
+  "<tab>" #'org-cycle
+  "RET" #'org-return)
+
 
 ;; ==treemacs==
 (nmap 'treemacs-mode-map
   "?" #'treemacs-helpful-hydra
-  "<tab>" #'treemacs-TAB-action
+  "<tab>" #'treemacs-<tab>-action
   "RET" #'treemacs-RET-action
   "t" #'treemacs-toggle-node
   "q" #'treemacs-quit
@@ -384,7 +393,7 @@
   "." #'ivy-resume
   ";" #'hydra-window/body
   "`" #'previous-multiframe-window
-  "TAB" '(evil-switch-to-windows-last-buffer :which-key "prev buffer")
+  "<tab>" '(evil-switch-to-windows-last-buffer :which-key "prev buffer")
   "SPC" #'counsel-M-x
   "1" #'winum-select-window-1
   "2" #'winum-select-window-2
@@ -521,7 +530,12 @@
   "ek" (utils//wkbinding "open keymaps config file"
 	 (utils//open-config-file "lisp" "init-keymaps.el"))
   "eo" (utils//wkbinding "open org config file"
-	 (utils//open-config-file "lisp" "init-org-mode.el")))
+	 (utils//open-config-file "lisp" "init-org-mode.el"))
+
+  "y" '(:ignore t :which-key "copy")
+  "yy" (utils//wkbinding "full file path" (utils//copy-file-path))
+  "yY" (utils//wkbinding "file name" (utils//copy-file-name))
+  "yb" (utils//wkbinding "buffer test" (utils//copy-buffer)))
 
 ;; Buffer Leader
 (general-create-definer global-buffer-leader
@@ -583,7 +597,7 @@
   "cv" #'customize-variable
   "cg" #'customize-group)
 
-;; Magit Leader
+;; git Leader
 (general-create-definer global-git-leader
   :prefix "SPC g"
   :states '(normal visual motion)
@@ -642,6 +656,9 @@
   :keymaps 'override)
 (global-text-leader
   "" '(:which-key "text")
+  "i" '(:which-key "insert")
+  "in" (utils//wkbinding "insert line numbers"
+	 (call-interactively #'utils//insert-line-numbers))
   "t" '(:which-key "transpose")
   "tw" 'transpose-words
   "tc" 'transpose-chars
