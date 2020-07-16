@@ -41,6 +41,7 @@
   (key-chord-define evil-insert-state-map "fj" #'evil-write)
   (key-chord-define evil-normal-state-map "fj" #'evil-write)
   (key-chord-define evil-insert-state-map "fd" #'evil-normal-state)
+  (key-chord-define evil-visual-state-map "fd" #'evil-normal-state)
   (key-chord-define evil-replace-state-map "fd" #'evil-normal-state)
   (key-chord-define ivy-minibuffer-map "fd" #'keyboard-escape-quit)
   (key-chord-mode 1))
@@ -68,11 +69,6 @@
   (evil-collection-init '(minibuffer ivy dired magit neotree elisp-mode slime)))
 
 (use-package evil-leader
-  :after evil
-  :after org
-  :ensure t)
-
-(use-package evil-org
   :after evil
   :after org
   :ensure t)

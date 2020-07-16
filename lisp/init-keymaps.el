@@ -21,6 +21,7 @@
  :states '(emacs normal visual)
  :keymaps '(magit-mode-map magit-status-mode-map)
  "<tab>" #'magit-section-toggle
+ "C-RET" #'magit-diff-visit-file-other-window
  "q" #'quit-window)
 
 (nvmap
@@ -43,7 +44,7 @@
 (general-create-definer ivy-def
   :keymaps 'ivy-minibuffer-map)
 (ivy-def
-  "<tab>" 'ivy-call)
+  "TAB" 'ivy-call)
 
 ;; ==visual state==
 (vmap
@@ -55,15 +56,18 @@
   ":" #'evil-repeat-find-char
   "C-u" #'evil-scroll-up)
 
+(imap 'override
+  "C-SPC" #'company-complete)
+
 ;; ==org==
 (nmap 'evil-org
   "H" #'org-shiftleft
   "J" #'org-shiftdown
   "K" #'org-shiftup
   "L" #'org-shiftright
-  "<tab>" #'org-cycle)
+  )
 
-(imap 'org-mode-map
+(nvmap 'org-mode-map
   "<tab>" #'org-cycle
   "RET" #'org-return)
 
@@ -71,7 +75,7 @@
 ;; ==treemacs==
 (nmap 'treemacs-mode-map
   "?" #'treemacs-helpful-hydra
-  "<tab>" #'treemacs-<tab>-action
+  "TAB" #'treemacs-<tab>-action
   "RET" #'treemacs-RET-action
   "t" #'treemacs-toggle-node
   "q" #'treemacs-quit
@@ -93,15 +97,12 @@
   "q" #'quit-window)
 
 ;; ==global==
-(imap 'override
-  "C-SPC" #'company-complete
-  "<ENTER>" #'newline)
-
 (general-evil-define-key '(insert normal emacs) '(ivy-minibuffer-map) 
   "C-j" #'ivy-next-line
   "C-k" #'ivy-previous-line
   "C-h" #'counsel-up-directory
-  "C-l" #'counsel-down-directory)
+  "C-l" #'counsel-down-directory
+  )
 
 (imap '(minibuffer-inactive-mode-map evil-ex-map)
   "C-h" #'counsel-up-directory
@@ -390,10 +391,12 @@
   "u" #'universal-argument
   "l" #'ebl-hydra-nav/body ;;My layout hydra
   "/" #'counsel-rg
+  "*" (utils//wkbinding "counsel-rg current-word"
+	(counsel-rg (ivy-thing-at-point)))
   "." #'ivy-resume
   ";" #'hydra-window/body
   "`" #'previous-multiframe-window
-  "<tab>" '(evil-switch-to-windows-last-buffer :which-key "prev buffer")
+  "TAB" '(evil-switch-to-windows-last-buffer :which-key "prev buffer")
   "SPC" #'counsel-M-x
   "1" #'winum-select-window-1
   "2" #'winum-select-window-2
@@ -425,6 +428,15 @@
   "l" 'ivy-resume
   "y" 'counsel-yank-pop)
 
+(general-create-definer global-replace-leader
+  :prefix "SPC R"
+  :states '(normal visual motion)
+  :keymaps 'override)
+(global-replace-leader
+  "" '(:which-key "Replace")
+  "q" #'query-replace
+  "p" #'projectile-replace-regexp)
+
 ;; Search Leader
 (general-create-definer global-search-leader
   :prefix "SPC s"
@@ -434,11 +446,7 @@
   "" '(:which-key "search")
   "b" 'counsel-bookmark
   "s" 'counsel-grep-or-swiper
-  "S" (utils//wkbinding "swiper"
-	(let ((initial (if (region-active-p)
-			   (buffer-substring-no-properties (region-beginning) (region-end))
-			 (word-at-point))))
-	  (counsel-grep-or-swiper initial)))
+  "S" #'swiper-thing-at-point
   "a" 'swiper-avy
   "h" (utils//wkbinding "search headers"
 	(swiper "^.*;;.?==.*")))

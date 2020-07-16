@@ -9,7 +9,9 @@
 				 "* TODO %i%?")
 				("j" "journal" entry
 				 (file+headline "~/gtd/journal.org" "Tickler")
-				 "* %i%? \n %U"))))
+				 "* %i%? \n %U")))
+  (setq org-agenda-files '("~/gtd/inbox.org"
+                           "~/gtd/gtd.org")) )
 
 (use-package verb :ensure t)
 
@@ -52,13 +54,23 @@
   (setq deft-default-extension "org")
   (setq deft-directory config--org-roam-dir))
 
-(use-package org-bullets
+(use-package evil-org
   :ensure t
-  :hook (org-mode . org-bullets-mode)
-  :config
-  (setq org-bullets-bullet-list '("◉" "○" "✸" "✿"))
-  (setq org-agenda-files '("~/gtd/inbox.org"
-                           "~/gtd/gtd.org")))
+  :after evil
+  :after org
+  :hook (org-mode . evil-org-mode))
+
+(use-package org-superstar
+  :ensure t
+  :hook (org-mode . org-superstar-mode)
+  :custom
+  (org-superstar-prettify-item-bullets t)
+  (org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
+
+  (org-superstar-leading-bullet ?\s)
+  (org-hide-leading-stars t)
+  (org-superstar-item-bullet-alist '((?* . ?●) (?+ . ?➤) (?- . ?—)))
+  )
 
 (use-package org-pomodoro :ensure t)
 

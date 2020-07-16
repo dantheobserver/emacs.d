@@ -42,7 +42,7 @@
   :ensure t
   :config
   (which-key-mode)
-  (setq which-key-idle-delay 0)
+  (setq which-key-idle-delay 0.2)
   (setq which-key-popup-type 'side-window)
   (setq which-key-side-window-max-height 10))
 
@@ -111,16 +111,16 @@
   )
 
 ;; https://github.com/cyrus-and/zoom
-(defun utils//fix-which-key ()
-  (with-selected-window (get-buffer-window "*which-key*")
-    (setq window-size-fixed t)
-    (window-resize (selected-window) (- (window-total-height) 4) t t)))
+;; (defun utils//fix-which-key ()
+;;   (with-selected-window (get-buffer-window "*which-key*")
+;;     (setq window-size-fixed t)
+;;     (window-resize (selected-window) (- (window-total-height) 4) t t)))
 
 (use-package zoom
   :ensure t
   :config
   (zoom-mode t)
-  (add-hook 'which-key-mode-hook #'utils//fix-which-key)
+  ;; (add-hook 'which-key-mode-hook #'utils//fix-which-key)
   (setq zoom-size '(0.618 . 0.618)
 	zoom-ignored-major-modes '(which-key-mode hydra-mode)
 	zoom-ignored-buffer-name-regexps '("\\*Help\\*" "\\*which-key\\*")
@@ -186,7 +186,8 @@
 (use-package magit :ensure t
   :config
   ;; (setq magit-display-buffer-function 'magit-display-buffer-traditional)
-  (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+  (setq magit-display-buffer-function 'magit-display-buffer-fullcolumn-most-v1)
+  ;; (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
   (add-hook 'magit-mode-hook #'evil-normalize-keymaps)
   (add-hook 'magit-status-mode-hook #'evil-normalize-keymaps))
 

@@ -27,6 +27,6 @@
 (require 'init-rust)
 (require 'init-keymaps)
 (require 'init-themes)
-(require 'init-js)
+(require 'init-web)
 
 ;; Utilities
